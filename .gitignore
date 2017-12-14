@@ -1,0 +1,5 @@
+# Editor copies
+**/*~
+
+# Never push/commit config.yml 
+config.yml
