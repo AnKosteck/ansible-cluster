@@ -1,0 +1,58 @@
+---
+
+  #This script should install and configure infiniband on any node in the cluster
+  #The frontend role already installed the subnet manager (on the frontend itself)
+  #So here, the limits get set, Mellanox drivers will be downloaded through package manager
+  #And the interface(s) will be configured
+
+- name: Install prerequisites on RedHat based systems
+  yum: name={{item}} state=present
+  with_items: "{{infiniband_packages_redhat}}"
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'RedHat'
+  
+- name: Install prerequisites on Fedora based systems
+  dnf: name={{item}} state=present
+  with_items: "{{infiniband_packages_redhat}}"
+  when: ansible_distribution == 'Fedora'
+  
+- name: Install prerequisites on Ubuntu based systems
+  apt: name={{item}} state=present
+  with_items: "{{infiniband_packages_ubuntu}}"
+  when: ansible_distribution == 'Ubuntu' 
+  
+- name: Copy the limits file
+  copy: src=rdma_limits dest=/etc/security/limits.d/rdma.conf
+  
+  #Set facts/variables for template
+- set_fact: headnode={{ groups[['common'][0]] }}
+
+- name: Template the default ib ifcfg
+  template: src=ifcfg-ib0 dest=/etc/sysconfig/network-scripts/ifcfg-ib0 mode=0644 backup=no
+  when: ibtype == 'default' and ansible_distribution != 'Ubuntu'
+- name: Template the 8002 ib ifcfg
+  template: src=ifcfg-ib0.8002 dest=/etc/sysconfig/network-scripts/ifcfg-ib0.8002 mode=0644 backup=no
+  when: ibtype == '8002' and ansible_distribution != 'Ubuntu'
+- name: Template the interfaces file for Ubuntu
+  template: src=ubuntu_network_interfaces dest=/etc/network/interfaces mode=0644 backup=yes
+  when: ansible_distribution == 'Ubuntu'
+  
+- name: Enable and start rdma
+  service: name=rdma state=started enabled=yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'Fedora'
+  
+- name: Enable and start rdma modules
+  modprobe: name={{item}} state=present
+  with_items:
+    - rdma_cm
+    - ib_uverbs
+    - ib_ucm
+    - ib_umad
+    - ib_ipoib
+    - mlx_ib
+    - mlx4_en
+    - iw_cxgb3
+    - iw_cxgb4
+    - iw_nes
+    - iw_c2
+  when: ansible_distribution == 'Ubuntu'
+...

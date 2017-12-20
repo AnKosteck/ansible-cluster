@@ -1,0 +1,90 @@
+---
+
+- name: Install postgresql
+  yum: name={{item}} state=present
+  with_items:
+    - postgresql-server
+    - postgresql
+    - python-psycopg2
+  register: postgresql_installation
+  
+- name: Call initdb for postgresql
+  command: postgresql-setup initdb
+  when: postgresql_installation.changed
+  
+- name: Start and enable postgresql
+  service: name=postgresql state=started enabled=yes
+  
+- name: Install IDO modules
+  yum: name="icinga2-ido-pgsql" state=present
+  
+  #Setup postgresql
+- name: Create user icinga
+  postgresql_user: name=icinga password='{{psql_password}}' encrypted=yes
+  become: true
+  become_user: postgres
+  register: icinga_db_user
+- name: Create db icinga
+  postgresql_db: name=icinga encoding='UTF-8' owner=icinga lc_collate='{{lang}}' lc_ctype='{{lang}}' template='template0'
+  become: true
+  become_user: postgres
+  register: icinga_db_self
+- name: Create lang for icinga
+  postgresql_lang: lang=plpgsql db=icinga 
+  become: true
+  become_user: postgres
+  register: icinga_db_lang
+
+- name: Restart postgresql if needed
+  service: name=postgresql state=restarted
+  when: icinga_db_user.changed or icinga_db_self.changed or icinga_db_lang.changed
+
+  #Install/import IDO schema
+- name: Import IDO schema
+  command: psql -U icinga -d icinga < /usr/share/icinga2-ido-pgsql/schema/pgsql.sql
+  when: icinga_db_user.changed
+  register: IDO_import
+  environment:
+    PGPASSWORD: '{{psql_password}}'
+- name: Enable IDO psql in icinga
+  command: icinga2 feature enable ido-pgsql
+  when: IDO_import.changed
+  register: icinga2_feature
+- name: Restart icinga2 if needed
+  service: name=icinga2 state=restarted
+  when: icinga2_feature.changed
+
+
+  #Set default php timezone
+- name: Setting the default timezone
+  lineinfile: dest=/etc/php.ini regexp=^;?date\.timezone line="date.timezone = {{timezone}}" state=present
+- name: Template php script for default timezone check
+  template: src=setdefaulttimezone.php dest=/root/ owner=root mode=0644 backup=no
+- name: Check for the default php timezone
+  command: php /root/setdefaulttimezone.php
+  register: php_default_timezone
+- debug: var=php_default_timezone.stdout
+
+  #Install icinga web
+- name: Install icinga2 web
+  yum: name={{item}} state=present
+  with_items:
+    - icingacli
+    - icingaweb2
+  register: icinga2web_installation
+- name: Create a token
+  command: icingacli setup token create
+  when: icinga2web_installation.changed
+- name: Get setup token
+  command: icingacli setup token show
+  when: icinga2web_installation.changed
+  register: setup_token
+- debug: msg="Don't forget to call /icingaweb2/setup in your browser!"
+  when: icinga2web_installation.changed
+- debug: var=setup_token
+  when: icinga2web_installation.changed
+- name: Restart httpd if needed
+  service: name=httpd state=restarted
+  when: icinga2web_installation.changed
+  
+...

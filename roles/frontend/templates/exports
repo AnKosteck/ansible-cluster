@@ -1,0 +1,2 @@
+{{home_export}} {{ip_startaddress_internal}}/{{netmask_internal_long}}(rw,async,no_root_squash)
+{{apps_export}} {{ip_startaddress_internal}}/{{netmask_internal_long}}(rw,async,no_root_squash)

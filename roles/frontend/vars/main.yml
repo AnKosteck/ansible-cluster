@@ -1,0 +1,19 @@
+---
+
+services:
+  - cobblerd
+  - cockpit.socket
+  - dnsmasq
+  - fstrim.timer
+#  - gmetad
+#  - gmond
+  - httpd
+  - libvirtd
+  - nfs-server
+  - ntpd
+  - rpcbind
+  - rsyncd
+  - smartd
+  - xinetd
+
+...

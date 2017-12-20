@@ -1,0 +1,7 @@
+---
+
+- hosts: common:!frontend
+  roles:
+    - { role: ntp_client }
+
+...

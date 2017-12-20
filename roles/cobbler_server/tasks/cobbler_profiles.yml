@@ -1,0 +1,23 @@
+---
+
+  #Create profiles for actual usage
+- name: Get cobbler profile list
+  command: cobbler profile list
+  register: cobbler_profiles
+
+- name: Create cobbler profiles
+  command: cobbler profile add --name={{item.name}}_64bit --distro={{item.name}}{{item.version}}-x86_64 --kickstart=/var/lib/cobbler/kickstarts/{{item.kickstart}} --in-place
+  with_items: "{{distros}}"
+  when: "'{{item.name}}_64bit' not in cobbler_profiles.stdout"
+
+- name: Edit profiles first time
+  command: cobbler profile edit --name={{item.name}}_64bit --in-place --ksmeta="codename={{item.codename}}" --repos="{{item.repos}}"
+  with_items: "{{distros}}"
+  when: "'{{item.name}}_64bit' not in cobbler_profiles.stdout"
+
+- name: Edit profiles for new distros
+  command: cobbler profile edit --name={{item.name}}_64bit --distro={{item.name}}{{item.version}}-x86_64 --kickstart=/var/lib/cobbler/kickstarts/{{item.kickstart}} --repos="{{item.repos}}" --in-place --ksmeta="codename={{item.codename}}"
+  with_items: "{{distros}}"
+  when: "'{{item.name}}_64bit' in cobbler_profiles.stdout and new_distros.changed"
+
+...

@@ -1,0 +1,14 @@
+yum install munge munge-devel munge-libs
+mkdir /etc/munge
+mkdir /var/lib/munge
+mkdir /var/log/munge
+mkdir /var/run/munge
+chown -R munge: /etc/munge/
+chown -R munge: /var/lib/munge/
+chown -R munge: /var/log/munge/
+chown -R munge: /var/run/munge/
+chmod 0700 /etc/munge/
+chmod 0711 /var/lib/munge/
+chmod 0700 /var/log/munge/
+chmod 0755 /var/run/munge/
+systemctl enable munge

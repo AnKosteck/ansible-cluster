@@ -1,0 +1,12 @@
+---
+
+  #For slurmdbd
+- hosts: frontend
+  roles:
+    - { role: mariadb }
+    
+- hosts: compute login frontend
+  roles:
+    - { role: software }
+
+...

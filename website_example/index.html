@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{{clustername}}</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-deep-orange.css" title="deep-orange">
+
+<body>
+
+<header class="w3-container w3-theme w3-padding">
+  <div class="w3-center">
+    <div class="w3-bar w3-xlarge">
+      <a href="/index.html" class="w3-bar-item w3-button w3-mobile">Home</a>
+{% if 'frontend' in group_names %}
+      <a href="https://{{webservername}}" class="w3-bar-item w3-button w3-mobile">SSL</a>
+      <a href="https://{{webservername}}/cobbler_web" class="w3-bar-item w3-button w3-mobile">Cobbler-Web</a>
+      <a href="https://{{webservername}}:9090" class="w3-bar-item w3-button w3-mobile">Cockpit</a>
+{% endif %}
+    </div>
+  </div>
+</header>
+<div class="w3-container">
+<h1 class="w3-theme-l1">Welcome on Hexa, an extensive cluster installation!</h1>
+For more information, please visit the <a href="https://github.com/AnKosteck/Hexa">Github Page</a>
+</div>
+<footer class="w3-container w3-theme-l3">
+  <div class="w3-row">
+    <div class="w3-col s6">
+      <h6>Hexa</h6>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

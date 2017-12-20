@@ -1,0 +1,7 @@
+---
+
+cluster_groups:
+  1000: {name: hexatest, members: ""}
+  1001: {name: hexa, members: ""}
+
+...

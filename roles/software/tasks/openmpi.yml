@@ -1,0 +1,41 @@
+---
+
+- name: Install openmpi requirements on RedHat, CentOS or SL
+  yum: name={{item}} state=present
+  with_items: "{{openmpi_requirements_redhat}}"
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'Red Hat Enterprise Linux'
+  vars:
+    openmpi_requirements_redhat:
+      - flex
+      - flex-devel
+  
+- name: Install openmpi requirements on Fedora
+  dnf: name={{item}} state=present
+  with_items: "{{openmpi_requirements_fedora}}"
+  when: ansible_distribution == 'Fedora'
+  vars:
+    openmpi_requirements_fedora:
+      - flex
+      - flex-devel
+  
+- name: Install build tools on Ubuntu
+  apt: name={{item}} state=present update_cache=yes
+  with_items: "{{openmpi_requirements_ubuntu}}"
+  when: ansible_distribution == 'Ubuntu'
+  vars:
+    openmpi_requirements_ubuntu:
+      - flex
+
+- name: Download OpenMPI
+  get_url: url={{openmpiinfo['url']}} dest="{{source_download_dir}}/{{openmpiinfo['filename']}}"
+
+- name: Template the install script
+  template: src=openmpi.sh dest="{{install_scripts_dir}}/openmpi.sh" owner=root mode=0700 backup=no
+  
+- name: Execute the openmpi.sh script
+  shell: "{{install_scripts_dir}}/openmpi.sh"
+  args:
+    creates: "{{build_anchors}}/openmpibuild.log"
+  
+...
+ 

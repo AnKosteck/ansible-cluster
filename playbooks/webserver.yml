@@ -1,0 +1,11 @@
+---
+
+- hosts: webserver:!frontend
+  roles:
+    - { role: webserver_system }
+
+- hosts: webserver
+  roles:
+    - { role: webserver }
+
+...

@@ -1,0 +1,18 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto eth0
+iface eth0 inet dhcp
+
+# The Infiniband interface
+iface ib0 inet static
+    address {{ibip}}
+    netmask {{ib_netmask}}
+    broadcast {{ib_broadcast}}
+    post-up echo connected > /sys/class/net/ib0/mode
+    post-up /sbin/ifconfig $IFACE mtu {{ibifcfg_mtu}}

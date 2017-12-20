@@ -1,0 +1,10 @@
+---
+
+- hosts: home_server
+  roles:
+    - { role: fs, nfs_export: "{{home_export}}" }
+- hosts: app_server
+  roles:
+    - { role: fs, nfs_export: "{{app_export}}" }
+    
+...

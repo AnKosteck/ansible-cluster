@@ -1,0 +1,52 @@
+---
+
+- name: Install httpd and required packages
+  yum: name={{item}} state=latest
+  with_items:
+    - httpd
+    - mod_ssl
+    - openssl
+  register: httpd_installation
+  
+- name: Copy website files
+  template: src={{item}} dest=/var/www/html/{{item | basename}} owner=apache group=apache backup=no
+  with_fileglob:
+    - ../../../website/*
+  
+  #Simply copy SSL certificate(s)
+- name: Copy official SSL certififcate and key
+  copy: src={{item.src}} dest={{item.dest}} mode=0644 owner=root
+  when: ssl_certificate_type == 'official'
+  with_items: "{{ssl_files['official']}}"
+  register: ssl_certificate_installation
+  
+- name: Create a self signed ssl certificate
+  command: openssl req -new -nodes -x509 -subj "/C={{country}}/ST={{country}}/L={{country}}/O={{organization}}/OU={{fullname}}/CN={{webservername}}/emailAddress={{email}}/subjectAltName=DNS.1={{ansible_hostname}},DNS.2={{ansible_hostname}}.{{clustername}},DNS.3={{eth0}}" -days 3650 -keyout "{{ssl_files['self']['key'].dest}}" -out "{{ssl_files['self']['cert'].dest}}" -extensions v3_ca -newkey rsa:4096 -sha512 creates="{{ssl_files['self']['cert'].dest}}"
+  when: ssl_certificate_type == 'self'
+  register: ssl_certificate_installation
+  
+- name: Create dhparams.pem
+  command: openssl dhparam -out /etc/pki/tls/certs/dhparams.pem 4096 creates=/etc/pki/tls/certs/dhparams.pem
+  register: dhparams
+    
+  #Configure website
+- name: Template the port 80 virthost
+  template: src=virthost.conf dest=/etc/httpd/conf.d/ owner=root backup=no mode=0644
+  register: http_virthost
+- name: Template the port 443 virthost
+  template: src=ssl_virthost.conf dest=/etc/httpd/conf.d owner=root backup=no mode=0644
+  register: https_virthost
+- name: Set ssl ServerName
+  lineinfile: dest=/etc/httpd/conf.d/ssl.conf regexp=^#?ServerName line="ServerName {{webservername}}:443" backup=yes
+- name: Main http config
+  lineinfile: dest=/etc/httpd/conf/httpd.conf regexp=^{{item.reg}} line={{item.line}} backup=no
+  with_items:
+    - {reg: "#?ServerName", line: "ServerName {{    webservername}}:80"}
+    - {reg: "#?ServerTokens", line: "ServerTokens ProductOnly"}
+    - {reg: "#?ServerSignature", line: "ServerSignature Off"}
+  
+- name: Restart httpd if needed
+  service: name=httpd state=restarted
+  when: httpd_installation.changed or http_virthost.changed or https_virthost.changed or ssl_certificate_installation.changed or dhparams.changed
+
+...

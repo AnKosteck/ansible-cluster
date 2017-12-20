@@ -1,0 +1,28 @@
+---
+
+ganglia_packages_redhat_build:
+  - apr-devel
+  - apr-util
+  - check-devel
+  - cairo-devel
+  - pango-devel
+  - libxml2-devel
+  - rpmbuild
+  - glib2-devel
+  - dbus-devel
+  - freetype-devel
+  - fontconfig-devel
+  - gcc-c++
+  - expat-devel
+  - python-devel
+  - libXrender-devel
+
+ganglia_packages_redhat:
+  - ganglia
+  - ganglia-gmond
+  - ganglia-gmond-python
+ganglia_packages_ubuntu:
+  - ganglia-monitor
+  - ganglia-monitor-python
+  
+...

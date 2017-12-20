@@ -1,0 +1,48 @@
+---
+
+- hosts: frontend
+  
+  tasks:
+    - include_vars: ../../config.yml
+    
+    - name: Check for frontend OS
+      fail: msg="You need to use a CentOS, SL or RedHat system"
+      when: ansible_distribution != 'CentOS' and ansible_distribution != 'Scientific' and ansible_distribution != 'RedHat'
+    - name: Check for OS version
+      fail: msg="Please use a version >= 7"
+      when: ansible_distribution_major_version != "7"
+      
+    - name: Install epel repository
+      yum: name=epel-release state=latest
+      
+    - name: Update all packages
+      yum: name=* state=latest
+      
+    - name: Setup the second interface
+      template: src="internal_interface.conf" dest="/etc/sysconfig/network-scripts/ifcfg-{{internal_interface}}" mode=0644 backup=yes
+    - name: Reload second interface
+      shell: ifdown {{internal_interface}} && ifup {{internal_interface}}
+    
+      #Install dnsmasq, otherwise no DNS possible later on (yum fails)
+      #However, only do this once, in case dnsmasq wasn't present before
+    - name: Install dnsmasq
+      yum: name=dnsmasq state=present
+    - name: Template basic dnsmasq config
+      template: src="dnsmasq_basic.conf" dest="/etc/dnsmasq.conf" owner=root backup=no
+      register: dnsmasq_basic_conf
+    - name: Restart dnsmasq if needed
+      service: name=dnsmasq state=restarted
+      when: dnsmasq_basic_conf.changed
+    - name: Ensure, dnsmasq ist started and enabled
+      service: name=dnsmasq state=started enabled=yes
+      
+    - name: Start and enable fstrim.timer
+      service: name=fstrim.timer state=started enabled=yes
+      
+    - name: Disable selinux
+      copy: src=selinux.conf dest=/etc/selinux/config mode=0644 owner=root backup=yes
+      register: selinuxconf
+      
+    - pause: prompt="First start, do not forget to restart NOW!"
+      
+...

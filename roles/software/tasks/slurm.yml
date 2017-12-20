@@ -1,0 +1,76 @@
+ ---
+
+- include_vars: ../../../partition_config.yml
+
+  #Create credentials
+- name: SLURM group
+  group: name=slurm gid=395 state=present system=yes
+- name: SLURM user
+  user: name=slurm createhome=yes uid=395 comment="SLURM workload manager" group=slurm home=/var/lib/slurm shell=/sbin/nologin state=present system=yes
+  
+  #Install prerequisites
+- name: Install prerequisites YUM
+  yum: name={{item}} state=present
+  with_items: "{{slurm_packages_redhat}}"
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific'
+- name: Install prerequisites DNF
+  dnf: name={{item}} state=present
+  with_items: "{{slurm_packages_redhat}}"
+  when: ansible_distribution == 'Fedora'
+- name: Install prerequisites APT
+  apt: name={{item}} state=present
+  with_items: "{{slurm_packages_ubuntu}}"
+  when: ansible_distribution == 'Ubuntu'
+  
+  #Download and compile slurm
+- name: Download slurm
+  get_url: url={{slurminfo['url']}} dest="{{source_download_dir}}/{{openmpiinfo['filename']}}"
+- name: Template the slurm script
+  template: src=slurm.sh dest={{install_scripts_dir}}/slurm.sh owner=root group=root mode=0744 backup=no
+- name: Execute the slurm script
+  shell: /root/slurm.sh creates="{{build_anchors}}/slurmbuild.log"
+  
+  #Create dirs and set permissions
+- name: Create slurm directories in /var/spool
+  file: path=/var/spool/{{item}} state=directory owner=slurm group=slurm mode=0755
+  with_items:
+    - slurmctld
+    - slurmd
+- name: Create slurm log dir
+  file: path=/var/log/slurm state=directory owner=slurm group=slurm mode=0755
+- name: Create /var/run/slurm
+  file: path=/var/run/slurm state=directory owner=slurm group=slurm mode=0755
+- name: Create /opt/slurm/etc
+  file: path="{{slurminfo['sysconfdir']}}" state=directory owner=slurm group=slurm mode=0755
+
+  #Copy Config
+- name: Template the slurm.conf
+  template: src=slurm.conf dest="{{slurminfo['sysconfdir']}}/slurm.conf" owner=root group=root mode=0644
+  register: slurm_config
+- name: Template the slurmdbd.conf
+  template: src=slurmdbd.conf dest="{{slurminfo['sysconfdir']}}/slurmdbd.conf" owner=root group=root mode=0600
+  register: slurmdbd_configuration_file
+
+  #Restart the services if needed
+- name: Restart slurmd
+  service: name=slurmd state=restarted
+  when: "'frontend' not in group_names and slurm_config.changed"
+- name: Restart slurmctld
+  service: name=slurmctld state=restarted
+  when: "'frontend' in group_names and slurm_config.changed"
+- name: Restart slurmdbd
+  service: name=slurmdbd state=restarted
+  when: "'frontend' in group_names and slurmdbd_configuration_file.changed"
+  
+  #Start and enable the services
+- name: Start slurmd
+  service: name=slurmd state=started enabled=yes
+  when: "'frontend' not in group_names"
+- name: Start slurmctld
+  service: name=slurmctld state=started enabled=yes
+  when: "'frontend' in group_names"
+- name: Start slurmdbd
+  service: name=slurmdbd state=started enabled=yes
+  when: "'frontend' in group_names"
+
+...

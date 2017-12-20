@@ -1,0 +1,47 @@
+---
+
+- hosts: home_server
+  roles:
+    - { role: fs, nfs_export: "{{home_export}}" }
+- hosts: app_server
+  roles:
+    - { role: fs, nfs_export: "{{app_export}}" }
+
+- hosts: common
+  roles:
+    - { role: common }
+
+- hosts: common:!frontend
+  roles:
+    - { role: ntp_client }
+    
+- hosts: mgt
+  roles:
+    - { role: mgt }
+
+- hosts: webserver:!frontend
+  roles:
+    - { role: webserver_system }
+
+- hosts: webserver
+  roles:
+    - { role: webserver }
+
+- hosts: compute
+  roles:
+    - { role: compute }
+    
+  #For slurmdbd
+- hosts: frontend
+  roles:
+    - { role: mariadb }
+    
+- hosts: compute login frontend
+  roles:
+    - { role: software }
+
+#- hosts: gpucompute
+#  roles:
+#    - { role: gpu }
+    
+...

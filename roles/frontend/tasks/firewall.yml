@@ -1,0 +1,73 @@
+---
+
+- include_vars: firewallconf.yml
+
+- name: Enable IPv4 forwarding
+  sysctl: name="net.ipv4.ip_forward" value=1 sysctl_set=yes state=present reload=yes
+- name: Disable bridge calls sent to iptables
+  sysctl: name={{item}} value=0 sysctl_set=yes state=present reload=yes
+  with_items:
+    - "net.bridge.bridge-nf-call-ip6tables"
+    - "net.bridge.bridge-nf-call-iptables"
+    - "net.bridge.bridge-nf-call-arptables"
+  ignore_errors: yes
+- name: Check for running firewalld
+  service: name=firewalld state=started
+
+  #Insert direct rules for forwarding
+- name: Masquerade external interface
+  command: firewall-cmd --permanent --direct --add-rule ipv4 nat POSTROUTING 0 -o br1 -j MASQUERADE
+- name: Forward internal->external
+  command: firewall-cmd --permanent --direct --add-rule ipv4 filter FORWARD 0 -i br0 -o br1 -j ACCEPT
+- name: Forward external->internal
+  command: firewall-cmd --permanent --direct --add-rule ipv4 filter FORWARD 0 -i br1 -o br0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+  #Map and source interfaces
+- name: Map internal interface
+  firewalld: zone=internal permanent=true interface=br0 state=enabled
+  register: int_mapping
+- name: Map external interface
+  firewalld: zone=external permanent=true interface=br1 state=enabled
+  register: ext_mapping
+- name: Add source IPs
+  firewalld: zone=public source='{{ip_startaddress_external}}/{{netmask_external}}' state=enabled permanent=true
+  register: source_ext
+  
+  #Security
+- name: Masquerade external zone
+  firewalld: zone=external masquerade=yes permanent=true state=enabled
+  register: masquerade_ext
+- name: Masquerade public zone
+  firewalld: zone=public masquerade=yes permanent=true state=enabled
+  register: masquerade_public
+- name: Remove ssh access from external zone
+  firewalld: zone=external service=ssh permanent=true state=disabled
+  register: ssh_disabled_ext
+  
+  #Enable/open services and ports
+- name: Enable services intern
+  firewalld: service={{item}} permanent=true state=enabled zone=internal
+  with_items: "{{firewall_services_internal}}"
+  register: systemservices_int
+- name: Enable services extern
+  firewalld: service={{item}} permanent=true state=enabled zone=public
+  with_items: "{{firewall_services_external}}"
+  register: systemservices_ext
+- name: Open up ports intern
+  firewalld: port={{item}} permanent=true state=enabled zone=internal
+  with_items: "{{firewall_ports_internal}}"
+  register: systemports_int
+- name: Open up ports extern
+  firewalld: port={{item}} permanent=true state=enabled zone=public
+  with_items: "{{firewall_ports_external}}"
+  register: systemports_ext
+  
+  #Reload/restart if needed
+- name: Reload config if needed
+  command: firewall-cmd --reload
+  when: systemservices_int.changed or systemservices_ext.changed or systemports_int.changed or masquerade_ext.changed or systemports_ext.changed or ssh_disabled_ext.changed or masquerade_public.changed
+- name: Restart firewalld if needed
+  service: name=firewalld state=restarted
+  when: ext_mapping.changed or int_mapping.changed or source_ext.changed
+
+...

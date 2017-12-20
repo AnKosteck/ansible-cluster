@@ -1,0 +1,17 @@
+---
+
+#Users allowed anywhere to login
+ssh_anywhere: "root"
+
+#additional per host access limits
+#hosts not appearing here won't be limitted
+#This will be set in common role:
+#AllowUsers {{ssh_anywhere}} {{ssh_access_limits[ansible_hostname]}}
+ssh_access_limits:
+  hexa_frontend: ""
+  hexa01: "slurm munge"
+  hexa02: "slurm munge"
+  hexa03: "slurm munge"
+  hexaib: "hexa"
+
+...

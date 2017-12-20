@@ -1,0 +1,3 @@
+{% for homeserver in groups['home_server'] %}
+*       -fstype=nfs4,rw,timeo=14,intr    {{homeserver}}:{{hostvars[homeserver]['home_export']}}/&
+{% endfor %}

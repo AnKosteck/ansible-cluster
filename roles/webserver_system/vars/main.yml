@@ -1,0 +1,19 @@
+---
+
+firewall_services_eth0:
+  - ssh
+firewall_ports_eth0:
+  - 8649/tcp
+  - 8649/udp
+  - 8651-8652/tcp
+firewall_services_eth1:
+  - http
+  - https
+firewall_ports_eth1:
+  -
+firewall_services_source:
+  - ssh
+firewall_ports_source:
+  -
+
+...

@@ -1,0 +1,22 @@
+---
+
+# The partitions present in the cluster
+# DEFAULT means all
+# highprio is an example for jobs with higher priority, suspending
+# lower priority jobs
+
+slurm_partitions:
+  DEFAULT:
+    nodes: "hexa[01-04]"
+    settings: "OverSubscribe=FORCE:1"
+  common:
+    nodes: "hexa[01-04]"
+    settings: "PriorityTier=1 Default=YES State=Up"
+  gpu:
+    nodes: "hexaib"
+    settings: "PriorityTier=1 Default=NO State=Up"
+  highprio:
+    nodes: "hexa[01-02]"
+    settings: "PriorityTier=2 Default=NO State=Up"
+
+...

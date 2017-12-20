@@ -1,0 +1,44 @@
+---
+
+- name: Create ganglia group on client
+  group: name=ganglia gid=393 state=present system=yes
+- name: Create ganglia user on client
+  user: name=ganglia createhome=yes uid=393 comment="Ganglia Monitoring System" group=ganglia home=/var/lib/ganglia shell=/sbin/nologin state=present system=yes
+
+  #Install packages
+- name: Install gmond YUM
+  yum: name={{item}} state=present
+  with_items: "{{ganglia_packages_redhat}}"
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific'
+- name: Install gmond DNF
+  dnf: name={{item}} state=present
+  with_items: "{{ganglia_packages_redhat}}"
+  when: ansible_distribution == 'Fedora'
+- name: Install gmond APT
+  apt: name={{item}} state=present
+  with_items: "{{ganglia_packages_ubuntu}}"
+  when: ansible_distribution == 'Ubuntu'
+  
+- name: Copy config
+  template: src=gmond.conf dest=/etc/ganglia/gmond.conf owner=root mode=0644 backup=yes
+  register: gmond_conf
+
+- name: Set correct ownership for ganglia rrds
+  file: path=/var/lib/ganglia/rrds state=directory owner=ganglia group=ganglia recurse=yes
+
+- name: Restart gmond if needed
+  service: name=gmond state=restarted
+  when: gmond_conf.changed and (ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'Fedora')
+  
+- name: Restart ganglia-monitor if needed
+  service: name=ganglia-monitor state=restarted
+  when: gmond_conf.changed and ansible_distribution == 'Ubuntu'
+  
+- name: Enable and start gmond
+  service: name=gmond state=started enabled=yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'Fedora'
+- name: Enable and start gmond on Ubuntu
+  service: name=ganglia-monitor state=started enabled=yes
+  when: ansible_distribution == 'Ubuntu'
+
+...

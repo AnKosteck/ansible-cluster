@@ -1,0 +1,14 @@
+DEVICE=ib0
+TYPE=InfiniBand
+ONBOOT=yes
+HWADDR={{ibmac}}
+BOOTPROTO=none
+IPADDR={{ibip}}
+PREFIX={{ib_netmask}}
+NETWORK={{ibip_base}}
+BROADCAST={{ib_broadcast}}
+IPV4_FAILURE_FATAL=yes
+IPV6INIT=no
+MTU={{ibifcfg_mtu}}
+CONNECTED_MODE=yes
+NAME=ib0

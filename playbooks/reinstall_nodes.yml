@@ -1,0 +1,15 @@
+---
+
+- hosts: frontend
+
+  tasks:
+    - name: Set netboot flag
+      command: cobbler system edit="{{item}}"
+      with_items: "{{groups['common']}}"
+        
+        - name: restart machine
+  command: shutdown -r now "Ansible updates triggered"
+  async: 0
+  poll: 0
+  ignore_errors: true
+...

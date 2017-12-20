@@ -1,0 +1,34 @@
+---
+
+# Set the needed Slurm accounts for access restrictions
+
+- include_vars: ../slurm_accounts.yml
+- include_vars: ../users.yml
+- include_vars: ../config.yml
+
+- name: Query for cluster list
+  command: sacctmgr list cluster
+  register: slurmdb_cluster_list
+
+- name: Add cluster to accounting
+  shell: yes | sacctmgr add cluster {{clustername}}
+  when: clustername not in slurmdb_cluster_list.stdout
+  
+- name: Query for account list
+  command: sacctmgr list account
+  register: slurmdb_account_list
+  
+- name: Add accounts
+  shell: yes | sacctmgr add account {{item.name}} Cluster='{{clustername}}' Description='{{item.descr}}' Organization='{{item.org}}'
+  with_items: "{{slurm_accounts}}"
+  when: item.name not in slurmdb_account_list.stdout
+
+#- name: Add users to default account
+#  shell: yes | sacctmgr add user {{cluster_users[item].passwd.name}} DefaultAccount={{slurm_account_default}}
+#  with_items: "{{cluster_users}}"
+  
+#- name: Add users to Slurm accounts
+#  shell: yes | sacctmgr add user {{cluster_users[item].passwd.name}} Account={{slurm_account_default}}
+#  with_items: "{{cluster_users}}"
+
+...

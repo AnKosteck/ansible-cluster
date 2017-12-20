@@ -1,0 +1,17 @@
+---
+
+- name: Install ntp
+  yum: name=ntp state=present
+
+- name: Template the ntp server config
+  template: src=ntp-server.conf dest=/etc/ntp.conf owner=root group=root mode=644 backup=yes
+  register: ntpserver_conf
+  
+- name: Ensure stopped and disabled chronyd
+  service: name=chronyd state=stopped enabled=no
+  
+- name: Restart ntpd if needed
+  service: name=ntpd state=restarted
+  when: ntpserver_conf.changed
+
+...

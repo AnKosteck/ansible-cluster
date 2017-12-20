@@ -1,0 +1,46 @@
+---
+
+- include_vars: packages.yml
+  
+  #Install kvm
+- name: Install kvm
+  yum: name={{item}} state=present
+  with_items: "{{kvm_packages}}"
+
+  #Now setup bridges in/out interfaces
+- name: Install bridging tools
+  yum: name=bridge-utils state=present
+  
+- name: Template internal bridge
+  template: src=bridge_internal_config dest=/etc/sysconfig/network-scripts/ifcfg-br0 mode=0644 backup=yes
+  register: ibridge_config
+- name: Template internal interface
+  template: src=internal_config dest=/etc/sysconfig/network-scripts/ifcfg-{{internal_interface}} mode=0644 backup=yes
+  register: iinterface_config
+- name: Template external bridge
+  template: src=bridge_external_config dest=/etc/sysconfig/network-scripts/ifcfg-br1 mode=0644 backup=yes
+  register: ebridge_config
+- name: Template external interface
+  template: src=external_config dest=/etc/sysconfig/network-scripts/ifcfg-{{external_interface}} mode=0644 backup=yes
+  register: einterface_config
+  
+- name: Stop external interface and start bridge
+  shell: ifdown {{external_interface}} && ifup {{external_interface}} && ifup br1
+  when: ebridge_config.changed or einterface_config.changed
+  
+- name: Stop internal interface and start bridge
+  shell: ifdown {{internal_interface}} && ifup {{internal_interface}} && ifup br0
+  when: ibridge_config.changed or iinterface_config.changed
+
+- name: Restart internal bridge if needed
+  shell: ifdown br0 && ifup br0
+  when: ibridge_config.changed
+- name: Restart external bridge if needed
+  shell: ifdown br1 && ifup br1
+  when: ebridge_config.changed
+  
+- name: Restart dnsmasq if needed
+  service: name=dnsmasq state=restarted
+  when: ibridge_config.changed
+  
+...

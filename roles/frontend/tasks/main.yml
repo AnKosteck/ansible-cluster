@@ -1,0 +1,29 @@
+---
+
+### Main tasks for frontend on CentOS, Redhat or Scientific
+
+- name: Check for frontend OS
+  fail: msg="You need to use a CentOS, SL or RedHat system"
+  when: ansible_distribution != 'CentOS' and ansible_distribution != 'Scientific' and ansible_distribution != 'RedHat'
+- name: Check for OS version
+  fail: msg="Please use a version >= 7"
+  when: ansible_distribution_major_version != "7"
+
+- name: Install epel repository
+  yum: name=epel-release state=latest
+
+- include_vars: ../../../config.yml
+  
+- include: kvm.yml
+- include: firewall.yml
+- include: cobbler.yml
+- include: cockpit.yml
+- include: ntp-server.yml
+- include: opensm.yml
+  when: ibtype != 'none'
+
+- name: Enable and start system services
+  service: name={{item}} state=started enabled=yes
+  with_items: "{{services}}"
+
+...

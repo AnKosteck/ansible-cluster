@@ -1,0 +1,7 @@
+DEVICE="{{external_interface}}"
+TYPE="Ethernet"
+HWADDR="{{hwaddr_external}}"
+BOOTPROTO="none"
+ONBOOT="yes"
+NM_CONTROLLED="no"
+BRIDGE="br1"

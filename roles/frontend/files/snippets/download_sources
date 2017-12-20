@@ -1,0 +1,3 @@
+wget http://$http_server/sources/$codename-sources.list -O /etc/apt/sources.list
+apt-get update
+dpkg --configure -a && apt-get --reinstall install ubuntu-extras-keyring

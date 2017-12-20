@@ -1,0 +1,23 @@
+---
+
+- name: Template the second interface
+  template: src=ifcfg_eth1 dest=/etc/sysconfig/network-scripts/ifcfg-eth1 mode=0644 backup=yes
+  register: config_second_interface
+
+- name: Template eth0
+  template: src=ifcfg_eth0 dest=/etc/sysconfig/network-scripts/ifcfg-eth0 mode=0644 backup=yes
+  register: eth0_config
+  
+- name: Add static route for eth0
+  lineinfile: dest=/etc/sysconfig/network-scripts/route-eth0 regexp="^10" line="{{ip_startaddress_internal}}/{{netmask_internal}} via {{server_ip_internal}} dev eth0" state=present create=yes 
+  register: eth0_static_route
+  
+- name: Reactivate eth0 if needed
+  shell: ifdown eth0 && ifup eth0
+  when: eth0_config.changed or eth0_static_route.changed
+  
+- name: Activate second interface
+  shell: ifdown eth1 && ifup eth1
+  when: config_second_interface.changed
+
+...

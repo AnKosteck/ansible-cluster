@@ -1,0 +1,49 @@
+---
+
+- hosts: login compute frontend home_server
+  
+  tasks:
+    - include_vars: ../groups.yml
+    - include_vars: ../users.yml
+
+    - name: Update all user groups
+      group:
+        name: "{{cluster_groups[item].name}}"
+        gid: "{{item}}"
+        state: present
+        system: no
+      with_items: "{{cluster_groups}}"
+      no_log: True
+
+    - name: Update all cluster users
+      user:
+        name: "{{cluster_users[item]['passwd'].name}}"
+        uid: "{{item}}"
+        groups: "{{cluster_users[item]['passwd'].groups}}"
+        group: "{{cluster_users[item]['passwd'].group}}"
+        password: "{{cluster_users[item]['passwd'].password}}"
+        home: "{{cluster_users[item]['passwd'].homepath}}"
+        shell: "{{cluster_users[item]['passwd'].shellpath}}"
+        createhome: no
+        state: present
+        system: no
+      with_items: "{{cluster_users}}"
+      no_log: True
+
+- hosts: home_server
+
+  tasks:
+    - include_vars: ../users.yml
+    
+    - name: Create user homes
+      file: 
+        path: "{{home_export}}/{{cluster_users[item]['passwd'].name}}"
+        state: directory
+        owner: "{{cluster_users[item]['passwd'].name}}"
+        group: "{{cluster_users[item]['passwd'].group}}"
+#        mode: "{{cluster_users[item]['passwd'].permissions}}"
+        mode: 0750
+      with_items: "{{cluster_users}}"
+      no_log: True
+
+...

@@ -1,0 +1,11 @@
+---
+
+- hosts: frontend
+
+  tasks:
+    - name: Remove all systems from cobbler
+      command: cobbler system remove --name={{item}}
+      with_items: "{{groups['guests']}}"
+      ignore_errors: true
+
+...

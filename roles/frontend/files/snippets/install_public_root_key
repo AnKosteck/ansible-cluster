@@ -1,0 +1,6 @@
+cd /root
+mkdir --mode=700 .ssh
+cat >> .ssh/authorized_keys << "PUBLICKEY"
+{{root_ssh_publickey}}
+PUBLICKEY
+chmod 600 .ssh/authorized_keys

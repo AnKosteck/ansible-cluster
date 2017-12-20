@@ -1,0 +1,20 @@
+---
+
+- name: Install opensm and rdma
+  yum: name={{item}} state=present
+  with_items:
+    - opensm
+    - rdma
+  
+- name: Template the opensm config
+  template: src=rdma_partitions dest=/etc/rdma/partitions.conf mode=0644 backup=yes
+  register: rdmapartitions
+  
+- name: Restart opensm if needed
+  service: name=opensm state=restarted
+  when: rdmapartitions.changed
+  
+- name: Enable and start opensm service
+  service: name=opensm state=started enabled=yes
+
+...

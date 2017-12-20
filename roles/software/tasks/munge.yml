@@ -1,0 +1,49 @@
+---
+
+  #Create credentials
+- name: MUNGE group
+  group: name=munge gid=394 state=present system=yes
+- name: MUNGE user
+  user: name=munge createhome=yes uid=394 comment="MUNGE Uid 'N' Gid Emporium" group=munge home=/var/lib/munge shell=/sbin/nologin state=present system=yes
+  
+  #Install munge dependencies on the system
+- name: Install munge and/or dependencies on RHEL/CentOS/SL systems
+  yum: name={{item}} state=present
+  with_items: "{{munge_packages_redhat}}"
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific'
+- name: Install munge and/or dependencies on Fedora systems
+  dnf: name={{item}} state=present
+  with_items: "{{munge_packages_redhat}}"
+  when: ansible_distribution == 'Fedora'
+- name: Install munge dependencies on Ubuntu systems
+  apt: name={{item}} state=present
+  with_items: "{{munge_packages_ubuntu}}"
+  when: ansible_distribution == 'Ubuntu'
+
+  #Create directories if not exist with correct ownership and permissions
+- name: Make Directory /etc/munge if not exists
+  file: path=/etc/munge state=directory owner=munge group=munge mode=0700
+- name: Make Directory /var/lib/munge if not exists
+  file: path=/var/lib/munge state=directory owner=munge group=munge mode=0711
+- name: Set permissions on /var/log
+  file: path=/var/log state=directory mode=0755
+- name: Make Directory /var/log/munge if not exists
+  file: path=/var/log/munge state=directory owner=munge group=munge mode=0700
+- name: Make Directory /var/run/munge if not exists
+  file: path=/var/run/munge state=directory owner=munge group=munge mode=0755
+  
+  #Copy the MUNGE key
+  #Or create new one with dd if=/dev/urandom bs=1 count=1024 > /etc/munge/munge.key
+- name: Copy MUNGE key
+  copy: src=munge.key dest=/etc/munge/munge.key mode=0400 owner=munge backup=yes
+  register: munge_key
+  
+  #Start and enable MUNGE daemon
+- name: Restart munge if needed
+  service: name=munge state=restarted
+  when: munge_key.changed
+  
+- name: Start and enable munge
+  service: name=munge state=started enabled=yes
+
+...

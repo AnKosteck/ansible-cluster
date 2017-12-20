@@ -1,0 +1,9 @@
+---
+
+ntpname:
+  CentOS: ntpd
+  Fedora: ntpd
+  Scientific: ntpd
+  Ubuntu: ntp  
+
+...

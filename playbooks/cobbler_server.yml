@@ -1,0 +1,7 @@
+---
+
+- hosts: frontend
+  roles:
+    - { role: cobbler_server }
+
+...

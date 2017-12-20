@@ -1,0 +1,22 @@
+---
+
+# Update all systems in inventory
+
+- hosts: all
+  tasks:
+    - group_by: key={{ansible_distribution}}
+  
+- hosts: CentOS:Scientific
+  tasks:
+    - name: Update RedHat based systems
+      yum: name=* state=latest
+- hosts: Fedora
+  tasks:
+    - name: Update Fedora systems
+      dnf: name=* state=latest
+- hosts: Ubuntu
+  tasks:
+    - name: Update Ubuntu systems
+      apt: upgrade=safe update_cache=yes
+      
+...

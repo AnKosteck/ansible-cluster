@@ -1,0 +1,11 @@
+---
+  
+- include_vars: ../../../config.yml
+
+- include: packages.yml
+- include: nfs-import.yml
+- include: limit_ssh.yml
+- include: infiniband.yml
+  when: ibtype != 'none'
+
+...

@@ -1,0 +1,8 @@
+[home_libertas-ict_cobbler28]
+name=Cobbler (2.8.x) (CentOS_7)
+type=rpm-md
+baseurl=http://download.opensuse.org/repositories/home:/libertas-ict:/cobbler28/CentOS_7/
+gpgcheck=1
+gpgkey=http://download.opensuse.org/repositories/home:/libertas-ict:/cobbler28/CentOS_7//repodata/repomd.xml.key
+enabled=1
+

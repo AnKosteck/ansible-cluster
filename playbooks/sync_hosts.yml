@@ -1,0 +1,91 @@
+---
+
+#################################################
+## Update known hosts in cobbler from
+## ansible hosts file and then issue the command
+##    cobbler system add 
+## 
+#################################################
+
+- hosts: frontend
+
+  # VM settings for kvm/qemu and cobbler
+  vars:
+    #Any number will do <= than host
+    virtCPUs: 2
+    #1 enabled, 0 disabled
+    virtAutoBoot: 1
+    #qcow2, raw
+    virtDiskDriver: qcow2
+    #in GB, per whitespace separated list possible
+    virtDiskSize: 8
+    #MB, anaconda seems to need >1024MB
+    virtRam: 2048
+    #xenpv, qemu, kvm
+    virtType: kvm
+    #1 enabled, 0 disabled
+    virtPxeBoot: 1
+    virtHypervisor: kvm
+    virtOSType: linux
+    virtGraphics: vnc
+    
+  tasks:
+    - include_vars: ../config.yml
+      
+      #####Create cobbler entries
+    - name: Get cobbler system list
+      command: cobbler system list
+      register: cobbler_systems
+      
+    - name: Add cobbler system if not yet done
+      command: cobbler system add --name="{{item}}" --hostname="{{item}}" --dns-name="{{item}}".{{clustername}} --ip-address="{{hostvars[item]['eth0']}}" --netmask="{{netmask_internal_long}}" --gateway={{server_ip_internal}} --static=0 --interface=eth0 --profile="{{hostvars[item]['profile']}}" --mac="{{hostvars[item]['mac0']}}" --management=true
+      with_items: "{{groups['common']}}"
+      when: "'{{item}}' not in cobbler_systems.stdout"
+      
+    - name: Update cobbler guest system entries if needed
+      command: cobbler system edit --name={{item}} --virt-auto-boot={{virtAutoBoot}} --virt-cpus={{virtCPUs}} --virt-disk-driver="<<inherit>>" --virt-file-size={{virtDiskSize}} --virt-ram={{virtRam}} --virt-type={{virtType}} --virt-pxe={{virtPxeBoot}}
+      with_items: "{{groups['common']}}"
+      when: "'{{item}}' not in cobbler_systems.stdout"
+      
+      
+      ######Add network interfaces
+    - name: Add second interfaces to webserver
+      command: cobbler system edit --name="{{item}}" --interface=eth1 --ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_external_long}}" --mac="{{hostvars[item]['mac1']}}"
+      with_items: "{{groups['webserver']}}"
+      when: "'{{item}}' not in cobbler_systems.stdout"
+      
+    - name: Add second interfaces to login nodes
+      command: cobbler system edit --name="{{item}}" --interface=eth1 --ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_external_long}}" --mac="{{hostvars[item]['mac1']}}"
+      with_items: "{{groups['login']}}"
+      when: "'{{item}}' not in cobbler_systems.stdout" 
+      
+#    - name: Add infiniband interfaces to common nodes
+#      command: cobbler system edit --name="{{item}}" --interface=ib0 --ip-address="{{hostvars[item]['ibip']}}" --netmask="{{netmask_internal_long}}" --mac="{{hostvars[item]['ipmac']}}"
+#      with_items: "{{groups['common']}}"
+#      when: "'{{item}}' not in cobbler_systems.stdout" 
+      
+      ######Install VMs#####
+    - name: Get guest list
+      virt: command=list_vms
+      register: virt_list
+      
+    - name: Create and install guests (without second interface)
+      command: virt-install --name {{item}} --memory {{virtRam}} --vcpus {{virtCPUs}} --os-type {{virtOSType}} --os-variant {{hostvars[item]['osVariant']}} --network mac="{{hostvars[item]['mac0']}}",bridge=br0 --graphics {{virtGraphics}} --virt-type {{virtType}} --disk size={{virtDiskSize}} --pxe --autostart
+      with_items: "{{groups['guests']}}"
+      when: "('{{item}}' not in virt_list.list_vms) and ('{{item}}' not in groups['login']) and ('{{item}}' not in groups['webserver'])"
+      
+    - name: Create and install login and webserver guests
+      command: virt-install --name {{item}} --memory {{virtRam}} --vcpus {{virtCPUs}} --os-type {{virtOSType}} --os-variant {{hostvars[item]['osVariant']}} --network mac="{{hostvars[item]['mac0']}}",bridge=br0 --network mac="{{hostvars[item]['mac1']}}",bridge=br1 --graphics {{virtGraphics}} --virt-type {{virtType}} --disk size={{virtDiskSize}} --pxe --autostart
+      with_items: "{{groups['guests']}}"
+      when: "('{{item}}' not in virt_list.list_vms) and ('{{item}}' in groups['login'] or '{{item}}' in groups['webserver'])"
+          
+    - name: Get guests info
+      virt: command=info
+      register: virt_info
+      
+    - name: Start not running VMs
+      virt: name={{item}} command=start
+      with_items: "{{groups['guests']}}"
+      when: virt_info[item]['state'] != 'running'
+      
+...

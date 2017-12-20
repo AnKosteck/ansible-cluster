@@ -1,0 +1,168 @@
+---
+
+#Cluster information
+clustername: hpcnet
+organization: HPC
+fullname: High Performance Computing
+webpage: "https://en.wikipedia.org/wiki/Supercomputer"
+email: "example@hpc"
+
+#Frontend config
+external_interface: eno2
+internal_interface: eno1
+hwaddr_internal: "aa:aa:aa:aa:aa:aa"
+hwaddr_external: "bb:bb:bb:bb:bb:bb"
+###openssl passwd -1, for uber-secure password 'testpassword1234'
+###needed for cobbler
+root_password_md5: $1$Oy507HgT$/BGDUsFA/QX2VnyFOoEZA0
+##htdigest roles/frontend/files/users.digest "Cobbler" cobbler
+###needed for cobbler web, again with the ultra secure 'testpassword1234'
+##For ssh key distribution, frontend -> nodes
+root_ssh_publickey: "<INSERT-SSH-PKEY-HERE>"
+
+#Define, where the shared applications coming from app_server will be mounted
+appsdir: /opt/apps
+
+#localization
+timezone: "US/Central"
+lang: "en_US.utf8"
+country: "GMT"
+locale: "en"
+
+#network config
+ip_startaddress_internal: 10.0.0.0
+ip_startaddress_external: 192.168.1.0
+netmask_internal: 16
+netmask_internal_long: 255.255.0.0
+netmask_external: 24
+netmask_external_long: 255.255.255.0
+server_ip_internal: 10.0.0.254
+server_ip_external: 192.168.1.254
+main_gateway: 192.168.1.1
+dns1: 208.67.222.222
+dns2: 208.67.220.220
+domain: mydomain.net
+
+#Infiniband config
+ibip_base: 10.1.1.0
+ib_netmask: 16
+ib_broadcast: 10.2.2.255
+##possible rates: 2 to 10, 3==10GBit/s, 7 == 40GBit/s
+ib_rate: 3
+ib8002_rate: 7
+##possible mtu's: 1 to 5, 4 == 2048
+ib_mtu: 4
+ib8002_mtu: 4
+ibifcfg_mtu: 65520
+
+#For webserver
+ssl_files:
+  official:
+    cert: {src: "../../../webserver_cert/cert.pem", dest: "/etc/pki/tls/certs/cert.pem", config_prefix="SSLCertificateFile"}
+    key: {src: "../../../webserver_cert/HPC.KEY", dest: "/etc/pki/tls/private/HPC.KEY", config_prefix="SSLCertificateKeyFile"}
+    chain: {src: "../../../webserver_cert/chain.pem", dest: "/etc/pki/tls/certs/chain.pem", config_prefix="SSLCertificateChainFile"}
+  self:
+    cert: {src: "", dest: "/etc/pki/tls/certs/apache_self.crt", config_prefix="SSLCertificateFile"}
+    key: {src: "", dest: "/etc/pki/tls/private/apache_self.key", config_prefix="SSLCertificateKeyFile"}
+
+#Software installation
+isos_dir: /root/isos
+build_anchors: /root/build_hooks
+install_scripts_dir: /root/install_scripts
+source_download_dir: /root/sources
+openmpiinfo:
+  version: 2.1.1
+  url: https://www.open-mpi.org/software/ompi/v2.1/downloads/openmpi-2.1.1.tar.gz
+  filename: openmpi-2.1.1.tar.gz
+  prefix: /opt/openmpi
+  flags: "--enable-mpi-thread-multiple"
+#slurm vars
+slurminfo:
+  filename: slurm-slurm-16-05-11-1.tar.gz
+  extracted_filename: slurm-slurm-16-05-11-1
+  prefix: /opt/slurm
+  statedir: /var/run/slurm
+  sysconfdir: /opt/slurm/etc
+  version: 16.05.11
+  url: https://github.com/SchedMD/slurm/archive/slurm-16-05-11-1.tar.gz
+slurmdbd_config:
+  storagehost: localhost
+  storageloc: slurm_acct_db
+  storagepass: testpassword
+  storageuser: hpc
+  rootpass: rootdatabasepw
+
+#Cuda links to local runfiles, Fedora not supported
+cuda_links:
+  6.0: "http://developer.download.nvidia.com/compute/cuda/6_0/rel/installers/cuda_6.0.37_linux_64.run"
+  6.5: "http://developer.download.nvidia.com/compute/cuda/6_5/rel/installers/cuda_6.5.14_linux_64.run"
+  7.0: "http://developer.download.nvidia.com/compute/cuda/7_0/Prod/local_installers/cuda_7.0.28_linux.run"
+  7.5: "http://developer.download.nvidia.com/compute/cuda/7.5/Prod/local_installers/cuda_7.5.18_linux.run"
+  8.0: "https://developer.nvidia.com/compute/cuda/8.0/prod/local_installers/cuda_8.0.44_linux-run"
+
+cobbler_repos:
+#  - name: cuda8-rhel7
+#    mirror: "http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/"
+#    breed: yum
+#  - name: cuda8-ubuntu1604
+#    mirror: "http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/"
+#    breed: apt
+  - name: epel7
+    mirror: "http://mirror.inode.at/epel/7/x86_64/"
+    breed: yum
+#  - name: fedora25
+#    mirror: "http://fedora.inode.at/releases/25/Everything/x86_64/os/"
+#  - name: fedora25-updates
+#    mirror: "http://fedora.inode.at/updates/25/x86_64/"
+  - name: sl7x
+    mirror: "http://ftp.scientificlinux.org/linux/scientific/7x/x86_64/os/"
+    breed: yum
+  - name: sl7x-extras
+    mirror: "http://ftp.scientificlinux.org/linux/scientific/7x/external_products/extras/x86_64/"
+    breed: yum
+  - name: sl7x-fastbugs
+    mirror: "http://ftp.scientificlinux.org/linux/scientific/7x/x86_64/updates/fastbugs/"
+    breed: yum
+  - name: sl7x-security
+    mirror: "http://ftp.scientificlinux.org/linux/scientific/7x/x86_64/updates/security/"
+    breed: yum
+
+#Distros
+distros:
+#  - name: debian
+#    url: "http://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/debian-8.7.1-amd64-DVD-1.iso"
+#    version: 8.7.1
+#    breed: debian
+#    kickstart: ubuntu.seed
+#    codename: jessie
+#    repos: ""
+#  - name: fedora
+#    url: "https://download.fedoraproject.org/pub/fedora/linux/releases/25/Server/x86_64/iso/Fedora-Server-dvd-x86_64-25-1.3.iso"
+#    version: 25
+#    breed: redhat
+#    kickstart: anaconda_fedora.ks
+#    codename: fedora25
+#    repos: "fedora25 fedora25-updates"
+#  - name: opensuse
+#    url: "http://download.opensuse.org/distribution/leap/42.2/iso/openSUSE-Leap-42.2-DVD-x86_64.iso"
+#    version: 42.2
+#    breed: suse
+#    kickstart: autoyast.xml
+#    codename: leap42.2
+#    repos: ""
+  - name: sl
+    url: "http://scientificlinux.physik.uni-muenchen.de/mirror/scientific/7.3/x86_64/iso/SL-7.3-Everything-x86_64.iso"
+    version: 7.3
+    breed: redhat
+    kickstart: anaconda.ks
+    codename: sl7.3
+    repos: "epel7 sl7x sl7x-extras sl7x-fastbugs sl7x-security"
+  - name: ubuntu
+    url: "http://releases.ubuntu.com/16.04.2/ubuntu-16.04.2-server-amd64.iso"
+    version: 16.04.2
+    breed: ubuntu
+    kickstart: ubuntu.seed
+    codename: xenial
+    repos: ""
+
+...

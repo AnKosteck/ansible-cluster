@@ -1,0 +1,33 @@
+---
+
+- include_vars: ../../../config.yml
+
+#Set up the client ntp synch side
+
+- name: Install ntp on RedHat based OS
+  yum: name=ntp state=present
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific'
+- name: Install ntp on Fedora
+  dnf: name=ntp state=present
+  when: ansible_distribution == 'Fedora'
+- name: Install ntp on Ubuntu
+  apt: name=ntp state=present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Template the ntp client config
+  template: src=ntp-client.conf dest=/etc/ntp.conf owner=root mode=0644 backup=yes
+  register: ntpclient_conf
+
+- name: Restart ntp if needed
+  service: name={{ntpname[ansible_distribution]}} state=restarted
+  when: ntpclient_conf.changed
+  
+- name: Enable and start ntp
+  service: name={{ntpname[ansible_distribution]}} state=started enabled=yes
+  register: ntp_status
+  
+- name: Sync manually the time with the ntp server after first start
+  command: ntpdate -u {{server_ip_internal}}
+  when: ntp_status.changed 
+
+...

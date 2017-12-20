@@ -1,0 +1,27 @@
+---
+
+- name: Check for fileserver OS
+  fail: msg="You need to use a CentOS, SL or RedHat system"
+  when: ansible_distribution != 'CentOS' and ansible_distribution != 'Scientific' and ansible_distribution != 'RedHat'
+- name: Check for OS version
+  fail: msg="Please use a version >= 7"
+  when: ansible_distribution_major_version != "7"
+  
+- include_vars: ../../../config.yml
+  
+- name: Install required nfs packages
+  yum: name={{item}} state=present
+  with_items:
+    - nfs4-acl-tools
+    - nfs-utils
+    - rpcbind
+
+- name: Print export line
+  lineinfile: dest=/etc/exports regexp="{{nfs_export}}" line="{{nfs_export}} {{ip_startaddress_internal}}/{{netmask_internal_long}}({{export_options}})" state=present create=yes
+  register: exports_config
+  
+- name: Restart nfs server if needed
+  service: name=nfs-server state=restarted
+  when: exports_config.changed
+
+...

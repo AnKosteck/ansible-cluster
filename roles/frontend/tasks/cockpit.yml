@@ -1,0 +1,12 @@
+---
+
+- include_vars: packages.yml
+
+- name: Install cockpit
+  yum: name={{item}} state=present
+  with_items: "{{cockpit_packages}}"
+  
+#- name: Enable cockpit.socket
+#  service: name="cockpit.socket" state=started enabled=yes
+
+...

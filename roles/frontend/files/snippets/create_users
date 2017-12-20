@@ -1,0 +1,4 @@
+groupadd -r -g 394 munge
+groupadd -r -g 395 slurm
+useradd -r -m -c "MUNGE Uid 'N' Gid Emporium" -d /var/lib/munge -u 394 -g 394 -s /sbin/nologin munge"
+useradd -m -r -c "SLURM workload manager" -d /var/lib/slurm -u 395 -g 395 slurm

@@ -1,0 +1,70 @@
+---
+
+- name: Create build hooks dir
+  file: path={{build_anchors}} state=directory owner=root mode=0700
+- name: Create install_scripts_dir
+  file: path={{install_scripts_dir}} state=directory owner=root mode=0700
+- name: Create source_download_dir
+  file: path={{source_download_dir}} state=directory owner=root mode=0700
+
+- name: Install build tools on RedHat, CentOS or SL
+  yum: name={{item}} state=present
+  with_items: "{{build_tools_redhat}}"
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'Red Hat Enterprise Linux'
+  vars:
+    build_tools_redhat:
+      - autoconf
+      - automake
+      - cpanspec
+      - gcc
+      - gcc-c++
+      - gcc-gfortran
+      - rpm-build
+      - wget
+      - tar
+      - cmake
+      - bzip2
+  
+- name: Install build tools on Fedora
+  dnf: name={{item}} state=present
+  with_items: "{{build_tools_fedora}}"
+  when: ansible_distribution == 'Fedora'
+  vars:
+    build_tools_fedora:
+      - autoconf
+      - automake
+#      - cpanspec
+      - gcc
+      - gcc-c++
+      - gcc-gfortran
+#      - rpm-build
+      - wget
+      - tar
+      - cmake
+      - bzip2
+  
+- name: Install build tools on Ubuntu
+  apt: name={{item}} state=present update_cache=yes
+  with_items: "{{build_tools_ubuntu}}"
+  when: ansible_distribution == 'Ubuntu'
+  vars:
+    build_tools_ubuntu:
+#      - packaging-dev
+      - build-essential
+      - gcc
+      - cpp
+      - binutils
+      - automake
+      - autoconf
+      - wget
+      - tar
+#      - debhelper
+#      - dh-make
+#      - quilt
+#      - fakeroot
+#      - lintian
+      - cmake
+#      - alien
+#      - rpm
+
+...

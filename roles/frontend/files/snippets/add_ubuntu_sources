@@ -1,0 +1,1 @@
+wget http://$http_server/cblr/$codename-sources.list -O /target/etc/apt/sources.list
