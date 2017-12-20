@@ -10,3 +10,4 @@ slurm_accounts_example.yml
 ssh_access_limits.yml
 users.yml
 website/
+webserver_cert/
