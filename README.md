@@ -1,9 +1,12 @@
 # Hexa
-Meet Hexa, an extensive Ansible based HPC cluster installation. *Hexa* leverages many open source technologies, a few mentioned below:
-- [Cobbler](http://cobbler.github.io/)
+Meet Hexa, an extensive Ansible based HPC cluster installation. *Hexa* leverages many open source technologies, a few are mentioned below:
+- [Ansible](https://www.ansible.com/) well, *Hexa* is based on Ansible
+- [Cobbler](http://cobbler.github.io/) as the install PXE server
+- [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) as the DHCP/DNS server for cluster nodes
+
 
 ## Idea of Hexa
-The idea behind *Hexa* is that all relevant customizations for a cluster are done upfront in the root of Hexa while the rest is set to sane or (almost) secure defaults.
+The idea behind *Hexa* is that all relevant customizations for a cluster are done upfront in the root of *Hexa* while the rest is set to sane or (almost) secure defaults.
 
 This means that the deployment of a cluster becomes as easy as
 ```
@@ -12,7 +15,7 @@ ansible-playbooks playbooks/clustersetup.yml
 
 All an admin needs to customize or supply are the `example` and `template` files.
 
-##What does Hexa do?
+## What does Hexa do?
 There are several roles implemented in Hexa:
 * [cobbler_server](https://github.com/AnKosteck/Hexa/tree/master/roles/cobbler_server)
 * [common](https://github.com/AnKosteck/Hexa/tree/master/roles/common)
