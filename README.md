@@ -1,6 +1,7 @@
 # Hexa
 Meet Hexa, an extensive Ansible based HPC cluster installation. *Hexa* leverages many open source technologies, a few are mentioned below:
 - [Ansible](https://www.ansible.com/) well, *Hexa* is based on Ansible
+- [Apache](http://httpd.apache.org/) as the webserver
 - [Cobbler](http://cobbler.github.io/) as the install PXE server
 - [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) as the DHCP/DNS server for cluster nodes
 
