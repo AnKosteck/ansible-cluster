@@ -51,7 +51,7 @@ This script sets up Ansible and Git, then clones the Hexa Repository and finishe
 ansible-playbook playbooks/first_start/first_start.yml
 ```
 From then on, the cluster can be managed with Ansible and *Hexa*.
-[first_start.yml](https://github.com/AnKosteck/Hexa/blob/master/playbooks/first_start/first_start.yml) sets up a second interface for internal services (PXE, DHCP, ...) and disables SELinux. After the frontend hast been restarted, *Hexa* should be usable.
+[first_start.yml](https://github.com/AnKosteck/Hexa/blob/master/playbooks/first_start/first_start.yml) sets up a second interface for internal services (PXE, DHCP, ...) and disables SELinux (in future *Hexa* should work with SELinux). After the frontend hast been restarted, *Hexa* should be usable.
 
 ## Templates and examples
 ### config_template.yml and config.yml
