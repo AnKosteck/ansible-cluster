@@ -1,5 +1,5 @@
 # The playbooks 
-*Hexa* supplies some helpful playbooks to get startet. Here is more detailed information given. For each (important) role a playbook is given so that testing and setup can be faster.
+*Hexa* supplies some helpful playbooks to get startet, some details on them are given here. For each (important) role a playbook is given so that testing and setup can be faster.
 
 ## Playbooks for roles
 For ease of use every role has its own playbook, so that from the root of *Hexa* a role can be deployed via
@@ -11,7 +11,7 @@ ansible-playbook playbooks/<ROLE-NAME>.yml
 There are 2 playbooks for the frontend since a complete frontend will take way longer, mostly due to [cobbler_server](cobbler_server.yml). After *frontend.yml* all core functionalities are configured and set up. Missing although are the *Cobbler* bits, so another playbook for **cobbler**_**server** is included. The reason for **cobbler server** not being included in the basic *frontend.yml* is that the mirroring or syncing of official repositories may take really long.
 
 ### clustersetup.yml
-Here all steps are included, starting with the *nfs server* setup and finishing of with software. This playbook requires an almost completely configured frontend and already provisioned nodes. The prerequired roles are [frontend.yml](frontend.yml) and [cobbler_server](cobbler_server) or alternatively just [frontend_complete.yml](frontend_complete.yml).
+Here are all steps included, starting with the *nfs server* setup and finishing off with *software*. This playbook requires an almost completely configured frontend and already provisioned nodes. The prerequired roles are [frontend.yml](frontend.yml) and [cobbler_server](cobbler_server.yml) or alternatively just [frontend_complete.yml](frontend_complete.yml).
 
 ## Other playbooks
 ### reinstall_nodes.yml
