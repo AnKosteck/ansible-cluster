@@ -4,7 +4,7 @@
 - [Apache](http://httpd.apache.org/) as the webserver
 - [Cobbler](http://cobbler.github.io/) as the install PXE server
 - [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) as the DHCP/DNS server for cluster nodes
-- [Slurm](https://www.schedmd.com/)
+- [Slurm](https://www.schedmd.com/) as the resource manager for the cluster
 
 
 ## Idea of Hexa
@@ -36,7 +36,8 @@ A more detailed description is given in this [README](roles/README.md). *Hexa* i
 
 ## How to start off
 To use *Hexa* you need a RHEL 7.X based system. Just grab any _x86 64bit able_ system, since *Hexa* has not heavy requirements. If a server can run a 64 bit RHEL 7.X system, it can run Hexa too. Slurm is a different matter though, a fast storage may be of interest.
-Then grab [first_start.sh](https://github.com/AnKosteck/Hexa/blob/master/first_start.sh) from the *Hexa* repository and change a few variables:
+
+Then grab [first_start.sh](https://github.com/AnKosteck/Hexa/blob/master/first_start.sh) from the *Hexa* repository, change a few variables:
 ```bash
 declare -A NEEDED_HOSTS=(["192.168.1.254"]="$(hostname) $(hostname -f) $(hostname -s)" ["192.168.1.15"]="needed_host_X")
 HEXA_HTTPS_LINK="https://github.com/AnKosteck/Hexa.git"
@@ -45,7 +46,7 @@ REPO_NAME="Hexa"
 HOSTS_FILE="hexa_hosts_example"
 FORKS="5"
 ```
-And execute the script `./first_start.sh`
+supply your own [config.yml](config_template.yml) and execute the script via `./first_start.sh`
 This script sets up Ansible and Git, then clones the Hexa Repository and finishes off by calling 
 ```
 ansible-playbook playbooks/first_start/first_start.yml
