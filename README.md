@@ -1,13 +1,14 @@
 # Hexa
-Meet Hexa, an extensive Ansible based HPC cluster installation. *Hexa* leverages many open source technologies, a few are mentioned below:
+*Hexa* leverages many open source technologies, a few are mentioned below:
 - [Ansible](https://www.ansible.com/) well, *Hexa* is based on Ansible
 - [Apache](http://httpd.apache.org/) as the webserver
 - [Cobbler](http://cobbler.github.io/) as the install PXE server
 - [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) as the DHCP/DNS server for cluster nodes
+- [Slurm](https://www.schedmd.com/)
 
 
 ## Idea of Hexa
-The idea behind *Hexa* is that all relevant customizations for a cluster are done upfront in the root of *Hexa* while the rest is set to sane or (almost) secure defaults.
+The idea behind *Hexa* is that all relevant customizations for a cluster are done upfront in the root of *Hexa* in some configuration files while the rest is set to sane or (almost) secure defaults.
 
 This means that the deployment of a cluster becomes as easy as
 ```
@@ -31,8 +32,10 @@ There are several roles implemented in Hexa:
 * [webserver](https://github.com/AnKosteck/Hexa/tree/master/roles/webserver)
 * [webserver_system](https://github.com/AnKosteck/Hexa/tree/master/roles/webserver_system)
 
+A more detailed description is given in this [README](roles/README.md). *Hexa* is planned to support a RHEL 7.X based server as a frontend with maybe additional servers for storage. The compute and login nodes can be installed with Ubuntu (16.04), RHEL 7.X based distributions or Fedora (last known working Fedora was 24). Please have a look at the [main config](config_template.yml).
+
 ## How to start off
-To use *Hexa* you need a RHEL 7.X based system. Just install one as a server, since *Hexa* has not heavy requirements.
+To use *Hexa* you need a RHEL 7.X based system. Just grab any _x86 64bit able_ system, since *Hexa* has not heavy requirements. If a server can run a 64 bit RHEL 7.X system, it can run Hexa too. Slurm is a different matter though, a fast storage may be of interest.
 Then grab [first_start.sh](https://github.com/AnKosteck/Hexa/blob/master/first_start.sh) from the *Hexa* repository and change a few variables:
 ```bash
 declare -A NEEDED_HOSTS=(["192.168.1.254"]="$(hostname) $(hostname -f) $(hostname -s)" ["192.168.1.15"]="needed_host_X")
