@@ -16,7 +16,7 @@ This role consists of tasks only (no files, no templates). Since this role is ap
 ## common
 This role does tasks which may be *common* to every node in the cluster. This includes
 - Installing packages which should be installed on any node from the mirrored repos
-- Setting up the `nfs_imports` for the homes and apps (please look at the [hexa inventory](../hexa_hosts_example))
+- Setting up the `nfs_imports` for the homes and apps (please look at the [Hexa inventory](../hexa_hosts_example))
 - Setting the ssh limitations (please have look at the [ssh limits_examples](../ssh_access_limits_example.yml))
 - Finally setting up the Infiniband interfaces (Mellanox) on nodes with infiniband hardware (please look at the main [config](../config_template.yml))
 
