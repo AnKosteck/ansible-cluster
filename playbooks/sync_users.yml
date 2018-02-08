@@ -45,5 +45,40 @@
         mode: 0750
       with_items: "{{cluster_users}}"
       no_log: True
+      
+    - name: Create .ssh dir
+      file:
+        path: "{{home_export}}/{{cluster_users[item]['passwd'].name}}/.ssh"
+        state: directory
+        owner: "{{cluster_users[item]['passwd'].name}}"
+        group: "{{cluster_users[item]['passwd'].group}}"
+        mode: 0700
+      with_items: "{{cluster_users}}"
+      no_log: True
+
+    - name: Generate ssh keys
+      shell: ssh-keygen -t ecdsa -f "{{home_export}}/{{cluster_users[item]['passwd'].name}}/.ssh/id_ecdsa" -P ""
+      args:
+        creates: "{{home_export}}/{{cluster_users[item]['passwd'].name}}/.ssh/id_ecdsa"
+      become: true
+      become_user: "{{cluster_users[item]['passwd'].name}}"
+      with_items: "{{cluster_users}}"
+      no_log: True
+      
+    - name: Slurp the public keys
+      slurp:
+        src: "{{home_export}}/{{cluster_users[item]['passwd'].name}}/.ssh/id_ecdsa.pub"
+      with_items: "{{cluster_users}}"
+      register: slurped_public_key
+      no_log: True
+      
+    - name: Authorize the keys
+      authorized_key:
+        user: "{{cluster_users[item.item]['passwd'].name}}"
+        state: present
+        key: "{{item.content | b64decode}}"
+        path: "{{home_export}}/{{cluster_users[item.item]['passwd'].name}}/.ssh/authorized_keys"
+      with_items: "{{slurped_public_key.results}}"
+      no_log: True
 
 ...
