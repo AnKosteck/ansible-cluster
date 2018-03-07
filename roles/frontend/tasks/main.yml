@@ -12,7 +12,7 @@
 - name: Install epel repository
   yum: name=epel-release state=latest
 
-- include_vars: ../../../config.yml
+- include: ../../../playbooks/load_config.yml
   
 - include: kvm.yml
 - include: firewall.yml

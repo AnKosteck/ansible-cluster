@@ -7,7 +7,7 @@
   fail: msg="Please use a version >= 7"
   when: ansible_distribution_major_version != "7"
   
-- include_vars: ../../../config.yml
+- include: ../../../playbooks/load_config.yml
 
 - include: setup_website.yml
 #- include: setup_icinga_web.yml

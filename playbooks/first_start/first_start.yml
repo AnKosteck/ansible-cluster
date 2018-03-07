@@ -3,7 +3,7 @@
 - hosts: frontend
   
   tasks:
-    - include_vars: ../../config.yml
+    - include: ../load_config.yml
     
     - name: Check for frontend OS
       fail: msg="You need to use a CentOS, SL or RedHat system"

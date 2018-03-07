@@ -4,7 +4,7 @@
 
 - include_vars: ../slurm_accounts.yml
 - include_vars: ../users.yml
-- include_vars: ../config.yml
+- include: load_config.yml
 
 - name: Query for cluster list
   command: sacctmgr list cluster

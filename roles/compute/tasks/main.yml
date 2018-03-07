@@ -4,7 +4,7 @@
   service: name=firewalld state=stopped enabled=false
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat' or ansible_distribution == 'Scientific'
 
-- include_vars: ../../../config.yml
+- include: ../../../playbooks/load_config.yml
 
 - include: ganglia-client.yml
 

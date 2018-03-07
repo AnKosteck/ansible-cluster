@@ -30,7 +30,7 @@
     virtGraphics: vnc
     
   tasks:
-    - include_vars: ../config.yml
+    - include: load_config.yml
       
       #####Create cobbler entries
     - name: Get cobbler system list

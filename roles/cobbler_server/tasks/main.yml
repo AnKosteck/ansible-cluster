@@ -2,7 +2,6 @@
 
 # This role sets up the cobbler profiles, downloads the distro isos,
 # imports the distros into cobbler and creates repo mirrors
-- include_vars: ../../../config.yml
 
 - name: Check for frontend OS
   fail: msg="You need to use a CentOS, SL or RedHat system"
@@ -10,6 +9,8 @@
 - name: Check for OS version
   fail: msg="Please use a version >= 7"
   when: ansible_distribution_major_version != "7"
+  
+- include: ../../../playbooks/load_config.yml
   
 - include: cobbler_repos.yml
 - include: cobbler_distros.yml

@@ -1,6 +1,6 @@
 ---
 
-- include_vars: ../../../config.yml
+- include: ../../../playbooks/load_config.yml
 
   #Slurmdbd prerequisites
 - name: Install slurmdbd prerequisites
