@@ -45,6 +45,13 @@ HEXA_HTTPS_LINK="https://github.com/AnKosteck/Hexa.git"
 REPO_NAME="Hexa"
 HOSTS_FILE="hexa_hosts_example"
 FORKS="5"
+
+HEXA_ACCOUNTING="/root/Hexa/samples/slurm_accounts_example.yml"
+HEXA_CONFIG="/root/Hexa/samples/config_template.yml"
+HEXA_GROUPS="/root/Hexa/samples/groups_example.yml"
+HEXA_PARTITIONS="/root/Hexa/samples/partition_config_example.yml"
+HEXA_SSH_LIMITS="/root/Hexa/samples/ssh_access_limits_example.yml"
+HEXA_USERS="/root/Hexa/samples/users_example.yml"
 ```
 supply your own [config.yml](config_template.yml) and execute the script via `./first_start.sh`
 This script sets up Ansible and Git, then clones the Hexa Repository and finishes off by calling 
@@ -55,34 +62,5 @@ From then on, the cluster can be managed with Ansible and *Hexa*.
 [first_start.yml](https://github.com/AnKosteck/Hexa/blob/master/playbooks/first_start/first_start.yml) sets up a second interface for internal services (PXE, DHCP, ...) and disables SELinux (in future *Hexa* should work with SELinux). After the frontend hast been restarted, *Hexa* should be usable.
 
 ## Templates and examples
-### config_template.yml and config.yml
-`config.yml` is the main configuration file, meaning it is here where most of the variables for the cluster or *Hexa* are defined. In [`config_template.yml`](config_template.yml) all needed and used variables can be seen with example settings.
-### groups_example.yml and group.yml
-In `groups.yml` all groups from user accounts can be defined, a few examples are shown in [`groups_example.yml`](groups_example.yml). Those groups can be deployed via
-```
-ansible-playbook playbooks/sync_users.yml
-```
-Please have a look at [usertool](https://github.com/AnKosteck/usertool) which can generate such files.
-### hexa_hosts_example and the Ansible inventory
-In order to use *Hexa* some host variables and host groups need to be defined. In [`hexa_hosts_example`](hexa_hosts_example) some examples are shown.
-### partition_config_example.yml and partition_config.yml
-In `partition_config.yml` are the partitions of a Slurm cluster defined, have a look at [`partition_config_example.yml`](partition_config_example.yml) for examples.
-### slurm_accounts_example.yml and slurm_accounts.yml
-*Hexa* uses accouting in Slurm to restrict accesses to cluster nodes. For that, some accounts have to be created in Slurm. Examples are shown in [`slurm_accounts_example.yml`](slurm_accounts_example.yml) and can be added to the Slurm cluster via 
-```
-ansible-playbook playbooks/slurm_accounting.yml
-```
-This playbook expects a `slurm_accounts.yml` in the *Hexa* root.
-### ssh_access_limits_example.yml and ssh_access_limits.yml
-These Ansible variables are used in the [common](https://github.com/AnKosteck/Hexa/tree/master/roles/common) role inside the [limit_ssh.yml](https://github.com/AnKosteck/Hexa/blob/master/roles/common/tasks/limit_ssh.yml) play. Any cluster node being defined here is automatically restricted to the following
-```
-AllowUsers {{ssh_anywhere}} {{ssh_access_limits[ansible_hostname]}}
-```
-So this play essentially sets the `AllowUsers` line in the sshd_config of a system.
-### users_example.yml and users.yml
-In `users.yml` all user accounts eligible for using the cluster are defined, a few examples analogue to the groups are shown in [`users_example.yml`](users_example.yml). Those users can be deployed via
-```
-ansible-playbook playbooks/sync_users.yml
-```
-and please have a look at [usertool](https://github.com/AnKosteck/usertool) which can generate such files.
+In the [samples](samples/) folder examples and templates are given for you to start with.
 

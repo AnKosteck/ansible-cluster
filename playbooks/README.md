@@ -28,3 +28,4 @@ This playbook syncs all hosts defined in the Ansible inventory with the Cobbler 
 This playbook represents the user management of *Hexa*. Any user or group defined in [users.yml](../users_example.yml) or [groups.yml](../groups_example.yml) will be added on every computing relevant node. Please look at [usertool](https://github.com/AnKosteck/usertool) which can create such files taking local users (passwd) on BSD or GNU/Linux systems.
 ### update.yml
 With this playbook every node can be fully updated.
+
