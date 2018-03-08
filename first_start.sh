@@ -65,13 +65,20 @@ echo "roles_path = /root/$REPO_NAME/roles"                 >> /root/.ansible.cfg
 echo "forks      = $FORKS"                                 >> /root/.ansible.cfg
 
 print_section "Environment"
-echo "HEXA_ACCOUNTING=\"$HEXA_ACCOUNTING\""   >> /root/.bashrc
-echo "HEXA_CONFIG=\"$HEXA_CONFIG\""           >> /root/.bashrc
-echo "HEXA_GROUPS=\"$HEXA_GROUPS\""           >> /root/.bashrc
-echo "HEXA_PARTITIONS=\"$HEXA_PARTITIONS\""   >> /root/.bashrc
-echo "HEXA_SSH_LIMITS=\"$HEXA_SSH_LIMITS\""   >> /root/.bashrc
-echo "HEXA_USERS=\"$HEXA_USERS\""             >> /root/.bashrc
-echo "*** Do not forget to set your own variables, please look at /root/.bashrc ***"
+echo "HEXA_ACCOUNTING=\"$HEXA_ACCOUNTING\""   >> /root/.bash_profile
+echo "HEXA_CONFIG=\"$HEXA_CONFIG\""           >> /root/.bash_profile
+echo "HEXA_GROUPS=\"$HEXA_GROUPS\""           >> /root/.bash_profile
+echo "HEXA_PARTITIONS=\"$HEXA_PARTITIONS\""   >> /root/.bash_profile
+echo "HEXA_SSH_LIMITS=\"$HEXA_SSH_LIMITS\""   >> /root/.bash_profile
+echo "HEXA_USERS=\"$HEXA_USERS\""             >> /root/.bash_profile
+echo "" >> /root/.bash_profile
+echo "export HEXA_ACCOUNTING"                 >> /root/.bash_profile
+echo "export HEXA_CONFIG"                     >> /root/.bash_profile
+echo "export HEXA_GROUPS"                     >> /root/.bash_profile
+echo "export HEXA_PARTITIONS"                 >> /root/.bash_profile
+echo "export HEXA_SSH_LIMITS"                 >> /root/.bash_profile
+echo "export HEXA_USERS"                      >> /root/.bash_profile
+echo "*** Do not forget to set your own variables, please look at /root/.bash_profile and then source that ***"
 
 print_section "Call ansible first_start script"
 ansible-playbook playbooks/first_start/first_start.yml
