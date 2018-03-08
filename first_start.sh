@@ -78,6 +78,7 @@ echo "export HEXA_GROUPS"                     >> /root/.bash_profile
 echo "export HEXA_PARTITIONS"                 >> /root/.bash_profile
 echo "export HEXA_SSH_LIMITS"                 >> /root/.bash_profile
 echo "export HEXA_USERS"                      >> /root/.bash_profile
+source /root/.bash_profile
 echo "*** Do not forget to set your own variables, please look at /root/.bash_profile and then source that ***"
 
 print_section "Call ansible first_start script"
