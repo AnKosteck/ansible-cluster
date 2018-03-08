@@ -3,12 +3,12 @@ In this folder some examples and templates are given. What is shown here is actu
 
 ## The environment
 The [first start script](../first_start.sh) already sets the needed environment variables which are listed below
-- HEXA_CONFIG
-- HEXA_SSH_LIMITS
-- HEXA_PARTITIONS
 - HEXA_ACCOUNTING
-- HEXA_USERS
+- HEXA_CONFIG
 - HEXA_GROUPS
+- HEXA_PARTITIONS
+- HEXA_SSH_LIMITS
+- HEXA_USERS
 
 Those variables should point to _your_ own configurations, which are explained below.
 
