@@ -3,8 +3,8 @@
 - hosts: login compute frontend home_server
   
   tasks:
-    - include_vars: ../groups.yml
-    - include_vars: ../users.yml
+    - include: load_groups.yml
+    - include: load_users.yml
 
     - name: Update all user groups
       group:
@@ -33,7 +33,7 @@
 - hosts: home_server
 
   tasks:
-    - include_vars: ../users.yml
+    - include: load_users.yml
     
     - name: Create user homes
       file: 

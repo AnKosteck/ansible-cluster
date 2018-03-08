@@ -1,6 +1,7 @@
  ---
 
-- include_vars: ../../../partition_config.yml
+- name: Loading main config
+  include_vars: "{{ lookup('env','HEXA_PARTITIONS') }}"
 
   #Create credentials
 - name: SLURM group

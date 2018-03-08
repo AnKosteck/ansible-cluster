@@ -1,6 +1,7 @@
 ---
 
-- include_vars: ../../../ssh_access_limits.yml
+- name: Loading ssh limits
+  include_vars: "{{ lookup('env','HEXA_SSH_LIMITS') }}"
 
 - name: Limit ssh
   lineinfile:
