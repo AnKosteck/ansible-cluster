@@ -15,7 +15,7 @@ This means that the deployment of a cluster becomes as easy as
 ansible-playbooks playbooks/clustersetup.yml
 ```
 
-All an admin needs to customize or supply are the `example` and `template` files.
+All an admin needs to customize or supply are the `example` and `template` files in the [samples](samples/) folder.
 
 ## What does Hexa do?
 There are several roles implemented in Hexa:
@@ -53,7 +53,7 @@ HEXA_PARTITIONS="/root/Hexa/samples/partition_config_example.yml"
 HEXA_SSH_LIMITS="/root/Hexa/samples/ssh_access_limits_example.yml"
 HEXA_USERS="/root/Hexa/samples/users_example.yml"
 ```
-supply your own [config.yml](config_template.yml) and execute the script via `./first_start.sh`
+supply your own configurations (please look at the [samples](samples/)) and execute the script via `./first_start.sh`
 This script sets up Ansible and Git, then clones the Hexa Repository and finishes off by calling 
 ```
 ansible-playbook playbooks/first_start/first_start.yml
