@@ -10,14 +10,25 @@ function print_section() {
   echo "################ [$1]"
 }
 
-# Setting facts
+#**************************************************************************************************
+#*** Setting facts
 #TODO Set your own facts, execute as root
+
 declare -A NEEDED_HOSTS=(["192.168.1.254"]="$(hostname) $(hostname -f) $(hostname -s)" ["192.168.1.15"]="needed_host_X")
 HEXA_HTTPS_LINK="https://github.com/AnKosteck/Hexa.git"
 #HEXA_SSH_LINK="git@github.com:AnKosteck/Hexa.git"
 REPO_NAME="Hexa"
 HOSTS_FILE="hexa_hosts_example"
 FORKS="5"
+
+HEXA_CONFIG="/root/Hexa/samples/config_template.yml"
+HEXA_SSH_LIMITS="/root/Hexa/samples/ssh_access_limits.yml"
+HEXA_PARTITIONS="/root/Hexa/samples/partition_config.yml"
+HEXA_ACCOUNTING="/root/Hexa/samples/slurm_accounts.yml"
+HEXA_USERS="/root/Hexa/samples/users.yml"
+HEXA_GROUPS="/root/Hexa/samples/groups.yml"
+
+#**************************************************************************************************
 
 # Install ansible and git
 print_section "Install ansible and git"
@@ -53,5 +64,15 @@ echo "inventory  = /root/$REPO_NAME/$HOSTS_FILE"           >> /root/.ansible.cfg
 echo "roles_path = /root/$REPO_NAME/roles"                 >> /root/.ansible.cfg
 echo "forks      = $FORKS"                                 >> /root/.ansible.cfg
 
+print_section "Environment"
+echo "HEXA_CONFIG=\"$HEXA_CONFIG\""           >> /root/.bashrc
+echo "HEXA_SSH_LIMITS=\"$HEXA_SSH_LIMITS\""   >> /root/.bashrc
+echo "HEXA_PARTITIONS=\"$HEXA_PARTITIONS\""   >> /root/.bashrc
+echo "HEXA_ACCOUNTING=\"$HEXA_ACCOUNTING\""   >> /root/.bashrc
+echo "HEXA_USERS=\"$HEXA_USERS\""             >> /root/.bashrc
+echo "HEXA_GROUPS=\"$HEXA_GROUPS\""           >> /root/.bashrc
+echo "*** Do not forget to set your own variables, please look at /root/.bashrc ***"
+
 print_section "Call ansible first_start script"
 ansible-playbook playbooks/first_start/first_start.yml
+
