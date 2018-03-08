@@ -21,12 +21,12 @@ REPO_NAME="Hexa"
 HOSTS_FILE="hexa_hosts_example"
 FORKS="5"
 
+HEXA_ACCOUNTING="/root/Hexa/samples/slurm_accounts_example.yml"
 HEXA_CONFIG="/root/Hexa/samples/config_template.yml"
-HEXA_SSH_LIMITS="/root/Hexa/samples/ssh_access_limits.yml"
-HEXA_PARTITIONS="/root/Hexa/samples/partition_config.yml"
-HEXA_ACCOUNTING="/root/Hexa/samples/slurm_accounts.yml"
-HEXA_USERS="/root/Hexa/samples/users.yml"
-HEXA_GROUPS="/root/Hexa/samples/groups.yml"
+HEXA_GROUPS="/root/Hexa/samples/groups_example.yml"
+HEXA_PARTITIONS="/root/Hexa/samples/partition_config_example.yml"
+HEXA_SSH_LIMITS="/root/Hexa/samples/ssh_access_limits_example.yml"
+HEXA_USERS="/root/Hexa/samples/users_example.yml"
 
 #**************************************************************************************************
 
@@ -65,12 +65,12 @@ echo "roles_path = /root/$REPO_NAME/roles"                 >> /root/.ansible.cfg
 echo "forks      = $FORKS"                                 >> /root/.ansible.cfg
 
 print_section "Environment"
-echo "HEXA_CONFIG=\"$HEXA_CONFIG\""           >> /root/.bashrc
-echo "HEXA_SSH_LIMITS=\"$HEXA_SSH_LIMITS\""   >> /root/.bashrc
-echo "HEXA_PARTITIONS=\"$HEXA_PARTITIONS\""   >> /root/.bashrc
 echo "HEXA_ACCOUNTING=\"$HEXA_ACCOUNTING\""   >> /root/.bashrc
-echo "HEXA_USERS=\"$HEXA_USERS\""             >> /root/.bashrc
+echo "HEXA_CONFIG=\"$HEXA_CONFIG\""           >> /root/.bashrc
 echo "HEXA_GROUPS=\"$HEXA_GROUPS\""           >> /root/.bashrc
+echo "HEXA_PARTITIONS=\"$HEXA_PARTITIONS\""   >> /root/.bashrc
+echo "HEXA_SSH_LIMITS=\"$HEXA_SSH_LIMITS\""   >> /root/.bashrc
+echo "HEXA_USERS=\"$HEXA_USERS\""             >> /root/.bashrc
 echo "*** Do not forget to set your own variables, please look at /root/.bashrc ***"
 
 print_section "Call ansible first_start script"
