@@ -14,10 +14,6 @@
 - hosts: common:!frontend
   roles:
     - { role: ntp_client }
-    
-- hosts: mgt
-  roles:
-    - { role: mgt }
 
 - hosts: webserver:!frontend
   roles:

@@ -26,9 +26,6 @@ hexaib sockets=1 cores_per_socket=8 threads_per_core=2
 hexa_login1 eth1=192.168.1.251 mac1="c2:c3:c4:c5:c6:c7"
 hexa_login2 eth1=192.168.1.252 mac1="d1:d2:d3:d4:d5:d6"
 
-[mgt]
-hexa_frontend
-
 #ATTENTION: 1 home_server and 1 app_server, set hostname to hostname + infiniband domain for ipoib
 [home_server]
 hexa_frontend home_export="/mnt/export/home" export_options="rw,async,no_root_squash"
