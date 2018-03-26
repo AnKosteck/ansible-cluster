@@ -1,6 +1,6 @@
 ---
 
-- name: Loading main config
+- name: Loading Hexa groups
   include_vars: "{{ lookup('env','HEXA_GROUPS') }}"
 
 ...
