@@ -1,6 +1,6 @@
 ---
 
-- hosts: common
+- hosts: compute
   roles:
     - { role: compute }
 
