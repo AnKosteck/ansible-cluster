@@ -2,10 +2,6 @@
 
 - include_vars: packages.yml
 
-#- name: Install cobbler repo
-#  copy: src="cobbler28_{{ansible_distribution}}.repo" dest=/etc/yum.repos.d/ backup=no mode=0644
-#  register: cobbler_repo
-
 - name: Install cobbler packages
   yum: name={{item}} state=present
   register: cobbler_installation

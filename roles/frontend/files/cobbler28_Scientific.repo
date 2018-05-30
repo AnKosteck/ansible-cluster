@@ -1,7 +1,0 @@
-[home_libertas-ict_cobbler28]
-name=Cobbler (2.8.x) (ScientificLinux_7)
-type=rpm-md
-baseurl=http://download.opensuse.org/repositories/home:/libertas-ict:/cobbler28/ScientificLinux_7/
-gpgcheck=1
-gpgkey=http://download.opensuse.org/repositories/home:/libertas-ict:/cobbler28/ScientificLinux_7//repodata/repomd.xml.key
-enabled=1
