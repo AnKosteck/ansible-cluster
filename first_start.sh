@@ -81,6 +81,12 @@ echo "export HEXA_USERS"                      >> /root/.bash_profile
 source /root/.bash_profile
 echo "*** Do not forget to set your own variables, please look at /root/.bash_profile and then source that ***"
 
+print_section "Generate users.digest"
+mkdir -p /etc/cobbler
+yum -y install httpd
+echo "Input your password for the cobbler user for Cobbler Web"
+htdigest -c /etc/cobbler/users.digest "Cobbler" cobbler
+
 print_section "Call ansible first_start script"
 ansible-playbook playbooks/first_start/first_start.yml
 

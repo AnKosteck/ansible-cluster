@@ -17,8 +17,6 @@
 - name: Copy sources.conf
   copy: src=sources.conf dest=/etc/httpd/conf.d/sources.conf owner=root mode=0644
   register: sources_conf
-- name: Copy users.digest
-  copy: src=users.digest dest=/etc/cobbler/users.digest owner=root mode=0644 backup=no
   
   #Copy cobbler templates
 - name: Template cobbler settings

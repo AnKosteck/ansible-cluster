@@ -12,11 +12,9 @@ external_interface: eno2
 internal_interface: eno1
 hwaddr_internal: "aa:aa:aa:aa:aa:aa"
 hwaddr_external: "bb:bb:bb:bb:bb:bb"
-###openssl passwd -1, for uber-secure password 'testpassword1234'
-###needed for cobbler
+###openssl passwd -1, for the super-secure password 'testpassword1234'
+###needed for cobbler on system creation
 root_password_md5: $1$Oy507HgT$/BGDUsFA/QX2VnyFOoEZA0
-##htdigest roles/frontend/files/users.digest "Cobbler" cobbler
-###needed for cobbler web, again with the ultra secure 'testpassword1234'
 ##For ssh key distribution, frontend -> nodes
 root_ssh_publickey: "<INSERT-SSH-PKEY-HERE>"
 
