@@ -30,6 +30,8 @@ locale: "en"
 #network config
 ip_startaddress_internal: 10.0.0.0
 ip_startaddress_external: 192.168.1.0
+dhcp_start_address: 10.0.100.1
+dhcp_end_address: 10.0.100.200
 netmask_internal: 16
 netmask_internal_long: 255.255.0.0
 netmask_external: 24
