@@ -12,7 +12,7 @@ no-poll
 read-ethers
 addn-hosts = /var/lib/cobbler/cobbler_hosts
 
-dhcp-range=dhcp_start_address,dhcp_end_address,72h
+dhcp-range={{dhcp_start_address}},{{dhcp_end_address}},72h
 dhcp-option=3,$next_server
 dhcp-lease-max=1000
 dhcp-authoritative
