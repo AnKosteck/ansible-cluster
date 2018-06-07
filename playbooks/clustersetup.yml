@@ -7,6 +7,10 @@
   roles:
     - { role: fs, nfs_export: "{{app_export}}" }
 
+- hosts: opensm
+  roles:
+    - { role: opensm }
+
 - hosts: common
   roles:
     - { role: common }

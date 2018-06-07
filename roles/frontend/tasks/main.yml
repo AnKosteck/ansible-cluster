@@ -19,8 +19,6 @@
 - include: cobbler.yml
 - include: cockpit.yml
 - include: ntp-server.yml
-- include: opensm.yml
-  when: ibtype != 'none'
 
 - name: Enable and start system services
   service: name={{item}} state=started enabled=yes

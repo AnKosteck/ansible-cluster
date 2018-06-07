@@ -14,6 +14,9 @@ hexa_web osVariant=rhel7.1
 [frontend]
 hexa_frontend
 
+[opensm]
+hexa_frontend
+
 [gpucompute]
 hexaib
 

@@ -1,0 +1,7 @@
+---
+
+- hosts: opensm
+  roles:
+    - { role: opensm }
+
+...
