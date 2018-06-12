@@ -51,7 +51,7 @@ cockpit_packages:
   - cockpit-ws
   - cockpit-shell
   - cockpit-bridge
-  - cockpit-storaged
+#  - cockpit-storaged
   - smartmontools
 ganglia_server_packages:
   - ganglia
