@@ -1,6 +1,6 @@
 DEVICE="br0"
 TYPE="Bridge"
-IPADDR="{{server_ip_internal}}"
+IPADDR="{{eth0}}"
 NETMASK="{{netmask_internal_long}}"
 ONBOOT="yes"
 BOOTPROTO="none"

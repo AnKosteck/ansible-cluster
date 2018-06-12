@@ -1,6 +1,6 @@
 DEVICE="{{internal_interface}}"
 TYPE="Ethernet"
-HWADDR="{{hwaddr_internal}}"
+HWADDR="{{mac0}}"
 BOOTPROTO="none"
 ONBOOT="yes"
 NM_CONTROLLED="no"

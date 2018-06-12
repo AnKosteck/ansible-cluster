@@ -27,7 +27,7 @@
   register: ntp_status
   
 - name: Sync manually the time with the ntp server after first start
-  command: ntpdate -u {{server_ip_internal}}
+  command: ntpdate -u {{hostvars[groups['frontend'][0]]['eth0']}}
   when: ntp_status.changed 
 
 ...

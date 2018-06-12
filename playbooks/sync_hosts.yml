@@ -38,7 +38,7 @@
       register: cobbler_systems
       
     - name: Add cobbler system if not yet done
-      command: cobbler system add --name="{{item}}" --hostname="{{item}}" --dns-name="{{item}}".{{clustername}} --ip-address="{{hostvars[item]['eth0']}}" --netmask="{{netmask_internal_long}}" --gateway={{server_ip_internal}} --static=0 --interface=eth0 --profile="{{hostvars[item]['profile']}}" --mac="{{hostvars[item]['mac0']}}" --management=true
+      command: cobbler system add --name="{{item}}" --hostname="{{item}}" --dns-name="{{item}}".{{clustername}} --ip-address="{{hostvars[item]['eth0']}}" --netmask="{{netmask_internal_long}}" --gateway={{eth0}} --static=0 --interface=eth0 --profile="{{hostvars[item]['profile']}}" --mac="{{hostvars[item]['mac0']}}" --management=true
       with_items: "{{groups['common']}}"
       when: "item not in cobbler_systems.stdout"
       

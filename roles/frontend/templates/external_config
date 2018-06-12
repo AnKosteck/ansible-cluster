@@ -1,6 +1,6 @@
 DEVICE="{{external_interface}}"
 TYPE="Ethernet"
-HWADDR="{{hwaddr_external}}"
+HWADDR="{{mac1}}"
 BOOTPROTO="none"
 ONBOOT="yes"
 NM_CONTROLLED="no"
