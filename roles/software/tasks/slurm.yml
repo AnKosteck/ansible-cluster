@@ -29,7 +29,7 @@
 - name: Template the slurm script
   template: src=slurm.sh dest={{install_scripts_dir}}/slurm.sh owner=root group=root mode=0744 backup=no
 - name: Execute the slurm script
-  shell: /root/slurm.sh creates="{{build_anchors}}/slurmbuild.log"
+  shell: {{install_scripts_dir}}/slurm.sh creates="{{build_anchors}}/slurmbuild.log"
   
   #Create dirs and set permissions
 - name: Create slurm directories in /var/spool
