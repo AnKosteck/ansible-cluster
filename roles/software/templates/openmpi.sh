@@ -18,4 +18,5 @@ make check                                             2>1 >> $LOG
 echo "+++++++++++++++++++++ inst +++++++++++++++++++++"    >> $LOG
 make install                                           2>1 >> $LOG
 
-rm -rf {{openmpiinfo['dest']}}/{{openmpiinfo['filename']}}
+cd /root
+rm -rf {{source_download_dir}}/openmpi-{{openmpiinfo['version']}}
