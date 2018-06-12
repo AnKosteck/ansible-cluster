@@ -10,8 +10,6 @@ email: "example@hpc"
 #Frontend config
 external_interface: eno2
 internal_interface: eno1
-hwaddr_internal: "aa:aa:aa:aa:aa:aa"
-hwaddr_external: "bb:bb:bb:bb:bb:bb"
 ###openssl passwd -1, for the super-secure password 'testpassword1234'
 ###needed for cobbler on system creation
 root_password_md5: $1$Oy507HgT$/BGDUsFA/QX2VnyFOoEZA0
@@ -36,8 +34,6 @@ netmask_internal: 16
 netmask_internal_long: 255.255.0.0
 netmask_external: 24
 netmask_external_long: 255.255.255.0
-server_ip_internal: 10.0.0.254
-server_ip_external: 192.168.1.254
 main_gateway: 192.168.1.1
 dns1: 208.67.222.222
 dns2: 208.67.220.220

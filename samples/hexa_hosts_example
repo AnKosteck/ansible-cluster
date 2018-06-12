@@ -12,7 +12,7 @@ hexa_login1 eth0=10.0.0.251 profile=sl_64bit mac0="hh:hh:hh:hh:hh:hh" ibtype=def
 hexa_web osVariant=rhel7.1
 
 [frontend]
-hexa_frontend
+hexa_frontend eth1=192.168.1.254 mac1="a1:b0:a2:b1:a3:b2"
 
 [opensm]
 hexa_frontend
@@ -37,5 +37,5 @@ hexa_frontend home_export="/mnt/export/home" export_options="rw,async,no_root_sq
 hexa_frontend app_export="/mnt/export/apps" export_options="rw,async,no_root_squash"
 
 [webserver]
-hexa_frontend eth1=192.168.1.254 mac1="a1:b0:a2:b1:a3:b2" webservername=192.168.1.254 ssl_certificate_type=self
+hexa_frontend webservername=192.168.1.254 ssl_certificate_type=self
 hexa_web eth1=192.168.1.253 mac1="aa:bb:cc:dd:ee:ff" webservername=hpc-web.org ssl_certificate_type=official
