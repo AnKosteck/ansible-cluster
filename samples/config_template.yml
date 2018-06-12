@@ -54,6 +54,7 @@ ibifcfg_mtu: 65520
 #For webserver
 ssl_files:
   official:
+# Paths are relative to the tasks dir of webserver role
     cert: {src: "../../../webserver_cert/cert.pem", dest: "/etc/pki/tls/certs/cert.pem", config_prefix="SSLCertificateFile"}
     key: {src: "../../../webserver_cert/HPC.KEY", dest: "/etc/pki/tls/private/HPC.KEY", config_prefix="SSLCertificateKeyFile"}
     chain: {src: "../../../webserver_cert/chain.pem", dest: "/etc/pki/tls/certs/chain.pem", config_prefix="SSLCertificateChainFile"}
@@ -67,20 +68,20 @@ build_anchors: /root/build_hooks
 install_scripts_dir: /root/install_scripts
 source_download_dir: /root/sources
 openmpiinfo:
-  version: 2.1.1
-  url: https://www.open-mpi.org/software/ompi/v2.1/downloads/openmpi-2.1.1.tar.gz
-  filename: openmpi-2.1.1.tar.gz
+  version: 3.1.0
+  url: https://download.open-mpi.org/release/open-mpi/v3.1/openmpi-3.1.0.tar.gz
+  filename: openmpi-3.1.0.tar.gz
   prefix: /opt/openmpi
   flags: "--enable-mpi-thread-multiple"
 #slurm vars
 slurminfo:
-  filename: slurm-slurm-16-05-11-1.tar.gz
-  extracted_filename: slurm-slurm-16-05-11-1
+  filename: slurm-17-11-7-1.tar.gz
+  extracted_filename: slurm-slurm-17-11-7-1
   prefix: /opt/slurm
   statedir: /var/run/slurm
   sysconfdir: /opt/slurm/etc
-  version: 16.05.11
-  url: https://github.com/SchedMD/slurm/archive/slurm-16-05-11-1.tar.gz
+  version: 17.11.7
+  url: https://github.com/SchedMD/slurm/archive/slurm-17-11-7-1.tar.gz
 slurmdbd_config:
   storagehost: localhost
   storageloc: slurm_acct_db
