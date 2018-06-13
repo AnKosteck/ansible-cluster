@@ -1,8 +1,5 @@
 ---
 
-- name: Load slurm partitions config
-  include_vars: "{{ lookup('env','HEXA_PARTITIONS') }}"
-
   #Create credentials
 - name: SLURM group
   group: name=slurm gid=395 state=present system=yes
@@ -35,48 +32,5 @@
 - name: Reload systemd daemons if needed
   systemd:
     daemon_reload: yes
-  
-  #Create dirs and set permissions
-- name: Create slurm directories in /var/spool
-  file: path=/var/spool/{{item}} state=directory owner=slurm group=slurm mode=0755
-  with_items:
-    - slurmctld
-    - slurmd
-- name: Create slurm log dir
-  file: path=/var/log/slurm state=directory owner=slurm group=slurm mode=0755
-- name: Create /var/run/slurm
-  file: path=/var/run/slurm state=directory owner=slurm group=slurm mode=0755
-- name: Create /opt/slurm/etc
-  file: path="{{slurminfo['sysconfdir']}}" state=directory owner=slurm group=slurm mode=0755
-
-  #Copy Config
-- name: Template the slurm.conf
-  template: src=slurm.conf dest="{{slurminfo['sysconfdir']}}/slurm.conf" owner=root group=root mode=0644
-  register: slurm_config
-- name: Template the slurmdbd.conf
-  template: src=slurmdbd.conf dest="{{slurminfo['sysconfdir']}}/slurmdbd.conf" owner=root group=root mode=0600
-  register: slurmdbd_configuration_file
-
-  #Restart the services if needed
-- name: Restart slurmd
-  service: name=slurmd state=restarted
-  when: "'frontend' not in group_names and slurm_config.changed"
-- name: Restart slurmctld
-  service: name=slurmctld state=restarted
-  when: "'frontend' in group_names and slurm_config.changed"
-- name: Restart slurmdbd
-  service: name=slurmdbd state=restarted
-  when: "'frontend' in group_names and slurmdbd_configuration_file.changed"
-  
-  #Start and enable the services
-- name: Start slurmd
-  service: name=slurmd state=started enabled=yes
-  when: "'frontend' not in group_names"
-- name: Start slurmctld
-  service: name=slurmctld state=started enabled=yes
-  when: "'frontend' in group_names"
-- name: Start slurmdbd
-  service: name=slurmdbd state=started enabled=yes
-  when: "'frontend' in group_names"
-
+    
 ...

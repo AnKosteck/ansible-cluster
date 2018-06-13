@@ -31,15 +31,27 @@
   roles:
     - { role: compute }
     
-  #For slurmdbd
-- hosts: frontend
+  #For software and slurm
+- hosts: slurmdbd
   roles:
     - { role: mariadb }
-    
 - hosts: compute login frontend
   roles:
     - { role: software }
-
+- hosts: slurmdbd
+  roles:
+    - { role: slurmdbd }
+- hosts: frontend
+  roles:
+    - { role: slurmctld }
+- hosts: compute
+  roles:
+    - { role: compute }
+    
+- hosts: login
+  roles:
+    - { role: login }
+    
 #- hosts: gpucompute
 #  roles:
 #    - { role: gpu }

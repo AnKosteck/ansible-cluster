@@ -1,0 +1,20 @@
+---
+
+  #Set up Slurm
+- hosts: slurmdbd
+  roles:
+    - { role: mariadb }
+- hosts: compute login frontend
+  roles:
+    - { role: software }
+- hosts: slurmdbd
+  roles:
+    - { role: slurmdbd }
+- hosts: frontend
+  roles:
+    - { role: slurmctld }
+- hosts: compute
+  roles:
+    - { role: compute }
+
+...

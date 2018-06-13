@@ -1,0 +1,34 @@
+---
+  
+- include: ../../../playbooks/load_slurm_partitions.yml
+  
+  #Copy Config
+- name: Template the slurm.conf
+  template: src=../../../slurm.conf dest="/etc/slurm/slurm.conf" owner=root group=root mode=0644
+  register: slurm_config
+  
+  #Create dirs and set permissions
+- name: Create slurm directories in /var/spool
+  file: path=/var/spool/slurmd state=directory owner=slurm group=slurm mode=0755
+- name: Create /var/run/slurm
+  file: path=/var/run/slurm state=directory owner=slurm group=slurm mode=0755
+- name: Create slurm log dir
+  file: path=/var/log/slurm state=directory owner=slurm group=slurm mode=0755
+  
+  # Fix slurm timeouts
+- name: Comment out PIDFile in slurmd.service
+  lineinfile: dest=/usr/lib/systemd/system/slurmd.service regexp=^#?PIDFile line="#PIDFile" backup=yes
+  register: slurmd_unit
+  
+- name: Reload systemd units
+  shell: systemctl daemon-reload
+  when: slurmd_unit.changed
+
+- name: Start slurmd
+  service: name=slurmd state=started enabled=yes
+  
+- name: Restart slurmd
+  service: name=slurmd state=restarted
+  when: slurm_config.changed
+
+...

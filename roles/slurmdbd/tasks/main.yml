@@ -1,0 +1,40 @@
+---
+
+- include: ../../../playbooks/load_config.yml
+- include: ../../../playbooks/load_slurm_partitions.yml
+    
+  #Create dirs and set permissions
+- name: Create slurm directories in /var/spool
+  file: path=/var/spool/{{item}} state=directory owner=slurm group=slurm mode=0755
+  with_items:
+    - slurmctld
+    - slurmd
+- name: Create /var/run/slurm
+  file: path=/var/run/slurm state=directory owner=slurm group=slurm mode=0755
+- name: Create slurm log dir
+  file: path=/var/log/slurm state=directory owner=slurm group=slurm mode=0755
+
+- name: Template the slurm.conf
+  template: src=../../../slurm.conf dest="/etc/slurm/slurm.conf" owner=root group=root mode=0644
+  register: slurm_config
+  
+- name: Template the slurmdbd.conf
+  template: src=../../../slurmdbd.conf dest="/etc/slurm/slurmdbd.conf" owner=root group=root mode=0600
+  register: slurmdbd_configuration_file
+  
+- name: Comment out PIDFile in slurmdbd.service
+  lineinfile: dest=/usr/lib/systemd/system/slurmdbd.service regexp=^#?PIDFile line="#PIDFile" backup=yes
+  register: slurmdbd_unit
+  
+- name: Reload systemd units
+  shell: systemctl daemon-reload
+  when: slurmdbd_unit.changed
+  
+- name: Start slurmdbd
+  service: name=slurmdbd state=started enabled=yes
+  
+- name: Restart slurmdbd
+  service: name=slurmdbd state=restarted
+  when: slurmdbd_configuration_file.changed or slurm_config.changed
+
+...

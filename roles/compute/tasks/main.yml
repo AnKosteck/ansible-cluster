@@ -6,6 +6,7 @@
 
 - include: ../../../playbooks/load_config.yml
 
+- include: slurmd.yml
 - include: ganglia-client.yml
 
 ...
