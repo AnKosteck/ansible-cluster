@@ -15,7 +15,7 @@
   file: path=/var/log/slurm state=directory owner=slurm group=slurm mode=0755
 
 - name: Template the slurm.conf
-  template: src=../../../slurm.conf dest="/etc/slurm/slurm.conf" owner=root group=root mode=0644
+  template: src=slurm.conf dest="/etc/slurm/slurm.conf" owner=root group=root mode=0644
   register: slurm_config
   
 - name: Template the slurmdbd.conf
