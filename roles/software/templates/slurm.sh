@@ -16,7 +16,13 @@ make install                                                   2>1 >> $LOG
 
 {% if 'frontend' in group_names %}
 cp etc/slurmctld.service /usr/lib/systemd/system/              2>1 >> $LOG
+{% endif %}
+{% if 'slurmdbd' in group_names %}
 cp etc/slurmdbd.service /usr/lib/systemd/system/               2>1 >> $LOG
-{% else %}
+{% endif %}
+{% if 'frontend' not in group_names and 'slurmdbd' not in group_names %}
 cp etc/slurmd.service /usr/lib/systemd/system/                 2>1 >> $LOG
 {% endif %}
+
+cd ..
+rm -rf {{slurminfo['extracted_filename']}}
