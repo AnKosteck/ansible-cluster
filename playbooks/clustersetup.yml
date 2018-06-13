@@ -26,10 +26,6 @@
 - hosts: webserver
   roles:
     - { role: webserver }
-
-- hosts: compute
-  roles:
-    - { role: compute }
     
   #For software and slurm
 - hosts: slurmdbd
