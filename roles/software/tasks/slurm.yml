@@ -34,7 +34,7 @@
     mode: 0744
     backup: no
 - name: Execute the slurm script
-  shell: {{install_scripts_dir}}/slurm.sh
+  shell: "{{install_scripts_dir}}/slurm.sh"
     creates: "{{build_anchors}}/slurmbuild.log"
   register: slurm_installation
   
