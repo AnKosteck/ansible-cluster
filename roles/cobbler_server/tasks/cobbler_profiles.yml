@@ -8,7 +8,7 @@
 - name: Create cobbler profiles
   command: cobbler profile add --name={{item.name}}_64bit --distro={{item.name}}{{item.version}}-x86_64 --kickstart=/var/lib/cobbler/kickstarts/{{item.kickstart}} --in-place
   with_items: "{{distros}}"
-  when: "{{item.name}}_64bit not in cobbler_profiles.stdout"
+  when: "item.name + _64bit" not in cobbler_profiles.stdout
 
 - name: Always edit profiles
   command: cobbler profile edit --name={{item.name}}_64bit --distro={{item.name}}{{item.version}}-x86_64 --kickstart=/var/lib/cobbler/kickstarts/{{item.kickstart}} --repos="{{item.repos}}" --in-place --ksmeta="codename={{item.codename}}"

@@ -21,7 +21,7 @@
 - name: Import distros into cobbler
   command: cobbler import --name={{item.name}}{{item.version}} --breed={{item.breed}} --arch=x86_64 --path=/mnt/{{item.name}}
   with_items: "{{distros}}"
-  when: "{{item.name}}{{item.version}}-x86_64 not in cobbler_distros.stdout"
+  when: "item.name + item.version + x86_64" not in cobbler_distros.stdout
   register: new_distros
 
 - name: Remove fstab entries for isos and unmount

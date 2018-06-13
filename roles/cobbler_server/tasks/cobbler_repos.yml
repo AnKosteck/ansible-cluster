@@ -7,19 +7,16 @@
 - name: Edit existing repos
   shell: cobbler repo edit --name={{item.name}} --mirror={{item.mirror}} --breed={{item.breed}} --keep-updated=y
   with_items: "{{cobbler_repos}}"
-  when: "{{item.name}} in cobbler_repolist.stdout"
+  when: item.name in cobbler_repolist.stdout
 
 - name: Add new repos
   shell: cobbler repo add --name={{item.name}} --mirror={{item.mirror}} --breed={{item.breed}} --keep-updated=y
   with_items: "{{cobbler_repos}}"
-  when: "{{item.name}} not in cobbler_repolist.stdout"
+  when: item.name not in cobbler_repolist.stdout
 
 - name: Create weekly cron job for reposync
   cron:
     name: "Cobbler reposync"
-    minute: 0
-    hour: 0
-    weekday: 0
     special_time: weekly
     job: "cobbler reposync"
     state: present
