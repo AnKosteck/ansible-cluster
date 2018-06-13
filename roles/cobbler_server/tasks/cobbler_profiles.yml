@@ -10,14 +10,8 @@
   with_items: "{{distros}}"
   when: "{{item.name}}_64bit not in cobbler_profiles.stdout"
 
-- name: Edit profiles first time
-  command: cobbler profile edit --name={{item.name}}_64bit --in-place --ksmeta="codename={{item.codename}}" --repos="{{item.repos}}"
-  with_items: "{{distros}}"
-  when: "{{item.name}}_64bit not in cobbler_profiles.stdout"
-
-- name: Edit profiles for new distros
+- name: Always edit profiles
   command: cobbler profile edit --name={{item.name}}_64bit --distro={{item.name}}{{item.version}}-x86_64 --kickstart=/var/lib/cobbler/kickstarts/{{item.kickstart}} --repos="{{item.repos}}" --in-place --ksmeta="codename={{item.codename}}"
   with_items: "{{distros}}"
-  when: "{{item.name}}_64bit in cobbler_profiles.stdout and new_distros.changed"
 
 ...
