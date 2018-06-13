@@ -26,7 +26,7 @@
     url: "{{slurminfo['url']}}"
     dest: "{{source_download_dir}}/{{slurminfo['filename']}}"
 - name: Template the slurm script
-  template: 
+  template:
     src: slurm.sh
     dest: "{{install_scripts_dir}}/slurm.sh"
     owner: root
@@ -35,6 +35,7 @@
     backup: no
 - name: Execute the slurm script
   shell: "{{install_scripts_dir}}/slurm.sh"
+  args:
     creates: "{{build_anchors}}/slurmbuild.log"
   register: slurm_installation
   
