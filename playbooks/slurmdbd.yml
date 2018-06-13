@@ -1,0 +1,9 @@
+---
+
+- hosts: slurmdbd
+  roles:
+    - { role: mariadb }
+    - { role: software }
+    - { role: slurmdbd }
+
+...

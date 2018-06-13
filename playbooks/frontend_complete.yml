@@ -3,10 +3,10 @@
 - hosts: frontend
   roles:
     - { role: frontend }
-    - { role: common }
-    - { role: mariadb }
-    - { role: software }
     - { role: cobbler_server }
     - { role: webserver }
+    - { role: common }
+    - { role: software }
+    - { role: slurmctld }
 
 ...
