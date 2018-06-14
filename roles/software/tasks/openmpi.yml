@@ -37,6 +37,9 @@
   args:
     creates: "{{build_anchors}}/openmpibuild.log"
     
+- name: Add OpenMPI to PATH
+  template: src=openmpi_path.sh dest=/etc/profile.d/openmpi_path.sh mode=0644 backup=no owner=root
+    
 - name: Link OpenMPI build
   lineinfile:
     path: /etc/ld.so.conf.d/openmpi.conf
