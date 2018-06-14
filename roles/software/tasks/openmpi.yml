@@ -46,7 +46,7 @@
     create: yes
     state: present
     regexp: ^{{openmpiinfo['prefix']}}
-    line: {{openmpiinfo['prefix']/lib}}
+    line: "{{openmpiinfo['prefix']/lib}}"
   register: openmpi_link
   
 - name: Call ldconfig if needed
