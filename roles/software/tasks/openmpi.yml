@@ -36,6 +36,19 @@
   shell: "{{install_scripts_dir}}/openmpi.sh"
   args:
     creates: "{{build_anchors}}/openmpibuild.log"
+    
+- name: Link OpenMPI build
+  lineinfile:
+    path: /etc/ld.so.conf.d/openmpi.conf
+    create: yes
+    state: present
+    regexp: ^{{openmpiinfo['prefix']}}
+    line: {{openmpiinfo['prefix']/lib}}
+  register: openmpi_link
+  
+- name: Call ldconfig if needed
+  command: ldconfig
+  when: openmpi_link.changed
   
 ...
  
