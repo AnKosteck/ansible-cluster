@@ -28,6 +28,7 @@ HEXA_PARTITIONS="/root/Hexa/samples/partition_config_example.yml"
 HEXA_SSH_LIMITS="/root/Hexa/samples/ssh_access_limits_example.yml"
 HEXA_USERS="/root/Hexa/samples/users_example.yml"
 HEXA_WEBSITE="/root/Hexa/website_example"
+HEXA_MUNGE_KEY="/root/Hexa/samples/munge.key"
 
 #**************************************************************************************************
 
@@ -73,6 +74,7 @@ echo "HEXA_PARTITIONS=\"$HEXA_PARTITIONS\""   >> /root/.bash_profile
 echo "HEXA_SSH_LIMITS=\"$HEXA_SSH_LIMITS\""   >> /root/.bash_profile
 echo "HEXA_USERS=\"$HEXA_USERS\""             >> /root/.bash_profile
 echo "HEXA_WEBSITE=\"$HEXA_WEBSITE\""         >> /root/.bash_profile
+echo "HEXA_MUNGE_KEY=\"$HEXA_MUNGE_KEY\""     >> /root/.bash_profile
 echo "" >> /root/.bash_profile
 echo "export HEXA_ACCOUNTING"                 >> /root/.bash_profile
 echo "export HEXA_CONFIG"                     >> /root/.bash_profile
@@ -81,6 +83,7 @@ echo "export HEXA_PARTITIONS"                 >> /root/.bash_profile
 echo "export HEXA_SSH_LIMITS"                 >> /root/.bash_profile
 echo "export HEXA_USERS"                      >> /root/.bash_profile
 echo "export HEXA_WEBSITE"                    >> /root/.bash_profile
+echo "export HEXA_MUNGE_KEY"                  >> /root/.bash_profile
 source /root/.bash_profile
 echo "*** Do not forget to set your own variables, please look at /root/.bash_profile and then source that ***"
 
