@@ -55,12 +55,12 @@ ibifcfg_mtu: 65520
 ssl_files:
   official:
 # Paths are relative to the tasks dir of webserver role
-    cert: {src: "../../../webserver_cert/cert.pem", dest: "/etc/pki/tls/certs/cert.pem", config_prefix="SSLCertificateFile"}
-    key: {src: "../../../webserver_cert/HPC.KEY", dest: "/etc/pki/tls/private/HPC.KEY", config_prefix="SSLCertificateKeyFile"}
-    chain: {src: "../../../webserver_cert/chain.pem", dest: "/etc/pki/tls/certs/chain.pem", config_prefix="SSLCertificateChainFile"}
+    cert: {src: "../../../webserver_cert/cert.pem", dest: "/etc/pki/tls/certs/cert.pem", config_prefix: "SSLCertificateFile"}
+    key: {src: "../../../webserver_cert/HPC.KEY", dest: "/etc/pki/tls/private/HPC.KEY", config_prefix: "SSLCertificateKeyFile"}
+    chain: {src: "../../../webserver_cert/chain.pem", dest: "/etc/pki/tls/certs/chain.pem", config_prefix: "SSLCertificateChainFile"}
   self:
-    cert: {src: "", dest: "/etc/pki/tls/certs/apache_self.crt", config_prefix="SSLCertificateFile"}
-    key: {src: "", dest: "/etc/pki/tls/private/apache_self.key", config_prefix="SSLCertificateKeyFile"}
+    cert: {src: "", dest: "/etc/pki/tls/certs/apache_self.crt", config_prefix: "SSLCertificateFile"}
+    key: {src: "", dest: "/etc/pki/tls/private/apache_self.key", config_prefix: "SSLCertificateKeyFile"}
 
 #Software installation
 isos_dir: /root/isos
