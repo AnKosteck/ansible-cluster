@@ -24,9 +24,11 @@
   command: openssl req -new -nodes -x509 -subj "/C={{country}}/ST={{country}}/L={{country}}/O={{organization}}/OU={{fullname}}/CN={{webservername}}/emailAddress={{email}}/subjectAltName=DNS.1={{ansible_hostname}},DNS.2={{ansible_hostname}}.{{clustername}},DNS.3={{eth0}}" -days 3650 -keyout "{{ssl_files['self']['key'].dest}}" -out "{{ssl_files['self']['cert'].dest}}" -extensions v3_ca -newkey rsa:4096 -sha512 creates="{{ssl_files['self']['cert'].dest}}"
   when: ssl_certificate_type == 'self'
   register: ssl_certificate_installation
-  
+
 - name: Create dhparams.pem
-  command: openssl dhparam -out /etc/pki/tls/certs/dhparams.pem 4096 creates=/etc/pki/tls/certs/dhparams.pem
+  openssl_dhparam:
+    path: /etc/pki/tls/certs/dhparams.pem
+    size: 4096
   register: dhparams
     
   #Configure website
