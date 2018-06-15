@@ -1,10 +1,19 @@
 ---
 
 - include: ../../../playbooks/load_config.yml
+- include: ../../../playbooks/load_slurm_partitions.yml
 
   #Template the slurm config
 - name: Template the slurm.conf
   template: src=../../../slurm.conf dest="/etc/slurm/slurm.conf" owner=root group=root mode=0644
   register: slurm_config
+  
+- name: Template the second interface
+  template: src=ifcfg_eth1 dest=/etc/sysconfig/network-scripts/ifcfg-eth1 mode=0644 backup=no
+  register: config_second_interface
+  
+- name: Activate second interface
+  shell: ifdown eth1 && ifup eth1
+  when: config_second_interface.changed
 
 ...
