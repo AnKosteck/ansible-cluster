@@ -20,6 +20,14 @@
   lineinfile: dest=/usr/lib/systemd/system/slurmd.service regexp=^#?PIDFile line="#PIDFile" backup=yes
   register: slurmd_unit
   
+- name: Template the slurmd unit file
+  template:
+    src: slurmd.service
+    dest: /usr/lib/systemd/system/slurmd.service
+    owner: root
+    mode: 0644
+  register: slurmd_unit
+  
 - name: Reload systemd units
   shell: systemctl daemon-reload
   when: slurmd_unit.changed

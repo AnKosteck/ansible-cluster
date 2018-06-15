@@ -15,8 +15,12 @@
 - name: Create slurm log dir
   file: path=/var/log/slurm state=directory owner=slurm group=slurm mode=0755
   
-- name: Comment out PIDFile in slurmctld.service
-  lineinfile: dest=/usr/lib/systemd/system/slurmctld.service regexp=^#?PIDFile line="#PIDFile" backup=yes
+- name: Template the slurmctld unit file
+  template:
+    src: slurmctld.service
+    dest: /usr/lib/systemd/system/slurmctld.service
+    owner: root
+    mode: 0644
   register: slurmctld_unit
   
 - name: Reload systemd units

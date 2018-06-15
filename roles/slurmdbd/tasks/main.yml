@@ -22,8 +22,12 @@
   template: src=../../../slurmdbd.conf dest="/etc/slurm/slurmdbd.conf" owner=root group=root mode=0600
   register: slurmdbd_configuration_file
   
-- name: Comment out PIDFile in slurmdbd.service
-  lineinfile: dest=/usr/lib/systemd/system/slurmdbd.service regexp=^#?PIDFile line="#PIDFile" backup=yes
+- name: Template the slurmctld unit file
+  template:
+    src: slurmdbd.service
+    dest: /usr/lib/systemd/system/slurmdbd.service
+    owner: root
+    mode: 0644
   register: slurmdbd_unit
   
 - name: Reload systemd units
