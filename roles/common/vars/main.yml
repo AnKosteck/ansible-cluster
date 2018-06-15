@@ -26,11 +26,12 @@ infiniband_packages_redhat:
   - ibutils
   - infiniband-diags
   - libibverbs
-  - libibverbs-utils
   - libibverbs-devel
+  - libibverbs-utils
   - libmlx4
   - libmlx5
   - librdmacm
+  - librdmacm-devel
   - librdmacm-utils
   - opensm
   - perftest
