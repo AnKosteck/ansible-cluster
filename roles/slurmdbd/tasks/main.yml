@@ -19,7 +19,7 @@
   register: slurm_config
   
 - name: Template the slurmdbd.conf
-  template: src=../../../slurmdbd.conf dest="/etc/slurm/slurmdbd.conf" owner=root group=root mode=0600
+  template: src=slurmdbd.conf dest="/etc/slurm/slurmdbd.conf" owner=root group=root mode=0600
   register: slurmdbd_configuration_file
   
 - name: Template the slurmctld unit file
