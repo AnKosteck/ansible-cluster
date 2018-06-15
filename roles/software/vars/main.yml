@@ -61,5 +61,10 @@ slurm_packages_redhat:
   - perl-Switch
   - readline-devel
   - rrdtool-devel
+  - libssh2-devel
+  - json-c-devel
+  - lz4-devel
+  - pmix-devel
+  - libcurl-devel
   
 ...
