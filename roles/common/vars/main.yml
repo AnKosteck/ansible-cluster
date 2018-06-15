@@ -27,6 +27,7 @@ infiniband_packages_redhat:
   - infiniband-diags
   - libibverbs
   - libibverbs-utils
+  - libibverbs-devel
   - libmlx4
   - libmlx5
   - librdmacm
