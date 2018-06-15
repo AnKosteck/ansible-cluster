@@ -18,6 +18,7 @@ root_ssh_publickey: "<INSERT-SSH-PKEY-HERE>"
 
 #Define, where the shared applications coming from app_server will be mounted
 appsdir: /opt/apps
+homes_mountpoint_frontend: /mnt/homes
 
 #localization
 timezone: "US/Central"
