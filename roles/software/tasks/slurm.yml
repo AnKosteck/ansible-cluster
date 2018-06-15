@@ -51,7 +51,7 @@
     
 - name: Copy slurm example configs to sysconfdir
   copy:
-    src: {{item}}
+    src: "{{item}}"
     dest: "{{slurminfo['sysconfdir']}}"
     mode: 0644
   with_items:
@@ -60,15 +60,8 @@
     - slurm.conf.example
     - slurmdbd.conf.example
     
-- name: Copy slurm example layouts
-  copy:
-    src: {{item}}
-    dest: "{{slurminfo['sysconfdir']}}/layouts.d"
-    mode: 0644
-  with_items:
-    - power.conf.example
-    - power_cpufreq.conf.example
-    - unit.conf.example
+- name: Template the slurm.epilog to sysconfdir
+  template: src=slurm.epilog.clean dest="{{slurminfo['sysconfdir']}}/slurm.epilog.clean" mode=0755
     
 - name: Create layouts subdir
   file:
@@ -76,7 +69,14 @@
     state: directory
     mode: 0755
     
-- name: Template the slurm.epilog
-  template: src=slurm.epilog.clean dest="{{slurminfo['sysconfdir']}}/slurm.epilog.clean" mode=0755
+- name: Copy slurm example layouts
+  copy:
+    src: "{{item}}"
+    dest: "{{slurminfo['sysconfdir']}}/layouts.d"
+    mode: 0644
+  with_items:
+    - power.conf.example
+    - power_cpufreq.conf.example
+    - unit.conf.example
     
 ...
