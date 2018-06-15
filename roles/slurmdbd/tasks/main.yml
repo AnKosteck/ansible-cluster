@@ -22,7 +22,7 @@
   template: src=slurmdbd.conf dest="/etc/slurm/slurmdbd.conf" owner=root group=root mode=0600
   register: slurmdbd_configuration_file
   
-- name: Template the slurmctld unit file
+- name: Template the slurmdbd unit file
   template:
     src: slurmdbd.service
     dest: /usr/lib/systemd/system/slurmdbd.service
