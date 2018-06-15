@@ -30,14 +30,14 @@
       with_items: "{{cluster_users}}"
       no_log: True
 
-- hosts: home_server
+- hosts: frontend
 
   tasks:
     - include: load_users.yml
     
     - name: Create user homes
       file: 
-        path: "{{home_export}}/{{cluster_users[item]['passwd'].name}}"
+        path: "{{homes_mountpoint_frontend}}/{{cluster_users[item]['passwd'].name}}"
         state: directory
         owner: "{{cluster_users[item]['passwd'].name}}"
         group: "{{cluster_users[item]['passwd'].group}}"
@@ -48,7 +48,7 @@
       
     - name: Create .ssh dir
       file:
-        path: "{{home_export}}/{{cluster_users[item]['passwd'].name}}/.ssh"
+        path: "{{homes_mountpoint_frontend}}/{{cluster_users[item]['passwd'].name}}/.ssh"
         state: directory
         owner: "{{cluster_users[item]['passwd'].name}}"
         group: "{{cluster_users[item]['passwd'].group}}"
@@ -57,9 +57,9 @@
       no_log: True
 
     - name: Generate ssh keys
-      shell: ssh-keygen -t ecdsa -f "{{home_export}}/{{cluster_users[item]['passwd'].name}}/.ssh/id_ecdsa" -P ""
+      shell: ssh-keygen -t ecdsa -f "{{homes_mountpoint_frontend}}/{{cluster_users[item]['passwd'].name}}/.ssh/id_ecdsa" -P ""
       args:
-        creates: "{{home_export}}/{{cluster_users[item]['passwd'].name}}/.ssh/id_ecdsa"
+        creates: "{{homes_mountpoint_frontend}}/{{cluster_users[item]['passwd'].name}}/.ssh/id_ecdsa"
       become: true
       become_user: "{{cluster_users[item]['passwd'].name}}"
       with_items: "{{cluster_users}}"
@@ -67,7 +67,7 @@
       
     - name: Slurp the public keys
       slurp:
-        src: "{{home_export}}/{{cluster_users[item]['passwd'].name}}/.ssh/id_ecdsa.pub"
+        src: "{{homes_mountpoint_frontend}}/{{cluster_users[item]['passwd'].name}}/.ssh/id_ecdsa.pub"
       with_items: "{{cluster_users}}"
       register: slurped_public_key
       no_log: True
@@ -77,7 +77,7 @@
         user: "{{cluster_users[item.item]['passwd'].name}}"
         state: present
         key: "{{item.content | b64decode}}"
-        path: "{{home_export}}/{{cluster_users[item.item]['passwd'].name}}/.ssh/authorized_keys"
+        path: "{{homes_mountpoint_frontend}}/{{cluster_users[item.item]['passwd'].name}}/.ssh/authorized_keys"
       with_items: "{{slurped_public_key.results}}"
       no_log: True
 
