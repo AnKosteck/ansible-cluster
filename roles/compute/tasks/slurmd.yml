@@ -15,11 +15,6 @@
 - name: Create slurm log dir
   file: path=/var/log/slurm state=directory owner=slurm group=slurm mode=0755
   
-  # Fix slurm timeouts
-- name: Comment out PIDFile in slurmd.service
-  lineinfile: dest=/usr/lib/systemd/system/slurmd.service regexp=^#?PIDFile line="#PIDFile" backup=yes
-  register: slurmd_unit
-  
 - name: Template the slurmd unit file
   template:
     src: slurmd.service
@@ -33,7 +28,7 @@
     daemon_reload: yes
   when: slurmd_unit.changed
 
-- name: Start slurmd
+- name: Start and enable slurmd
   service: name=slurmd state=started enabled=yes
   
 - name: Restart slurmd

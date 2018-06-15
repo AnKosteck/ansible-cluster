@@ -28,7 +28,7 @@
     daemon_reload: yes
   when: slurmctld_unit.changed
   
-- name: Start slurmctld
+- name: Start and enable slurmctld
   service: name=slurmctld state=started enabled=yes
   
 - name: Restart slurmctld

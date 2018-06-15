@@ -35,7 +35,7 @@
     daemon_reload: yes
   when: slurmdbd_unit.changed
   
-- name: Start slurmdbd
+- name: Start and enable slurmdbd
   service: name=slurmdbd state=started enabled=yes
   
 - name: Restart slurmdbd
