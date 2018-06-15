@@ -1,0 +1,11 @@
+---
+
+- name: Install additional packages on frontend
+  yum: name={{item}} state=present
+  with_items:
+    - gtk2-devel  #for slurm sview
+    - freeipmi-devel
+    - ipmitool
+    - ipmiutil
+
+...

@@ -19,6 +19,7 @@
 - include: cobbler.yml
 - include: cockpit.yml
 - include: ntp-server.yml
+- include: additional_packages.yml
 
 - name: Enable and start system services
   service: name={{item}} state=started enabled=yes
