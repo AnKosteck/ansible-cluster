@@ -30,8 +30,9 @@
     mode: 0644
   register: slurmdbd_unit
   
-- name: Reload systemd units
-  shell: systemctl daemon-reload
+- name: Reload systemd units if needed
+  systemd:
+    daemon_reload: yes
   when: slurmdbd_unit.changed
   
 - name: Start slurmdbd

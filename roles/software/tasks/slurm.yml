@@ -38,10 +38,6 @@
   args:
     creates: "{{build_anchors}}/slurmbuild.log"
   register: slurm_installation
-  
-- name: Reload systemd daemons if needed
-  systemd:
-    daemon_reload: yes
     
 - name: Create slurm sysconfdir
   file:

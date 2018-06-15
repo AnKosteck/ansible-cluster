@@ -23,8 +23,9 @@
     mode: 0644
   register: slurmctld_unit
   
-- name: Reload systemd units
-  shell: systemctl daemon-reload
+- name: Reload systemd units if needed
+  systemd:
+    daemon_reload: yes
   when: slurmctld_unit.changed
   
 - name: Start slurmctld
