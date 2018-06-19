@@ -9,11 +9,11 @@
   register: slurm_config
   
 - name: Template the second interface
-  template: src=ifcfg_eth1 dest=/etc/sysconfig/network-scripts/ifcfg-eth1 mode=0644 backup=no
+  template: src=ifcfg_eth1 dest=/etc/sysconfig/network-scripts/ifcfg-{{eth1_name}} mode=0644 backup=no
   register: config_second_interface
   
 - name: Activate second interface
-  shell: ifdown eth1 && ifup eth1
+  shell: ifdown {{eth1_name}} && ifup {{eth1_name}}
   when: config_second_interface.changed
 
 ...

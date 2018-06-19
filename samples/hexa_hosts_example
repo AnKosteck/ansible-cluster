@@ -1,18 +1,18 @@
 [common]
-hexa01 eth0=10.0.0.1 profile=sl_64bit mac0="aa:aa:aa:aa:aa:aa" ibtype=none
-hexa02 eth0=10.0.0.2 profile=sl_64bit mac0="bb:bb:bb:bb:bb:bb" ibtype=none
-hexa03 eth0=10.0.0.3 profile=sl_64bit mac0="cc:cc:cc:cc:cc:cc" ibtype=none
-hexaib eth0=10.0.0.100 profile=sl_64bit mac0="dd:dd:dd:dd:dd:dd" ibmac="00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00" ibip=10.1.1.100 ibtype=8002
-hexa_frontend eth0=10.0.0.254 profile=sl_64bit mac0="ee:ee:ee:ee:ee:ee" ibmac="00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00" ibip=10.1.1.254 ibtype=8002
-hexa_web eth0=10.0.0.253 profile=sl_64bit mac0="ff:ff:ff:ff:ff:ff" ibtype=none
-hexa_login2 eth0=10.0.0.252 profile=sl_64bit mac0="gg:gg:gg:gg:gg:gg" ibmac="00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00" ibip=10.1.1.252 ibtype=8002
-hexa_login1 eth0=10.0.0.251 profile=sl_64bit mac0="hh:hh:hh:hh:hh:hh" ibmac="00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00" ibip=10.1.1.251 ibtype=default
+hexa01 eth0=10.0.0.1 eth0_name=eno1 profile=sl_64bit mac0="aa:aa:aa:aa:aa:aa" ibtype=none
+hexa02 eth0=10.0.0.2 eth0_name=enp3s0f0 profile=sl_64bit mac0="bb:bb:bb:bb:bb:bb" ibtype=none
+hexa03 eth0=10.0.0.3 eth0_name=enp4s0 profile=sl_64bit mac0="cc:cc:cc:cc:cc:cc" ibtype=none
+hexaib eth0=10.0.0.100 eth0_name=enp5s0 profile=sl_64bit mac0="dd:dd:dd:dd:dd:dd" ibmac="00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00" ibip=10.1.1.100 ibtype=8002
+hexa_frontend eth0=10.0.0.254 eth0_name=eno1 profile=sl_64bit mac0="ee:ee:ee:ee:ee:ee" ibmac="00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00" ibip=10.1.1.254 ibtype=8002
+hexa_web eth0=10.0.0.253 eth0_name=eno1 profile=sl_64bit mac0="ff:ff:ff:ff:ff:ff" ibtype=none
+hexa_login2 eth0=10.0.0.252 eth0_name=eno1 profile=sl_64bit mac0="gg:gg:gg:gg:gg:gg" ibmac="00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00" ibip=10.1.1.252 ibtype=8002
+hexa_login1 eth0=10.0.0.251 eth0_name=eno1 profile=sl_64bit mac0="hh:hh:hh:hh:hh:hh" ibmac="00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00" ibip=10.1.1.251 ibtype=default
 
 [guests]
 hexa_web osVariant=rhel7.1
 
 [frontend]
-hexa_frontend eth1=192.168.1.254 mac1="a1:b0:a2:b1:a3:b2"
+hexa_frontend eth1=192.168.1.254 mac1="a1:b0:a2:b1:a3:b2" eth1_name=eno2
 
 [slurmdbd]
 hexa_frontend
@@ -29,8 +29,8 @@ hexa0[3:4] sockets=1 cores_per_socket=22 threads_per_core=2
 hexaib sockets=1 cores_per_socket=8 threads_per_core=2
 
 [login]
-hexa_login1 eth1=192.168.1.251 mac1="c2:c3:c4:c5:c6:c7"
-hexa_login2 eth1=192.168.1.252 mac1="d1:d2:d3:d4:d5:d6"
+hexa_login1 eth1=192.168.1.251 mac1="c2:c3:c4:c5:c6:c7" eth1_name=eno2
+hexa_login2 eth1=192.168.1.252 mac1="d1:d2:d3:d4:d5:d6" eth1_name=eno2
 
 #ATTENTION: 1 home_server and 1 app_server, set hostname to hostname + infiniband domain for ipoib
 [home_server]
@@ -41,4 +41,4 @@ hexa_frontend app_export="/mnt/export/apps" export_options="rw,async,no_root_squ
 
 [webserver]
 hexa_frontend webservername=192.168.1.254 ssl_certificate_type=self
-hexa_web eth1=192.168.1.253 mac1="aa:bb:cc:dd:ee:ff" webservername=hpc-web.org ssl_certificate_type=official
+hexa_web eth1=192.168.1.253 eth1_name=eno2 mac1="aa:bb:cc:dd:ee:ff" webservername=hpc-web.org ssl_certificate_type=official

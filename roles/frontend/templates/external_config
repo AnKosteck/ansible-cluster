@@ -1,4 +1,4 @@
-DEVICE="{{external_interface}}"
+DEVICE="{{eth1_name}}"
 TYPE="Ethernet"
 HWADDR="{{mac1}}"
 BOOTPROTO="none"
