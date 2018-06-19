@@ -8,8 +8,6 @@ webpage: "https://en.wikipedia.org/wiki/Supercomputer"
 email: "example@hpc"
 
 #Frontend config
-external_interface: eno2
-internal_interface: eno1
 ###openssl passwd -1, for the super-secure password 'testpassword1234'
 ###needed for cobbler on system creation
 root_password_md5: $1$Oy507HgT$/BGDUsFA/QX2VnyFOoEZA0
