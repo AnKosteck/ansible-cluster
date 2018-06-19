@@ -74,5 +74,21 @@
     - power.conf.example
     - power_cpufreq.conf.example
     - unit.conf.example
+  
+- name: Add Slurm to PATH
+  template: src=slurm_path.sh dest=/etc/profile.d/slurm_path.sh mode=0644 backup=no owner=root
+    
+- name: Link Slurm build
+  lineinfile:
+    path: /etc/ld.so.conf.d/slurm.conf
+    create: yes
+    state: present
+    regexp: ^{{slurminfo['prefix']}}
+    line: "{{slurminfo['prefix']}}/lib"
+  register: slurm_link
+  
+- name: Call ldconfig if needed
+  command: ldconfig
+  when: slurm_link.changed
     
 ...
