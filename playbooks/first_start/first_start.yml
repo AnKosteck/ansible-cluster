@@ -19,9 +19,9 @@
       yum: name=* state=latest
       
     - name: Setup the second interface
-      template: src="internal_interface.conf" dest="/etc/sysconfig/network-scripts/ifcfg-{{internal_interface}}" mode=0644 backup=yes
+      template: src="internal_interface.conf" dest="/etc/sysconfig/network-scripts/ifcfg-{{eth0_name}}" mode=0644 backup=yes
     - name: Reload second interface
-      shell: ifdown {{internal_interface}} && ifup {{internal_interface}}
+      shell: ifdown {{eth0_name}} && ifup {{eth0_name}}
     
       #Install dnsmasq, otherwise no DNS possible later on (yum fails)
       #However, only do this once, in case dnsmasq wasn't present before
