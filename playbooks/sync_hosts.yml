@@ -50,14 +50,14 @@
       
       ######Add network interfaces
     - name: Add second interfaces to webserver
-      command: cobbler system edit --name="{{item}}" --interface=eth1 --ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_external_long}}" --mac="{{hostvars[item]['mac1']}}"
-      with_items: "{{groups['webserver']}}"
-      when: "item not in cobbler_systems.stdout"
+      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['eth1_name']}}" --ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_external_long}}" --mac="{{hostvars[item]['mac1']}}"
+      with_items: "{{groups['webserver_system']}}"
+      when: item not in cobbler_systems.stdout
       
     - name: Add second interfaces to login nodes
-      command: cobbler system edit --name="{{item}}" --interface=eth1 --ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_external_long}}" --mac="{{hostvars[item]['mac1']}}"
+      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['eth1_name']}}" --ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_external_long}}" --mac="{{hostvars[item]['mac1']}}"
       with_items: "{{groups['login']}}"
-      when: "item not in cobbler_systems.stdout" 
+      when: item not in cobbler_systems.stdout
       
 #    - name: Add infiniband interfaces to common nodes
 #      command: cobbler system edit --name="{{item}}" --interface=ib0 --ip-address="{{hostvars[item]['ibip']}}" --netmask="{{netmask_internal_long}}" --mac="{{hostvars[item]['ipmac']}}"
