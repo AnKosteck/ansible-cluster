@@ -12,8 +12,10 @@
   template: src=ifcfg_eth1 dest=/etc/sysconfig/network-scripts/ifcfg-{{eth1_name}} mode=0644 backup=no
   register: config_second_interface
   
-- name: Activate second interface
-  shell: ifdown {{eth1_name}} && ifup {{eth1_name}}
+- name: Restart network if needed
+  service:
+    name: network
+    state: restarted
   when: config_second_interface.changed
 
 ...

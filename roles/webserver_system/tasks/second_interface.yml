@@ -12,12 +12,10 @@
   lineinfile: dest=/etc/sysconfig/network-scripts/route-{{eth0_name}} regexp="^10" line="{{ip_startaddress_internal}}/{{netmask_internal}} via {{hostvars[groups['frontend'][0]]['eth0']}} dev {{eth0_name}}" state=present create=yes 
   register: first_interface_static_route
   
-- name: Reactivate first interface if needed
-  shell: ifdown {{eth0_name}} && ifup {{eth0_name}}
-  when: config_first_interface.changed or first_interface_static_route.changed
-  
-- name: Activate second interface
-  shell: ifdown {{eth1_name}} && ifup {{eth1_name}}
-  when: config_second_interface.changed
+- name: Restart network if needed
+  service:
+    name: network
+    state: restarted
+  when: config_first_interface.changed or first_interface_static_route.changed or config_second_interface.changed
 
 ...

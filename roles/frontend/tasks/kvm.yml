@@ -24,20 +24,11 @@
   template: src=external_config dest=/etc/sysconfig/network-scripts/ifcfg-{{eth1_name}} mode=0644 backup=yes
   register: einterface_config
   
-- name: Stop external interface and start bridge
-  shell: ifdown {{eth1_name}} && ifup {{eth1_name}} && ifup br1
-  when: ebridge_config.changed or einterface_config.changed
-  
-- name: Stop internal interface and start bridge
-  shell: ifdown {{eth0_name}} && ifup {{eth0_name}} && ifup br0
-  when: ibridge_config.changed or iinterface_config.changed
-
-- name: Restart internal bridge if needed
-  shell: ifdown br0 && ifup br0
-  when: ibridge_config.changed
-- name: Restart external bridge if needed
-  shell: ifdown br1 && ifup br1
-  when: ebridge_config.changed
+- name: Restart network if needed
+  service:
+    name: network
+    state: restarted
+  when: ibridge_config.changed or iinterface_config.changed or ebridge_config.changed or einterface_config.changed
   
 - name: Restart dnsmasq if needed
   service: name=dnsmasq state=restarted

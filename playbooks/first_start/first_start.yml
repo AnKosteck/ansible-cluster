@@ -20,8 +20,11 @@
       
     - name: Setup the second interface
       template: src="internal_interface.conf" dest="/etc/sysconfig/network-scripts/ifcfg-{{eth0_name}}" mode=0644 backup=yes
-    - name: Reload second interface
-      shell: ifdown {{eth0_name}} && ifup {{eth0_name}}
+      
+    - name: Restart network
+      service:
+        name: network
+        state: restarted
     
       #Install dnsmasq, otherwise no DNS possible later on (yum fails)
       #However, only do this once, in case dnsmasq wasn't present before
