@@ -9,5 +9,6 @@
     src: "{{groups['home_server'][0]}}:{{hostvars[groups['home_server'][0]]['home_export']}}"
     fstype: auto
     state: mounted
+    opts: x-systemd.after=network-online.target
     
 ...
