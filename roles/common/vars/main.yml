@@ -11,10 +11,12 @@ autofs_packages_redhat:
   - nfs-utils
 common_packages_redhat:
   - htop
+  - iperf3
   - iotop
   - net-tools
   - pciutils
   - screen
+  - telnet
   - traceroute
 common_packages_ubuntu:
   - htop
