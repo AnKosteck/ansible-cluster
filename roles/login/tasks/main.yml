@@ -12,10 +12,18 @@
   template: src=ifcfg_eth1 dest=/etc/sysconfig/network-scripts/ifcfg-{{eth1_name}} mode=0644 backup=no
   register: config_second_interface
   
+- name: Set internal interface defroute to no
+  lineinfile:
+    regexp: ^DEFROUTE
+    line: "DEFROUTE=no"
+    create: yes
+    state: present
+  register: config_first_interface
+  
 - name: Restart network if needed
   service:
     name: network
     state: restarted
-  when: config_second_interface.changed
+  when: config_first_interface.changed or config_second_interface.changed
 
 ...
