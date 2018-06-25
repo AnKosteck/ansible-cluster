@@ -44,7 +44,7 @@
       
     - name: Update cobbler guest system entries if needed
       command: cobbler system edit --name={{item}} --virt-auto-boot={{virtAutoBoot}} --virt-cpus={{virtCPUs}} --virt-disk-driver="<<inherit>>" --virt-file-size={{virtDiskSize}} --virt-ram={{virtRam}} --virt-type={{virtType}} --virt-pxe={{virtPxeBoot}}
-      with_items: "{{groups['common']}}"
+      with_items: "{{groups['guests']}}"
       when: "item not in cobbler_systems.stdout"
       
       
