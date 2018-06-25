@@ -14,6 +14,7 @@
   
 - name: Set internal interface defroute to no
   lineinfile:
+    path: /etc/sysconfig/network-scripts/ifcfg-{{eth0_name}}
     regexp: ^DEFROUTE
     line: "DEFROUTE=no"
     create: yes
