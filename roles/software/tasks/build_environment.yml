@@ -19,6 +19,7 @@
       - gcc
       - gcc-c++
       - gcc-gfortran
+      - make
       - rpm-build
       - wget
       - tar
@@ -33,11 +34,12 @@
     build_tools_fedora:
       - autoconf
       - automake
-#      - cpanspec
+      - cpanspec
       - gcc
       - gcc-c++
       - gcc-gfortran
-#      - rpm-build
+      - make
+      - rpm-build
       - wget
       - tar
       - cmake
