@@ -1,9 +1,5 @@
 ---
 
-- name: Disable firewalld on RedHat derived OS
-  service: name=firewalld state=stopped enabled=false
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat' or ansible_distribution == 'Scientific'
-
 - include: ../../../playbooks/load_config.yml
 
 - include: slurmd.yml
