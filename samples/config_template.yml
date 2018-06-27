@@ -49,6 +49,7 @@ ib8002_rate: 7
 ib_mtu: 4
 ib8002_mtu: 4
 ibifcfg_mtu: 65520
+ibifcfg_connected: yes #yes or no
 
 #For webserver
 ssl_files:
