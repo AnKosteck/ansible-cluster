@@ -23,6 +23,7 @@ timezone: "US/Central"
 lang: "en_US.utf8"
 country: "GMT"
 locale: "en"
+keyboard_map: "us"
 
 #network config
 ip_startaddress_internal: 10.0.0.0

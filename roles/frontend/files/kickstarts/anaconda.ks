@@ -12,7 +12,7 @@ firewall --disabled
 # Run the Setup Agent on first boot
 firstboot --disable
 # System keyboard
-keyboard at-nodeadkeys
+keyboard {{keyboard_map}}
 # System language
 lang {{lang}}
 # Use network installation
