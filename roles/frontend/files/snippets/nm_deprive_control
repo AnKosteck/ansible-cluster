@@ -1,4 +1,4 @@
-#Disable all interfaces and NM control
+# Disable all interfaces and NM control
 for cfgfile in /etc/sysconfig/network-scripts/ifcfg-*
 do
   cp \$cfgfile \${cfgfile}.bak
@@ -6,8 +6,7 @@ do
   sed -i 's/ONBOOT=yes/ONBOOT=no/g' \$cfgfile
 done
 
-# Just enable the known and used interfaces
-for ikey in $interfaces.keys()
-do
-  sed -i 's/ONBOOT=no/ONBOOT=yes/g' /etc/sysconfig/network-scripts/ifcfg-\$ikey
-done
+## Just enable the known and used interfaces
+#for $ikey in $interfaces.keys()
+sed -i 's/ONBOOT.*/ONBOOT=yes/g' /etc/sysconfig/network-scripts/ifcfg-$ikey
+#end for
