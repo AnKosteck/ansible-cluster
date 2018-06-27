@@ -1,0 +1,5 @@
+for nic in $(grep -l NM_CONTROLLED.*yes /etc/sysconfig/network-scripts/ifcfg-*) 
+do
+cp $nic ${nic}.bak
+sed -i "s/NM_CONTROLLED=yes/NM_CONTROLLED=no/"  $nic
+done
