@@ -1,5 +1,13 @@
-for nic in \$(grep -l NM_CONTROLLED.*yes /etc/sysconfig/network-scripts/ifcfg-*) 
+#Disable all interfaces and NM control
+for cfgfile in /etc/sysconfig/network-scripts/ifcfg-*
 do
-cp \$nic \${nic}.bak
-sed -i "s/NM_CONTROLLED=yes/NM_CONTROLLED=no/"  \$nic
+  cp \$cfgfile \${cfgfile}.bak
+  grep -q '^NM_CONTROLLED' \$cfgfile && sed -i 's/^NM_CONTROLLED.*/NM_CONTROLLED=no/' \$cfgfile || echo 'NM_CONTROLLED=no' >> \$cfgfile
+  sed -i 's/ONBOOT=yes/ONBOOT=no/g' \$cfgfile
+done
+
+# Just enable the known and used interfaces
+for ikey in $interfaces.keys()
+do
+  sed -i 's/ONBOOT=no/ONBOOT=yes/g' /etc/sysconfig/network-scripts/ifcfg-\$ikey
 done
