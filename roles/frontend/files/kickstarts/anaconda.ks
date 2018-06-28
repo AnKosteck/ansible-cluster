@@ -74,6 +74,7 @@ $SNIPPET('koan_environment')
 $SNIPPET('redhat_register')
 $SNIPPET('cobbler_register')
 $SNIPPET('install_public_root_key')
+$SNIPPET('post_install_deactivate_interfaces')
 # Enable post-install boot notification
 $SNIPPET('post_anamon')
 # Start final steps

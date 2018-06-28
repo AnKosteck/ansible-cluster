@@ -1,0 +1,15 @@
+# Disable all interfaces but those known to cobbler
+
+mkdir /etc/sysconfig/network-scripts/cobbler
+
+mv /etc/sysconfig/network-scripts/ifcfg-lo /etc/sysconfig/network-scripts/cobbler/
+
+## Just move the known interfaces to cobbler dir and move them back afterwards
+#for $ikey in $interfaces.keys()
+mv /etc/sysconfig/network-scripts/ifcfg-$ikey /etc/sysconfig/network-scripts/cobbler/
+#end for
+
+sed -i 's/ONBOOT.*/ONBOOT=no/g' /etc/sysconfig/network-scripts/ifcfg-*
+
+mv /etc/sysconfig/network-scripts/cobbler/* /etc/sysconfig/network-scripts/
+rm -rf /etc/sysconfig/network-scripts/cobbler
