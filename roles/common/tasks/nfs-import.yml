@@ -32,10 +32,6 @@
   template: src=idmapd.conf dest=/etc/idmapd.conf mode=0644 owner=root backup=yes
   register: idmapd_conf
 
-- name: Create /run/rpcbind dir on Fedora
-  file: path="/run/rpcbind" state=directory owner=rpc group=rpc mode=0750
-  when: ansible_distribution == 'Fedora'
-  
   #Service start and enable
 - name: Restart autofs and rpcbind if needed
   service: name=rpcbind state=restarted
@@ -43,9 +39,6 @@
   with_items:
     - autofs
     - rpcbind
-#- name: Restart nfs-mountd if needed
-#  service: name=nfs-mountd state=restarted
-#  when: idmapd_conf.changed or apps_conf.changed or home_conf.changed or master_conf.changed
   
 - name: Start and enable autofs and rpcbind
   service: name={{item}} state=started enabled=yes
