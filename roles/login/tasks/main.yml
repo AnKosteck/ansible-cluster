@@ -34,6 +34,6 @@
   service:
     name: network
     state: restarted
-  when: config_first_interface.changed or config_second_interface.changed default_route.changed
+  when: config_first_interface.changed or config_second_interface.changed or default_route.changed
 
 ...
