@@ -24,9 +24,9 @@ hexa_frontend
 hexaib
 
 [compute]
-hexa0[1:2] Sockets=2 CoresPerSocket=16 ThreadsPerCore=1
-hexa0[3:4] Sockets=1 CoresPerSocket=22 ThreadsPerCore=2
-hexaib Sockets=1 CoresPerSocket=8 ThreadsPerCore=2
+hexa0[1:2] CPUs=32 RealMemory=31962 Sockets=2 CoresPerSocket=16 ThreadsPerCore=1
+hexa0[3:4] CPUs=44 RealMemory=31962 Sockets=1 CoresPerSocket=22 ThreadsPerCore=2
+hexaib CPUs=16 RealMemory=31962 Sockets=1 CoresPerSocket=8 ThreadsPerCore=2
 
 [login]
 hexa_login1 eth1=192.168.1.251 mac1="c2:c3:c4:c5:c6:c7" eth1_name=eno2
