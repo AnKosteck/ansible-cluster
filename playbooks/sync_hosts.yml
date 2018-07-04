@@ -37,11 +37,16 @@
       command: cobbler system list
       register: cobbler_systems
       
-    - name: Add cobbler system if not yet done
-      command: cobbler system add --name="{{item}}" --hostname="{{item}}" --dns-name="{{item}}.{{domain}}" --ip-address="{{hostvars[item]['eth0']}}" --netmask="{{netmask_internal_long}}" --gateway={{eth0}} --static=0 --interface={{hostvars[item]['eth0_name']}} --profile="{{hostvars[item]['profile']}}" --mac="{{hostvars[item]['mac0']}}" --management=true
+      #Has to be done this way, since cobbler fails if system already exists
+    - name: Add cobbler system if new
+      command: cobbler system add --name="{{item}}" --profile="{{hostvars[item]['profile']}}"
       with_items: "{{groups['common']}}"
       when: "item not in cobbler_systems.stdout"
       
+    - name: Always edit system objects
+      command: cobbler system edit --name="{{item}}" --hostname="{{item}}" --dns-name="{{item}}.{{domain}}" --ip-address="{{hostvars[item]['eth0']}}" --netmask="{{netmask_internal_long}}" --gateway={{eth0}} --static=0 --interface={{hostvars[item]['eth0_name']}} --profile="{{hostvars[item]['profile']}}" --mac="{{hostvars[item]['mac0']}}" --management=true
+      with_items: "{{groups['common']}}"
+            
     - name: Update cobbler guest system entries if needed
       command: cobbler system edit --name={{item}} --virt-auto-boot={{virtAutoBoot}} --virt-cpus={{virtCPUs}} --virt-disk-driver="<<inherit>>" --virt-file-size={{virtDiskSize}} --virt-ram={{virtRam}} --virt-type={{virtType}} --virt-pxe={{virtPxeBoot}}
       with_items: "{{groups['guests']}}"
