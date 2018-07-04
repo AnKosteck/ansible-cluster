@@ -6,27 +6,26 @@
 - name: Download isos
   get_url: url={{item.url}} dest={{isos_dir}}/{{item.name}}{{item.version}}.iso
   with_items: "{{distros}}"
-  register: distro_download
-
-  #Mount the isos
-- name: Mount isos
-  mount: name=/mnt/{{item.name}} src={{isos_dir}}/{{item.name}}{{item.version}}.iso opts="ro,loop" fstype=iso9660 state=mounted
-  with_items: "{{distros}}"
-  when: distro_download.changed
 
   #Import the isos if not yet done
 - name: Get cobbler distro list
   command: cobbler distro list
   register: cobbler_distros
+
+  #Mount and import the isos
+- name: Mount isos
+  mount: name=/mnt/{{item.name}} src={{isos_dir}}/{{item.name}}{{item.version}}.iso opts="ro,loop" fstype=iso9660 state=mounted
+  with_items: "{{distros}}"
+  when: ([item.name, item.version, '-x86_64'] | join) not in(cobbler_distros.stdout)
+
 - name: Import distros into cobbler
   command: cobbler import --name={{item.name}}{{item.version}} --breed={{item.breed}} --arch=x86_64 --path=/mnt/{{item.name}}
   with_items: "{{distros}}"
   when: ([item.name, item.version, '-x86_64'] | join) not in(cobbler_distros.stdout)
-  register: new_distros
 
 - name: Remove fstab entries for isos and unmount
   mount: name=/mnt/{{item.name}} fstype=iso9660 src={{isos_dir}}/{{item.name}}{{item.version}}.iso state=absent
   with_items: "{{distros}}"
-  when: distro_download.changed
+  when: ([item.name, item.version, '-x86_64'] | join) not in(cobbler_distros.stdout)
 
 ...
