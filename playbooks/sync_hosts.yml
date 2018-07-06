@@ -24,8 +24,8 @@
       when: item not in cobbler_systems.stdout
       
     - name: Update cobbler system objects
-      command: cobbler system edit --name="{{item}}" --hostname="{{item}}" --dns-name="{{item}}.{{domain}}" --gateway="{{eth0}}" --static=0 --profile="{{hostvars[item]['profile']}}" --interface="{{hostvars[item]['eth0_name'] | default('eth0')}}" --mac="{{hostvars[item]['mac0']}}" --management=true --ip-address="{{hostvars[item]['eth0']}}" --netmask="{{netmask_internal_long}}"
-#      command: cobbler system edit --name="{{item}}" --hostname="{{item}}" --dns-name="{{item}}.{{domain}}" --gateway="{{eth0}}" --static=0 --profile="{{hostvars[item]['profile']}}" --interface="{{hostvars[item]['eth0_name'] | default('eth0')}}" --mac="{{hostvars[item]['mac0']}}" --management=true --interface-type=bridge_slave --interface-master="{{hostvars[item]['bridge0_name'] | default('br0')}}"
+      command: cobbler system edit --name="{{item}}" --hostname="{{item}}" --dns-name="{{item}}.{{domain}}" --gateway="{{eth0}}" --static=0 --profile="{{hostvars[item]['profile']}}" --interface="{{hostvars[item]['eth0_name'] | default('eth0')}}" --mac="{{hostvars[item]['mac0']}}" --management=true --ip-address="{{hostvars[item]['eth0']}}" --netmask="{{netmask_internal_long}}" --kopts="{{hostvars[item]['kopts'] | default('')}}"
+#      command: cobbler system edit --name="{{item}}" --hostname="{{item}}" --dns-name="{{item}}.{{domain}}" --gateway="{{eth0}}" --static=0 --profile="{{hostvars[item]['profile']}}" --interface="{{hostvars[item]['eth0_name'] | default('eth0')}}" --mac="{{hostvars[item]['mac0']}}" --management=true --interface-type=bridge_slave --interface-master="{{hostvars[item]['bridge0_name'] | default('br0')}}" --kopts="{{hostvars[item]['kopts'] | default('')}}"
       with_items: "{{groups['common']}}"
       
 #    - name: Bridge first interface
