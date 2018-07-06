@@ -34,27 +34,24 @@
       
       
       ######Add network interfaces
-    - name: Add second interfaces to webservers
+      # Even if frontend is part of webserver group, since cobbler runs on
+      # the frontend, this won't ever take effect!
+    - name: Add second interfaces to login and webserver nodes
       command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['eth1_name'] | default('eth1')}}" --mac="{{hostvars[item]['mac1']}}" ---ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_internal_long}}"
 #      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['eth1_name'] | default('eth1')}}" --mac="{{hostvars[item]['mac1']}}" --interface-type=bridge_slave --interface-master="{{hostvars[item]['bridge0_name'] | default('br0')}}"
-      with_items: "{{groups['webserver']}}"
+      with_together: 
+        - "{{groups['login']}}"
+        - "{{groups['webserver']}}"
       
-#    - name: Bridge second interface for webservers
+#    - name: Bridge second interface for login and webserver nodes
 #      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['bridge1_name'] | default('br1')}}" --bridge-opts="stp=no" --ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_internal_long}}"
-#      with_items: "{{groups['webserver']}}"
-      
-    - name: Add second interfaces to login nodes
-      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['eth1_name'] | default('eth1')}}" --mac="{{hostvars[item]['mac1']}}" ---ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_internal_long}}"
-#      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['eth1_name']}}" --ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_external_long}}" --mac="{{hostvars[item]['mac1']}}"
-      with_items: "{{groups['login']}}"
-      
-#    - name: Bridge second interface for login nodes
-#      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['bridge1_name'] | default('br1')}}" --bridge-opts="stp=no" --ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_internal_long}}"
-#      with_items: "{{groups['login']}}"
+#      with_together: 
+#        - "{{groups['login']}}"
+#        - "{{groups['webserver']}}"
       
 #    - name: Add infiniband interfaces to common nodes
-#      command: cobbler system edit --name="{{item}}" --interface=ib0 --ip-address="{{hostvars[item]['ibip']}}" --netmask="{{netmask_internal_long}}" --mac="{{hostvars[item]['ipmac']}}"
+#      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['ibname'] | default('ib0')}}" --ip-address="{{hostvars[item]['ibip']}}" --netmask="{{netmask_internal_long}}" --mac="{{hostvars[item]['ipmac']}}"
 #      with_items: "{{groups['common']}}"
-#      when: "'{{item}}' not in cobbler_systems.stdout" 
+#      when: hostvars[item]['ibtype'] != 'none'
       
 ...
