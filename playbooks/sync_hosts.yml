@@ -37,9 +37,9 @@
       # Even if frontend is part of webserver group, since cobbler runs on
       # the frontend, this won't ever take effect!
     - name: Add second interfaces to login and webserver nodes
-      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['eth1_name'] | default('eth1')}}" --mac="{{hostvars[item]['mac1']}}" ---ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_internal_long}}"
+      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['eth1_name'] | default('eth1')}}" --mac="{{hostvars[item]['mac1']}}" --ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_internal_long}}"
 #      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['eth1_name'] | default('eth1')}}" --mac="{{hostvars[item]['mac1']}}" --interface-type=bridge_slave --interface-master="{{hostvars[item]['bridge0_name'] | default('br0')}}"
-      with_together: 
+      with_items: 
         - "{{groups['login']}}"
         - "{{groups['webserver']}}"
       
