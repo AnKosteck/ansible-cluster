@@ -66,6 +66,7 @@ $SNIPPET('log_ks_post')
 $yum_config_stanza
 # End yum configuration
 $SNIPPET('post_install_kernel_options')
+$SNIPPET('post_install_bridge_utils')
 $SNIPPET('post_install_network_config')
 $SNIPPET('func_register_if_enabled')
 $SNIPPET('puppet_register_if_enabled')
