@@ -8,9 +8,9 @@
   template: src=slurm.conf dest="/etc/slurm/slurm.conf" owner=root group=root mode=0644
   register: slurm_config
   
-- name: Template the second interface
-  template: src=ifcfg_eth1 dest=/etc/sysconfig/network-scripts/ifcfg-{{eth1_name}} mode=0644 backup=no
-  register: config_second_interface
+#- name: Template the second interface
+#  template: src=ifcfg_eth1 dest=/etc/sysconfig/network-scripts/ifcfg-{{eth1_name}} mode=0644 backup=no
+#  register: config_second_interface
   
 - name: Set default route
   lineinfile:
@@ -21,19 +21,55 @@
     state: present
   register: default_route
   
-- name: Set internal interface defroute to no
-  lineinfile:
-    path: /etc/sysconfig/network-scripts/ifcfg-{{eth0_name}}
-    regexp: ^DEFROUTE
-    line: "DEFROUTE=no"
-    create: yes
-    state: present
-  register: config_first_interface
+#- name: Set internal interface defroute to no
+#  lineinfile:
+#    path: /etc/sysconfig/network-scripts/ifcfg-{{eth0_name}}
+#    regexp: ^DEFROUTE
+#    line: "DEFROUTE=no"
+#    create: yes
+#    state: present
+#  register: config_first_interface
   
-- name: Restart network if needed
+#- name: Install nmcli requirements
+#  yum:
+#    name: "{{item}}"
+#    state: present
+#  with_items:
+#    - NetworkManager-glib
+#    - NetworkManager-tui
+#  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific'
+  
+#- name: Install nmcli requirements DNF
+#  dnf:
+#    name: "{{item}}"
+#    state: present
+#  with_items:
+#    - NetworkManager-glib
+#    - NetworkManager-tui
+#  when: ansible_distribution == 'Fedora'
+  
+#- name: Set static IP for external bridge
+#  nmcli:
+#    conn_name: "{{bridge1_name | default('br1')}}"
+#    ifname: "{{bridge1_name | default('br1')}}"
+#    type: bridge
+#    ip4: "{{eth1}}/{{netmask_external}}"
+#    state: present
+    
+- name: Template the external bridge
+  template: src=ifcfg_bridge dest=/etc/sysconfig/network-scripts/ifcfg-{{bridge1_name | default('br1')}} mode=0644 backup=no
+  register: config_second_bridge
+  
+#- name: Restart network if needed
+#  service:
+#    name: network
+#    state: restarted
+#  when: config_first_interface.changed or config_second_interface.changed or default_route.changed
+
+- name: Restart network if required
   service:
     name: network
     state: restarted
-  when: config_first_interface.changed or config_second_interface.changed or default_route.changed
+  when: default_route.changed or config_second_bridge.changed
 
 ...
