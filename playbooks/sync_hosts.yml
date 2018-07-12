@@ -29,7 +29,7 @@
       with_items: "{{groups['common']}}"
       
     - name: Bridge first interface
-      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['bridge0_name'] | default('br0')}}" --bridge-opts="stp=no" --ip-address="{{hostvars[item]['eth0']}}" --netmask="{{netmask_internal_long}}"
+      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['bridge0_name'] | default('br0')}}" --interface-type=bridge --bridge-opts="stp=no" --ip-address="{{hostvars[item]['eth0']}}" --netmask="{{netmask_internal_long}}"
       with_items: "{{groups['common']}}"
       
       
@@ -44,7 +44,7 @@
         - "{{groups['webserver']}}"
       
     - name: Bridge second interface for login and webserver nodes
-      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['bridge1_name'] | default('br1')}}" --bridge-opts="stp=no" --ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_internal_long}}"
+      command: cobbler system edit --name="{{item}}" --interface="{{hostvars[item]['bridge1_name'] | default('br1')}}" --interface-type=bridge --bridge-opts="stp=no" --ip-address="{{hostvars[item]['eth1']}}" --netmask="{{netmask_internal_long}}"
       with_items: 
         - "{{groups['login']}}"
         - "{{groups['webserver']}}"
