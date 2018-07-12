@@ -12,7 +12,7 @@ cd openmpi-{{openmpiinfo['version']}}                      >> $LOG
 echo "++++++++++++++++++ configure +++++++++++++++++++"    >> $LOG
 ./configure --prefix={{openmpiinfo['prefix']}} {{openmpiinfo['flags']}}        2>1 >> $LOG
 echo "+++++++++++++++++++++ make +++++++++++++++++++++"    >> $LOG
-make                                                   2>1 >> $LOG
+make -j {{ansible_processor_vcpus}}                    2>1 >> $LOG
 echo "++++++++++++++++++++ check +++++++++++++++++++++"    >> $LOG
 make check                                             2>1 >> $LOG
 echo "+++++++++++++++++++++ inst +++++++++++++++++++++"    >> $LOG
