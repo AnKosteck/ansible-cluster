@@ -21,14 +21,14 @@
     state: present
   register: default_route
   
-#- name: Set internal interface defroute to no
-#  lineinfile:
-#    path: /etc/sysconfig/network-scripts/ifcfg-{{eth0_name}}
-#    regexp: ^DEFROUTE
-#    line: "DEFROUTE=no"
-#    create: yes
-#    state: present
-#  register: config_first_interface
+- name: Set internal interface defroute to no
+  lineinfile:
+    path: /etc/sysconfig/network-scripts/ifcfg-{{bridge0_name | default('br0')}}
+    regexp: ^DEFROUTE
+    line: "DEFROUTE=no"
+    create: yes
+    state: present
+  register: defroute_internal
   
 #- name: Install nmcli requirements
 #  yum:
@@ -70,6 +70,6 @@
   service:
     name: network
     state: restarted
-  when: default_route.changed or config_second_bridge.changed
+  when: default_route.changed or config_second_bridge.changed or defroute_internal.changed
 
 ...
