@@ -33,6 +33,7 @@
 - hosts: frontend
 
   tasks:
+    - include: load_config.yml
     - include: load_users.yml
     
     - name: Create user homes
