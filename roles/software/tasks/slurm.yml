@@ -1,5 +1,7 @@
 ---
 
+- include_vars: slurm_vars.yml
+
   #Create credentials
 - name: SLURM group
   group: name=slurm gid=395 state=present system=yes

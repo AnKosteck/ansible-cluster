@@ -1,0 +1,9 @@
+---
+
+openmpi_requirements_redhat:
+  - flex
+  - flex-devel
+openmpi_requirements_ubuntu:
+  - flex
+
+...

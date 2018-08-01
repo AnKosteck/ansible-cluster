@@ -1,70 +1,24 @@
 ---
 
-munge_packages_ubuntu:
-  - munge
-munge_packages_redhat:
-  - munge
-  - munge-devel
-  - munge-libs
-slurm_packages_ubuntu:
-  - openssl
-  - libssl-dev
-  - libpam0g-dev
-  - numactl
-  - libnuma-dev
-  - hwloc
-  - libhwloc-dev
-  - lua5.1
-  - liblua5.1-dev
-  - libreadline-dev
-  - readline-common
-  - rrdtool
-  - librrd-dev
-  - libncurses5
-  - libncurses5-dev
-  - man2html
-  - libibmad5
-  - libibmad-dev
-  - libibumad3
-  - libibumad-dev
-#  - mariadb-server
-#  - mariadb-common
-#  - libmariadbd-dev
-  - munge
-  - libmunge2
-  - libmunge-dev
-  - libextutils-modulemaker-perl
-  - libmodule-install-perl
-  - libswitch-perl
-#  - libdbi-perl
-#  - libextutils-makemaker-cpanfile-perl
-slurm_packages_redhat:
-  - hdf5
-  - hdf5-devel
-  - hwloc
-  - hwloc-devel
-  - libibmad
-  - libibumad
-  - lua
-  - lua-devel
-  - man2html
-  - mariadb
-  - mariadb-devel
-  - ncurses-devel
-  - numactl
-  - numactl-devel
-  - openssl
-  - openssl-devel
-  - pam-devel
-#  - perl-DBI
-  - perl-ExtUtils-MakeMaker
-  - perl-Switch
-  - readline-devel
-  - rrdtool-devel
-  - libssh2-devel
-  - json-c-devel
-  - lz4-devel
-  - pmix-devel
-  - libcurl-devel
+build_anchors: /root/build_hooks
+install_scripts_dir: /root/install_scripts
+source_download_dir: /root/sources
+openmpiinfo:
+  version: 3.1.0
+  url: https://download.open-mpi.org/release/open-mpi/v3.1/openmpi-3.1.0.tar.gz
+  filename: openmpi-3.1.0.tar.gz
+  prefix: /opt/openmpi
+  flags: "--enable-mpi-thread-multiple"
+
+slurminfo:
+  filename: slurm-17-11-7-1.tar.gz
+  extracted_filename: slurm-slurm-17-11-7-1
+  prefix: /opt/slurm
+  statedir: /var/run/slurm
+  sysconfdir: /etc/slurm
+  version: 17.11.7
+  url: https://github.com/SchedMD/slurm/archive/slurm-17-11-7-1.tar.gz
+
+
   
 ...

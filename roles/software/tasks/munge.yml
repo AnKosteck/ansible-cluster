@@ -1,5 +1,7 @@
 ---
 
+- include_vars: munge_vars.yml
+
   #Create credentials
 - name: MUNGE group
   group: name=munge gid=394 state=present system=yes
