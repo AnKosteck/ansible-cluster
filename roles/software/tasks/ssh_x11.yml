@@ -1,0 +1,32 @@
+---
+
+- include_vars: x11_vars.yml
+
+- name: Install needed Xorg packages YUM
+  yum:
+    name: "{{item}}"
+    state: present
+  with_items: "{{xorg_packages_redhat}}"
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific'
+  
+- name: Install needed Xorg packages DNF
+  dnf:
+    name: "{{item}}"
+    state: present
+  with_items: "{{xorg_packages_redhat}}"
+  when: ansible_distribution == 'Fedora'
+  
+- name: Activate X11 forwarding
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regex: ^#?X11Forwarding
+    line: X11Forwarding yes
+  register: xforwarding_config
+  
+- name: Restart sshd
+  service:
+    name: sshd
+    state: restarted
+  when: xforwarding_config.changed
+
+...
