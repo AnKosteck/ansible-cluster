@@ -1,0 +1,2 @@
+apt-get update
+apt-get --yes --force-yes {{ common_packages_ubuntu | join(' ') }}

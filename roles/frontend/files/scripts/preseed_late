@@ -5,5 +5,6 @@ $SNIPPET('late_apt_repo_config')
 $SNIPPET('post_run_deb')
 $SNIPPET('download_config_files')
 $SNIPPET('install_public_root_key')
+$SNIPPET('install_common_packages_ubuntu')
 $SNIPPET('kickstart_done')
 # End preseed_late_default

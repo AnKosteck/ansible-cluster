@@ -1,6 +1,7 @@
 ---
 
 - include_vars: packages.yml
+- include_vars: common_node_packages.yml
 
 - name: Install cobbler packages
   yum: name={{item}} state=present

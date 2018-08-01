@@ -1,0 +1,1 @@
+yum -y install {{ common_packages_redhat | join(' ') }}
