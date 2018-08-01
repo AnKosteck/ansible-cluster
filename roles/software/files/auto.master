@@ -1,0 +1,2 @@
+/home    /etc/auto.home    --timeout=1200
+/-       /etc/auto.apps    --timeout=1200

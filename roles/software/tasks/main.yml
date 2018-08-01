@@ -3,6 +3,10 @@
 - include: ../../../playbooks/load_config.yml
 
 - include: build_environment.yml
+- include: autofs.yml
+- include: infiniband.yml
+  when: ibtype != 'none'
+- include: ssh_x11.yml
 - include: munge.yml
 - include: openmpi.yml
 - include: slurm.yml

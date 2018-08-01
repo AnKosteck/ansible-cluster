@@ -1,0 +1,30 @@
+---
+
+infiniband_packages_redhat:
+  - ibutils
+  - infiniband-diags
+  - libibverbs
+  - libibverbs-devel
+  - libibverbs-utils
+  - libmlx4
+  - libmlx5
+  - librdmacm
+  - librdmacm-devel
+  - librdmacm-utils
+  - opensm
+  - perftest
+  - qperf
+  - rdma
+infiniband_packages_ubuntu:
+  - ibutils
+  - ibverbs-utils
+  - infiniband-diags
+  - libibverbs1
+  - libmlx4-1
+  - libmlx5-1
+  - librdmacm1
+  - perftest
+  - qperf
+  - rdmacm-utils
+  
+...

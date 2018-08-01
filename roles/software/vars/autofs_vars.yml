@@ -1,0 +1,13 @@
+---
+
+autofs_packages_ubuntu:
+  - autofs
+  - rpcbind
+  - libnfsidmap2
+autofs_packages_redhat:
+  - autofs
+  - rpcbind
+  - libnfsidmap
+  - nfs-utils
+  
+...
