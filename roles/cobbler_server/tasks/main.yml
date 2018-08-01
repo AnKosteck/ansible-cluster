@@ -15,6 +15,7 @@
 - name: Update loaders
   command: cobbler get-loaders --force
   
+- include: copy_cobbler_files.yml
 - include: cobbler_repos.yml
 - include: cobbler_distros.yml
 - include: cobbler_profiles.yml

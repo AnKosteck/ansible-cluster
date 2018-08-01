@@ -1,7 +1,6 @@
 ---
 
 - include_vars: packages.yml
-- include_vars: common_node_packages.yml
 
 - name: Install cobbler packages
   yum: name={{item}} state=present
@@ -23,40 +22,20 @@
   template: src=dnsmasq.template dest=/etc/cobbler/dnsmasq.template owner=root mode=0644 backup=yes
   register: dnsmasq_config
   
-  #Copy and template kickstarts, scripts, snippets and sources
-- name: Template kickstarts
-  template: src={{item}} dest=/var/lib/cobbler/kickstarts/{{item | basename}}
-  with_fileglob: kickstarts/*
-  register: kickstarts
-- name: Template scripts
-  template: src={{item}} dest=/var/lib/cobbler/scripts/{{item | basename}}
-  with_fileglob: scripts/*
-  register: scripts
-- name: Template snippets
-  template: src={{item}} dest=/var/lib/cobbler/snippets/{{item | basename}}
-  with_fileglob: snippets/*
-  register: snippets
+- name: Create sources dir if not exists
+  file: path=/var/www/sources state=directory owner=root mode=0755
+  register: sources_path
   
 - name: Install debmirror
   copy: src=debmirror dest=/usr/bin/ owner=root mode=0755
   register: debmirror_installation
-
-- name: Create sources dir if not exists
-  file: path=/var/www/sources state=directory owner=root mode=0755
-- name: Copy sources
-  copy: src={{item}} dest=/var/www/sources/{{item | basename}}
-  with_fileglob: sources/*
-  register: sources
   
   #Restart services if needed
 - name: Restart httpd if needed
   service: name=httpd state=restarted
-  when: sources_conf.changed
+  when: sources_conf.changed or sources_path.changed
 - name: Restart cobbler if needed
   service: name=cobblerd state=restarted
-  when: cobbler_settings.changed or debmirror_installation.changed
-- name: Sync cobbler if needed
-  command: cobbler sync
-  when: kickstarts.changed or scripts.changed or snippets.changed or sources.changed or dnsmasq_config.changed or debmirror_installation.changed
+  when: cobbler_settings.changed or debmirror_installation.changed or dnsmasq_config.changed or debmirror_installation.changed
   
 ...

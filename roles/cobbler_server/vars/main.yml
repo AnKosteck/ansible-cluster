@@ -1,5 +1,20 @@
 ---
 
 isos_dir: /root/isos
+common_packages_redhat:
+  - htop
+  - iperf3
+  - iotop
+  - net-tools
+  - pciutils
+  - screen
+  - telnet
+  - traceroute
+common_packages_ubuntu:
+  - htop
+  - iotop
+  - net-tools
+  - screen
+  - traceroute
 
 ...

@@ -1,0 +1,26 @@
+---
+
+  #Copy and template kickstarts, scripts, snippets and sources
+- name: Template kickstarts
+  template: src={{item}} dest=/var/lib/cobbler/kickstarts/{{item | basename}}
+  with_fileglob: kickstarts/*
+  register: kickstarts
+- name: Template scripts
+  template: src={{item}} dest=/var/lib/cobbler/scripts/{{item | basename}}
+  with_fileglob: scripts/*
+  register: scripts
+- name: Template snippets
+  template: src={{item}} dest=/var/lib/cobbler/snippets/{{item | basename}}
+  with_fileglob: snippets/*
+  register: snippets
+  
+- name: Copy sources
+  copy: src={{item}} dest=/var/www/sources/{{item | basename}}
+  with_fileglob: sources/*
+  register: sources
+  
+- name: Sync cobbler if needed
+  command: cobbler sync
+  when: kickstarts.changed or scripts.changed or snippets.changed or sources.changed
+
+...
