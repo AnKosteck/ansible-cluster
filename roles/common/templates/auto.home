@@ -1,3 +1,0 @@
-
-*       -fstype=auto,rw,timeo=14,intr    {{groups['home_server'][0]}}:{{hostvars[groups['home_server'][0]]['home_export']}}/&
-

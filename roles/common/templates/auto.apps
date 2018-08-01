@@ -1,3 +1,0 @@
-
-{{appsdir}}  -fstype=auto,rw,timeo=14,intr    {{groups['app_server'][0]}}:{{hostvars[groups['app_server'][0]]['app_export']}}
-
