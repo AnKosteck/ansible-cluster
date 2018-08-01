@@ -1,0 +1,33 @@
+---
+
+- hosts: all
+
+  tasks:
+    - name: Loading ssh limits
+      include_vars: "{{ lookup('env','HEXA_SSH_LIMITS') }}"
+
+    - name: Limit ssh
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '#? ?AllowUsers'
+        line: "AllowUsers {{ssh_anywhere}} {{ssh_access_limits[ansible_hostname]}}"
+        backup: yes
+      when: ansible_hostname in ssh_access_limits
+      register: sshd_access_config
+      
+    - name: Lift ssh limit
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '#? ?AllowUsers'
+        line: "# AllowUsers {{ssh_anywhere}}"
+        backup: yes
+      when: ansible_hostname not in ssh_access_limits
+      register: sshd_lifted_config
+      
+    - name: Restart ssh if needed
+      service:
+        name: sshd
+        state: restarted
+      when: sshd_access_config.changed or sshd_lifted_config.changed
+
+...
