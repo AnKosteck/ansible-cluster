@@ -11,10 +11,6 @@
   roles:
     - { role: opensm }
 
-- hosts: common
-  roles:
-    - { role: common }
-
 - hosts: common:!frontend
   roles:
     - { role: ntp_client }
@@ -28,18 +24,15 @@
     - { role: webserver }
     
   #For software and slurm
-- hosts: slurmdbd
+- hosts: frontend
   roles:
     - { role: mariadb }
 - hosts: compute login frontend
   roles:
     - { role: software }
-- hosts: slurmdbd
-  roles:
-    - { role: slurmdbd }
 - hosts: frontend
   roles:
-    - { role: slurmctld }
+    - { role: slurm_frontend }
 - hosts: compute
   roles:
     - { role: compute }

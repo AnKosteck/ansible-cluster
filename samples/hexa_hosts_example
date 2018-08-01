@@ -14,9 +14,6 @@ hexa_web osVariant=rhel7.1
 [frontend]
 hexa_frontend eth1=192.168.1.254 mac1="a1:b0:a2:b1:a3:b2" eth1_name=eno2
 
-[slurmdbd]
-hexa_frontend
-
 [opensm]
 hexa_frontend
 

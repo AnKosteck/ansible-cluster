@@ -1,22 +1,18 @@
 ---
 
   #For a complete software setup
-- hosts: slurmdbd
+- hosts: frontend
   roles:
     - { role: mariadb }
 - hosts: compute login frontend
   roles:
     - { role: software }
-- hosts: slurmdbd
-  roles:
-    - { role: slurmdbd }
 - hosts: frontend
   roles:
-    - { role: slurmctld }
+    - { role: slurm_frontend }
 - hosts: compute
   roles:
     - { role: compute }
-    
 - hosts: login
   roles:
     - { role: login }

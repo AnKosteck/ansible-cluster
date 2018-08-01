@@ -5,6 +5,6 @@
     - { role: frontend }
     - { role: cobbler_server }
     - { role: webserver }
-    - { role: common }
+    - { role: software }
 
 ...

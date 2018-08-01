@@ -2,7 +2,6 @@
 
 - hosts: login
   roles:
-    - { role: common }
     - { role: software }
     - { role: login }
     

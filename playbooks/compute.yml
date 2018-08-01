@@ -2,7 +2,6 @@
 
 - hosts: compute
   roles:
-    - { role: common }
     - { role: software }
     - { role: compute }
 
