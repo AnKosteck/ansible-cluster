@@ -1,0 +1,61 @@
+---
+
+- include: ../../../playbooks/load_config.yml
+- include: ../../../playbooks/load_slurm_partitions.yml
+    
+  #Create dirs and set permissions
+- name: Create slurm directories in /var/spool
+  file: path=/var/spool/{{item}} state=directory owner=slurm group=slurm mode=0755
+  with_items:
+    - slurmdbd
+    - slurmctld
+    - slurmd
+- name: Create /var/run/slurm
+  file: path=/var/run/slurm state=directory owner=slurm group=slurm mode=0755
+- name: Create slurm log dir
+  file: path=/var/log/slurm state=directory owner=slurm group=slurm mode=0755
+
+- name: Template the slurm.conf
+  template: src=slurm.conf dest="/etc/slurm/slurm.conf" owner=root group=root mode=0644
+  register: slurm_config
+  
+- name: Template the slurmdbd.conf
+  template: src=slurmdbd.conf dest="/etc/slurm/slurmdbd.conf" owner=root group=root mode=0600
+  register: slurmdbd_configuration_file
+  
+- name: Template the slurmdbd unit file
+  template:
+    src: slurmdbd.service
+    dest: /usr/lib/systemd/system/slurmdbd.service
+    owner: root
+    mode: 0644
+  register: slurmdbd_unit
+  
+- name: Template the slurmctld unit file
+  template:
+    src: slurmctld.service
+    dest: /usr/lib/systemd/system/slurmctld.service
+    owner: root
+    mode: 0644
+  register: slurmctld_unit
+  
+- name: Reload systemd units if needed
+  systemd:
+    daemon_reload: yes
+  when: slurmdbd_unit.changed or slurmctld_unit.changed
+  
+- name: Start and enable slurmdbd and slurmctld
+  service: name="{{item}}" state=started enabled=yes
+  with_items:
+    - slurmdbd
+    - slurmctld
+  
+- name: Restart slurmdbd
+  service: name=slurmdbd state=restarted
+  when: slurmdbd_configuration_file.changed or slurm_config.changed
+  
+- name: Restart slurmctld
+  service: name=slurmctld state=restarted
+  when: slurm_config.changed
+
+...
