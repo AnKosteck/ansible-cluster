@@ -3,22 +3,5 @@
 build_anchors: /root/build_hooks
 install_scripts_dir: /root/install_scripts
 source_download_dir: /root/sources
-openmpiinfo:
-  version: 3.1.0
-  url: https://download.open-mpi.org/release/open-mpi/v3.1/openmpi-3.1.0.tar.gz
-  filename: openmpi-3.1.0.tar.gz
-  prefix: /opt/openmpi
-  flags: "--enable-mpi-thread-multiple"
-
-slurminfo:
-  filename: slurm-17-11-7-1.tar.gz
-  extracted_filename: slurm-slurm-17-11-7-1
-  prefix: /opt/slurm
-  statedir: /var/run/slurm
-  sysconfdir: /etc/slurm
-  version: 17.11.7
-  url: https://github.com/SchedMD/slurm/archive/slurm-17-11-7-1.tar.gz
-
-
   
 ...

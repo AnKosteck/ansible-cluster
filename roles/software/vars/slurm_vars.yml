@@ -1,5 +1,13 @@
 ---
 
+slurminfo:
+  filename: slurm-17-11-7-1.tar.gz
+  extracted_filename: slurm-slurm-17-11-7-1
+  prefix: /opt/slurm
+  statedir: /var/run/slurm
+  sysconfdir: /etc/slurm
+  version: 17.11.7
+  url: https://github.com/SchedMD/slurm/archive/slurm-17-11-7-1.tar.gz
 slurm_packages_ubuntu:
   - openssl
   - libssl-dev

@@ -1,6 +1,7 @@
 ---
   
 - include: ../../../playbooks/load_slurm_partitions.yml
+- include_vars: ../../software/vars/slurm_vars.yml
   
 - name: Template the slurmd unit file
   template:

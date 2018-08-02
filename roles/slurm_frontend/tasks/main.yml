@@ -2,6 +2,7 @@
 
 - include: ../../../playbooks/load_config.yml
 - include: ../../../playbooks/load_slurm_partitions.yml
+- include_vars: ../../software/vars/slurm_vars.yml
     
   #Create dirs and set permissions
 - name: Create slurm directories in /var/spool
