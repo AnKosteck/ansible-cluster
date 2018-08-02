@@ -7,6 +7,7 @@
 - include: infiniband.yml
   when: ibtype != 'none'
 - include: ssh_x11.yml
+- include: R.yml
 - include: munge.yml
 - include: openmpi.yml
 - include: slurm.yml
