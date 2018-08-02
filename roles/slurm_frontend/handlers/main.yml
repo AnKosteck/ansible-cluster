@@ -1,0 +1,19 @@
+---
+
+- name: Reload systemd units
+  systemd:
+    daemon_reload: yes
+
+- name: Restart slurmdbd
+  listen: Restart slurm on frontend
+  service:
+    name: slurmdbd
+    state: restarted
+  
+- name: Restart slurmctld
+  listen: Restart slurm on frontend
+  service:
+    name: slurmctld
+    state: restarted
+
+...

@@ -1,0 +1,6 @@
+---
+
+- name: Sync cobbler
+  command: cobbler sync
+  
+...

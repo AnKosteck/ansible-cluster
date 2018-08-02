@@ -23,24 +23,16 @@
   #Copy config files
 - name: Copy auto.master file
   copy: src=auto.master dest=/etc/auto.master mode=0644 owner=root backup=yes
-  register: master_conf
+  notify: Restart autofs and rpcbind
 - name: Template auto.home file
   template: src=auto.home dest=/etc/auto.home mode=0644 owner=root backup=yes
-  register: home_conf
+  notify: Restart autofs and rpcbind
 - name: Template auto.apps file
   template: src=auto.apps dest=/etc/auto.apps mode=0644 owner=root backup=yes
-  register: apps_conf
+  notify: Restart autofs and rpcbind
 - name: Template idmapd.conf file
   template: src=idmapd.conf dest=/etc/idmapd.conf mode=0644 owner=root backup=yes
-  register: idmapd_conf
-
-  #Service start and enable
-- name: Restart autofs and rpcbind if needed
-  service: name=rpcbind state=restarted
-  when: idmapd_conf.changed or apps_conf.changed or home_conf.changed or master_conf.changed
-  with_items:
-    - autofs
-    - rpcbind
+  notify: Restart autofs and rpcbind
   
 - name: Start and enable autofs and rpcbind
   service: name={{item}} state=started enabled=yes

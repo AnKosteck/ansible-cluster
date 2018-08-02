@@ -22,21 +22,21 @@
   #Map and source interfaces
 - name: Map internal interface
   firewalld: zone=internal permanent=true interface=eth0 state=enabled
-  register: int_mapping
+  notify: Restart firewalld
 - name: Map external interface
   firewalld: zone=public permanent=true interface=eth1 state=enabled
-  register: ext_mapping
+  notify: Restart firewalld
 - name: Add source IPs
   firewalld: zone=external source='{{ip_startaddress_external}}/{{netmask_external}}' state=enabled permanent=true
-  register: source_ext
+  notify: Restart firewalld
   
   #Security
 - name: Masquerade external zone
   firewalld: zone=external masquerade=yes permanent=true state=enabled
-  register: masquerade_ext
+  notify: Reload firewall rules
 - name: Remove ssh access from public zone
   firewalld: zone=public service=ssh permanent=true state=disabled
-  register: ssh_disabled_public
+  notify: Reload firewall rules
 - name: Disable ICMP timestamps
   shell: firewall-cmd --add-icmp-block={{item}} --permanent
   with_items:
@@ -47,34 +47,26 @@
 - name: Enable services intern
   firewalld: service={{item}} permanent=true state=enabled zone=internal
   with_items: "{{firewall_services_eth0}}"
-  register: systemservices_int
+  notify: Reload firewall rules
 - name: Enable services public
   firewalld: service={{item}} permanent=true state=enabled zone=public
   with_items: "{{firewall_services_eth1}}"
-  register: systemservices_ext
+  notify: Reload firewall rules
 - name: Enable services for source
   firewalld: service={{item}} permanent=true state=enabled zone=external
   with_items: "{{firewall_services_source}}"
-  register: systemservices_source
+  notify: Reload firewall rules
 - name: Open up ports intern
   firewalld: port={{item}} permanent=true state=enabled zone=internal
   with_items: "{{firewall_ports_eth0}}"
-  register: systemports_int
+  notify: Reload firewall rules
 - name: Open up ports public
   firewalld: port={{item}} permanent=true state=enabled zone=public
   with_items: "{{firewall_ports_eth1}}"
-  register: systemports_ext
+  notify: Reload firewall rules
 - name: Open up ports for source
   firewalld: port={{item}} permanent=true state=enabled zone=external
   with_items: "{{firewall_ports_source}}"
-  register: systemports_source  
-  
-  #Reload/restart if needed
-- name: Reload config if needed
-  command: firewall-cmd --reload
-  when: systemservices_int.changed or systemservices_ext.changed or systemports_int.changed or masquerade_ext.changed or systemports_ext.changed or ssh_disabled_public.changed or masquerade_ext.changed or systemservices_source.changed or systemports_source.changed
-- name: Restart firewalld if needed
-  service: name=firewalld state=restarted
-  when: ext_mapping.changed or int_mapping.changed or source_ext.changed
+  notify: Reload firewall rules
 
 ...

@@ -39,7 +39,6 @@
   shell: "{{install_scripts_dir}}/slurm.sh"
   args:
     creates: "{{build_anchors}}/slurmbuild.log"
-  register: slurm_installation
     
 - name: Create slurm sysconfdir
   file:
@@ -87,10 +86,6 @@
     state: present
     regexp: ^{{slurminfo['prefix']}}
     line: "{{slurminfo['prefix']}}/lib"
-  register: slurm_link
-  
-- name: Call ldconfig if needed
-  command: ldconfig
-  when: slurm_link.changed
+  notify: Link libraries
     
 ...

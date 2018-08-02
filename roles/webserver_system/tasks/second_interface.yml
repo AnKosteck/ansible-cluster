@@ -2,20 +2,14 @@
 
 - name: Template the second interface
   template: src=ifcfg_eth1 dest=/etc/sysconfig/network-scripts/ifcfg-{{eth1_name}} mode=0644 backup=yes
-  register: config_second_interface
+  notify: Restart network
 
 - name: Template the first interface
   template: src=ifcfg_eth0 dest=/etc/sysconfig/network-scripts/ifcfg-{{eth0_name}} mode=0644 backup=yes
-  register: config_first_interface
+  notify: Restart network
   
 - name: Add static route for first interface
   lineinfile: dest=/etc/sysconfig/network-scripts/route-{{eth0_name}} regexp="^10" line="{{ip_startaddress_internal}}/{{netmask_internal}} via {{hostvars[groups['frontend'][0]]['eth0']}} dev {{eth0_name}}" state=present create=yes 
-  register: first_interface_static_route
-  
-- name: Restart network if needed
-  service:
-    name: network
-    state: restarted
-  when: config_first_interface.changed or first_interface_static_route.changed or config_second_interface.changed
+  notify: Restart network
 
 ...

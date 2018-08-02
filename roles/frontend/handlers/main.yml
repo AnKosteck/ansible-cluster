@@ -1,0 +1,38 @@
+---
+
+- name: Restart httpd
+  service:
+    name: httpd
+    state: restarted
+
+- name: Restart cobblerd
+  service:
+    name: cobblerd
+    state: restarted
+    
+- name: Reload firewall rules
+  command: firewall-cmd --reload
+  
+- name: Restart firewalld
+  service:
+    name: firewalld
+    state: restarted
+    
+- name: Restart dnsmasq
+  listen: Restart network and dnsmasq
+  service:
+    name: dnsmasq
+    state: restarted
+    
+- name: Restart network
+  listen: Restart network and dnsmasq
+  service:
+    name: network
+    state: restarted
+    
+- name: Restart ntpd
+  service:
+    name: ntpd
+    state: restarted
+
+...

@@ -39,12 +39,7 @@
   #Or via dd if=/dev/random bs=1 count=2048 > $HEXA_MUNGE_KEY
 - name: Copy MUNGE key
   copy: src="{{ lookup('env','HEXA_MUNGE_KEY') }}" dest=/etc/munge/munge.key mode=0400 owner=munge backup=yes
-  register: munge_key
-  
-  #Start and enable MUNGE daemon
-- name: Restart munge if needed
-  service: name=munge state=restarted
-  when: munge_key.changed
+  notify: Restart munge
   
 - name: Start and enable munge
   service: name=munge state=started enabled=yes

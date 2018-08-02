@@ -7,35 +7,30 @@
   register: cobbler_installation
   with_items: "{{cobbler_packages}}"
   
-  #Copy cobbler files
+  #Copy cobbler stuff
 - name: Copy modules.conf
   copy: src=modules.conf dest=/etc/cobbler/modules.conf owner=root mode=0644 backup=yes
-- name: Copy sources.conf
-  copy: src=sources.conf dest=/etc/httpd/conf.d/sources.conf owner=root mode=0644
-  register: sources_conf
+  notify: Restart cobblerd
   
-  #Copy cobbler templates
 - name: Template cobbler settings
   template: src=cobbler_settings dest=/etc/cobbler/settings owner=root mode=0644 backup=yes
-  register: cobbler_settings
+  notify: Restart cobblerd
+  
 - name: Template cobbler dnsmasq.template
   template: src=dnsmasq.template dest=/etc/cobbler/dnsmasq.template owner=root mode=0644 backup=yes
-  register: dnsmasq_config
-  
-- name: Create sources dir if not exists
-  file: path=/var/www/sources state=directory owner=root mode=0755
-  register: sources_path
+  notify: Restart cobblerd
   
 - name: Install debmirror
   copy: src=debmirror dest=/usr/bin/ owner=root mode=0755
-  register: debmirror_installation
+  notify: Restart cobblerd
   
-  #Restart services if needed
-- name: Restart httpd if needed
-  service: name=httpd state=restarted
-  when: sources_conf.changed or sources_path.changed
-- name: Restart cobbler if needed
-  service: name=cobblerd state=restarted
-  when: cobbler_settings.changed or debmirror_installation.changed or dnsmasq_config.changed or debmirror_installation.changed
+  #Copy httpd stuff for cobbler
+- name: Copy sources.conf
+  copy: src=sources.conf dest=/etc/httpd/conf.d/sources.conf owner=root mode=0644
+  notify: Restart httpd
+  
+- name: Create sources dir if not exists
+  file: path=/var/www/sources state=directory owner=root mode=0755
+  notify: Restart httpd
   
 ...

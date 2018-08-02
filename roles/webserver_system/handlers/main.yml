@@ -1,0 +1,16 @@
+---
+
+- name: Reload firewall rules
+  command: firewall-cmd --reload
+  
+- name: Restart firewalld
+  service:
+    name: firewalld
+    state: restarted
+
+- name: Restart network
+  service:
+    name: network
+    state: restarted
+
+...

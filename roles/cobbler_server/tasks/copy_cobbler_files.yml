@@ -4,23 +4,19 @@
 - name: Template kickstarts
   template: src={{item}} dest=/var/lib/cobbler/kickstarts/{{item | basename}}
   with_fileglob: kickstarts/*
-  register: kickstarts
+  notify: Sync cobbler
 - name: Template scripts
   template: src={{item}} dest=/var/lib/cobbler/scripts/{{item | basename}}
   with_fileglob: scripts/*
-  register: scripts
+  notify: Sync cobbler
 - name: Template snippets
   template: src={{item}} dest=/var/lib/cobbler/snippets/{{item | basename}}
   with_fileglob: snippets/*
-  register: snippets
+  notify: Sync cobbler
   
 - name: Copy sources
   copy: src={{item}} dest=/var/www/sources/{{item | basename}}
   with_fileglob: sources/*
-  register: sources
-  
-- name: Sync cobbler if needed
-  command: cobbler sync
-  when: kickstarts.changed or scripts.changed or snippets.changed or sources.changed
+  notify: Sync cobbler
 
 ...

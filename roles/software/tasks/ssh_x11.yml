@@ -21,12 +21,6 @@
     path: /etc/ssh/sshd_config
     regex: ^#?X11Forwarding
     line: X11Forwarding yes
-  register: xforwarding_config
-  
-- name: Restart sshd
-  service:
-    name: sshd
-    state: restarted
-  when: xforwarding_config.changed
+  notify: Restart sshd
 
 ...

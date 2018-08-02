@@ -10,7 +10,7 @@
   
 #- name: Template the second interface
 #  template: src=ifcfg_eth1 dest=/etc/sysconfig/network-scripts/ifcfg-{{eth1_name}} mode=0644 backup=no
-#  register: config_second_interface
+#  notify: Restart network
   
 - name: Set default route
   lineinfile:
@@ -19,7 +19,7 @@
     line: "GATEWAY={{main_gateway}}"
     create: yes
     state: present
-  register: default_route
+  notify: Restart network
   
 - name: Set internal interface defroute to no
   lineinfile:
@@ -28,7 +28,7 @@
     line: "DEFROUTE=no"
     create: yes
     state: present
-  register: defroute_internal
+  notify: Restart network
   
 #- name: Install nmcli requirements
 #  yum:
@@ -58,18 +58,6 @@
     
 - name: Template the external bridge
   template: src=ifcfg_bridge dest=/etc/sysconfig/network-scripts/ifcfg-{{bridge1_name | default('br1')}} mode=0644 backup=no
-  register: config_second_bridge
-  
-#- name: Restart network if needed
-#  service:
-#    name: network
-#    state: restarted
-#  when: config_first_interface.changed or config_second_interface.changed or default_route.changed
-
-- name: Restart network if required
-  service:
-    name: network
-    state: restarted
-  when: default_route.changed or config_second_bridge.changed or defroute_internal.changed
+  notify: Restart network
 
 ...

@@ -1,0 +1,11 @@
+---
+
+- name: Restart ntp client
+  service:
+    name: "{{ntpname[ansible_distribution]}}"
+    state: restarted
+    
+- name: Sync time manually
+  command: ntpdate -u {{hostvars[groups['frontend'][0]]['eth0']}}
+
+...

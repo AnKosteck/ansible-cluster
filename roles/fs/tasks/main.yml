@@ -18,10 +18,6 @@
 
 - name: Print export line
   lineinfile: dest=/etc/exports regexp="{{nfs_export}}" line="{{nfs_export}} {{ip_startaddress_internal}}/{{netmask_internal_long}}({{export_options}})" state=present create=yes
-  register: exports_config
-  
-- name: Restart nfs server if needed
-  service: name=nfs-server state=restarted
-  when: exports_config.changed
+  notify: Restart nfs server
 
 ...

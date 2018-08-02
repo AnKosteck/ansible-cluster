@@ -1,0 +1,17 @@
+---
+
+- name: Restart gmond
+  service: 
+    name: "{{ganglia_daemon[ansible_distribution]}}"
+    state: restarted
+    
+- name: Reload systemd units
+  systemd:
+    daemon_reload: yes
+    
+- name: Restart slurmd
+  service:
+    name: slurmd 
+    state: restarted
+  
+...

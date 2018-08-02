@@ -1,0 +1,25 @@
+---
+
+  #Service start and enable
+- name: Restart autofs and rpcbind
+  service:
+    name: rpcbind
+    state: restarted
+  with_items:
+    - rpcbind
+    - autofs
+    
+- name: Restart munge
+  service:
+    name: munge
+    state: restarted
+    
+- name: Link libraries
+  command: ldconfig
+  
+- name: Restart sshd
+  service:
+    name: sshd
+    state: restarted
+
+...

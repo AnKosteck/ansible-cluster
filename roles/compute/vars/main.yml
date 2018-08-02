@@ -25,4 +25,10 @@ ganglia_packages_ubuntu:
   - ganglia-monitor
   - ganglia-monitor-python
   
+ganglia_daemon:
+  CentOS: gmond
+  Scientific: gmond
+  Fedora: gmond
+  Ubuntu: ganglia-monitor
+  
 ...

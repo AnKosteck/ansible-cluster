@@ -13,25 +13,15 @@
   
 - name: Template internal bridge
   template: src=bridge_internal_config dest=/etc/sysconfig/network-scripts/ifcfg-br0 mode=0644 backup=yes
-  register: ibridge_config
+  notify: Restart network and dnsmasq
 - name: Template internal interface
   template: src=internal_config dest=/etc/sysconfig/network-scripts/ifcfg-{{eth0_name}} mode=0644 backup=yes
-  register: iinterface_config
+  notify: Restart network
 - name: Template external bridge
   template: src=bridge_external_config dest=/etc/sysconfig/network-scripts/ifcfg-br1 mode=0644 backup=yes
-  register: ebridge_config
+  notify: Restart network
 - name: Template external interface
   template: src=external_config dest=/etc/sysconfig/network-scripts/ifcfg-{{eth1_name}} mode=0644 backup=yes
-  register: einterface_config
-  
-- name: Restart network if needed
-  service:
-    name: network
-    state: restarted
-  when: ibridge_config.changed or iinterface_config.changed or ebridge_config.changed or einterface_config.changed
-  
-- name: Restart dnsmasq if needed
-  service: name=dnsmasq state=restarted
-  when: ibridge_config.changed
+  notify: Restart network
   
 ...
