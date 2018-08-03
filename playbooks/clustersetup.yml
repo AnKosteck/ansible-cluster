@@ -33,6 +33,9 @@
 - hosts: compute
   roles:
     - { role: compute }
+- hosts: gpu
+  roles:
+    - { role: gpu }
     
 - hosts: login
   roles:

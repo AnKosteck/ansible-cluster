@@ -1,0 +1,9 @@
+---
+
+- hosts: gpu
+  roles:
+    - { role: software }
+    - { role: compute }
+    - { role: gpu }
+
+...
