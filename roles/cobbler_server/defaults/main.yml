@@ -1,0 +1,87 @@
+---
+
+cobbler_repos:
+  - name: cuda-RedHat7
+    mirror: "http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/"
+#    breed: rsync
+  - name: nvidia-Fedora28
+    mirror: "http://download1.rpmfusion.org/nonfree/fedora/nvidia-driver/28/x86_64/"
+#    breed: rsync
+#  - name: cuda8-ubuntu1604
+#    mirror: "http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/"
+#    breed: apt
+  - name: epel7
+    mirror: "http://mirror.inode.at/epel/7/x86_64/"
+#    breed: yum
+  - name: fedora28
+    mirror: "http://fedora.inode.at/releases/28/Everything/x86_64/os/"
+#    breed: yum
+  - name: fedora28-updates
+    mirror: "http://fedora.inode.at/updates/28/Everything/x86_64/"
+#    breed: yum
+  - name: sl7x
+    mirror: "http://ftp.scientificlinux.org/linux/scientific/7x/x86_64/os/"
+#    breed: yum
+  - name: sl7x-extras
+    mirror: "http://ftp.scientificlinux.org/linux/scientific/7x/external_products/extras/x86_64/"
+#    breed: yum
+  - name: sl7x-fastbugs
+    mirror: "http://ftp.scientificlinux.org/linux/scientific/7x/x86_64/updates/fastbugs/"
+#    breed: yum
+  - name: sl7x-security
+    mirror: "http://ftp.scientificlinux.org/linux/scientific/7x/x86_64/updates/security/"
+#    breed: yum
+
+#Distros
+distros:
+#  - name: debian
+#    url: "http://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/debian-8.7.1-amd64-DVD-1.iso"
+#    version: 8.7.1
+#    breed: debian
+#    kickstart: ubuntu.seed
+#    codename: jessie
+#    repos: ""
+#  - name: fedora
+#    url: "https://download.fedoraproject.org/pub/fedora/linux/releases/25/Server/x86_64/iso/Fedora-Server-dvd-x86_64-25-1.3.iso"
+#    version: 25
+#    breed: redhat
+#    kickstart: anaconda_fedora.ks
+#    codename: fedora25
+#    repos: "fedora25 fedora25-updates"
+#  - name: opensuse
+#    url: "http://download.opensuse.org/distribution/leap/42.2/iso/openSUSE-Leap-42.2-DVD-x86_64.iso"
+#    version: 42.2
+#    breed: suse
+#    kickstart: autoyast.xml
+#    codename: leap42.2
+#    repos: ""
+  - name: sl
+    url: "http://scientificlinux.physik.uni-muenchen.de/mirror/scientific/7x/x86_64/iso/SL-7-DVD-x86_64.iso"
+    version: 7.5
+    breed: redhat
+    kickstart: anaconda.ks
+    codename: sl7.5
+    repos: "epel7 sl7x sl7x-extras sl7x-fastbugs sl7x-security"
+  - name: fedora
+    url: "https://download.fedoraproject.org/pub/fedora/linux/releases/28/Server/x86_64/iso/Fedora-Server-dvd-x86_64-28-1.1.iso"
+    version: 28
+    breed: redhat
+    kickstart: anaconda_fedora.ks
+    codename: fedora28
+    repos: "fedora28-updates"
+#  - name: ubuntu
+#    url: "http://releases.ubuntu.com/16.04.2/ubuntu-16.04.2-server-amd64.iso"
+#    version: 16.04.2
+#    breed: ubuntu
+#    kickstart: ubuntu.seed
+#    codename: xenial
+#    repos: ""
+  - name: centos
+    url: "http://ftp.tugraz.at/mirror/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1804.iso"
+    version: 7.5
+    breed: redhat
+    kickstart: anaconda.ks
+    codename: centos7.5
+    repos: "epel7"
+    
+...
