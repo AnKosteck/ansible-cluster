@@ -1,0 +1,68 @@
+---
+
+  #Slurmdbd prerequisites
+- name: Install slurmdbd prerequisites
+  yum: name={{item}} state=present
+  with_items:
+    - mariadb
+    - mariadb-devel
+    - mariadb-libs
+    - mariadb-server
+    - MySQL-python
+  register: mysql_installation
+
+- name: Enable and start mariadb
+  service: 
+    name: mariadb
+    state: started
+    enabled: yes
+  
+- name: Set root password for all root accounts
+  mysql_user:
+    name: root 
+    host: "{{item}}"
+    password: "{{slurmdbd_config['rootpass']}}"
+  with_items:
+    - "{{ansible_hostname}}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+  no_log: true
+  when: mysql_installation.changed
+  
+- name: Ensure that anonymous users are not in the database
+  mysql_user:
+    name: ''
+    host: "{{item}}"
+    state: absent
+    login_password: "{{slurmdbd_config['rootpass']}}"
+  with_items:
+    - localhost
+    - "{{ansible_hostname}}"
+  no_log: true
+
+- name: Remove the test database
+  mysql_db: 
+    name: test
+    state: absent
+    login_password: "{{slurmdbd_config['rootpass']}}"
+  no_log: true
+  
+- name: Create slurmdbd database
+  mysql_db: 
+    name: "{{slurmdbd_config['storageloc']}}"
+    state: present
+    login_password: "{{slurmdbd_config['rootpass']}}"
+  no_log: true
+  
+- name: Create and grant privs slurmdbd mysql user
+  mysql_user:
+    name: "{{slurmdbd_config['storageuser']}}"
+    priv: "{{slurmdbd_config['storageloc']}}.*:ALL"
+    password: "{{slurmdbd_config['storagepass']}}"
+    host: "{{slurmdbd_config['storagehost']}}"
+    state: present
+    login_password: "{{slurmdbd_config['rootpass']}}"
+  no_log: true
+  
+...

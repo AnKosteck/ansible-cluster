@@ -21,6 +21,7 @@
 - include: ntp-server.yml
 - include: additional_packages.yml
 - include: mount_homes.yml
+- include: mariadb.yml
 
 - name: Enable and start system services
   service: name={{item}} state=started enabled=yes
