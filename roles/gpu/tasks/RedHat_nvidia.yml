@@ -1,0 +1,14 @@
+---
+
+- name: Template the cuda repo
+  template:
+    src: cuda.repo
+    dest: /etc/yum.repos.d/cuda.repo
+    
+- name: Install cuda
+  yum:
+    name: cuda
+    state: latest
+  notify: Cuda update message
+
+...

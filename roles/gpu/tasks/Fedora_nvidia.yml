@@ -1,0 +1,27 @@
+---
+
+- name: Template the nvidia driver repo
+  template:
+    src: nvidia-Fedora.repo
+    dest: /etc/yum.repos.d/nvidia-Fedora.repo
+    
+- name: Installing the Nvidia driver packages
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ nvidia_main_packages }}"
+  notify: Nvidia driver update
+
+# Cuda installation
+- name: Template the cuda repo
+  template:
+    src: cuda.repo
+    dest: /etc/yum.repos.d/cuda.repo
+    
+- name: Install cuda
+  dnf:
+    name: "{{cuda_toolkit_package}}"
+    state: latest
+  notify: Cuda update message
+
+...

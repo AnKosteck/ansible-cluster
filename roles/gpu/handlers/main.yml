@@ -1,0 +1,16 @@
+---
+
+- name: Cuda update message
+  debug:
+    msg: "Cuda was updated, do not forget to restart your gpu servers!"
+    
+- name: Force update the Nvidia kernel module
+  listen: Nvidia driver update
+  command: akmods --force
+  
+- name: Nvidia driver update message
+  listen: Nvidia driver update
+  debug:
+    msg: "The Nvidia driver was updated, do not forget to restart your gpu servers!"
+
+...

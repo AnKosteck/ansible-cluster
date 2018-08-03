@@ -1,5 +1,6 @@
 ---
 
-
+# Strongly influenced by https://github.com/ekultails/ansible_role_gpu_driver
+- include: "{{ansible_distribution}}_nvidia.yml"
 
 ...

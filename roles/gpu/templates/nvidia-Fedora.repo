@@ -1,0 +1,6 @@
+[nvidia-Fedora{{ansible_distribution_major_version}}]
+name=nvidia-Fedora{{ansible_distribution_major_version}}
+baseurl=http://{{hostvars[groups['frontend'][0]]['eth0']}}/cobbler/repo_mirror/nvidia-Fedora{{ansible_distribution_major_version}}
+enabled=1
+priority=99
+gpgcheck=0

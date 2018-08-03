@@ -1,0 +1,6 @@
+---
+
+# Used for Cuda installation on Fedora
+cuda_toolkit_package: "cuda-toolkit"
+
+...
