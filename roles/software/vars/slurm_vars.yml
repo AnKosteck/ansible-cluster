@@ -50,8 +50,8 @@ slurm_packages_redhat:
   - lua
   - lua-devel
   - man2html
-  - mariadb
-  - mariadb-devel
+#  - mariadb
+#  - mariadb-devel
   - ncurses-devel
   - numactl
   - numactl-devel

@@ -1,9 +1,6 @@
 ---
 
   #For a complete software setup
-- hosts: frontend
-  roles:
-    - { role: mariadb }
 - hosts: compute login frontend
   roles:
     - { role: software }

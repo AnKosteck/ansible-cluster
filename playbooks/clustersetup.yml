@@ -24,9 +24,6 @@
     - { role: webserver }
     
   #For software and slurm
-- hosts: frontend
-  roles:
-    - { role: mariadb }
 - hosts: compute login frontend
   roles:
     - { role: software }
