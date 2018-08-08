@@ -10,7 +10,7 @@
   
 - name: Install openmpi requirements on Fedora
   dnf: name={{item}} state=present
-  with_items: "{{openmpi_requirements_fedora}}"
+  with_items: "{{openmpi_requirements_redhat}}"
   when: ansible_distribution == 'Fedora'
   vars:
   
