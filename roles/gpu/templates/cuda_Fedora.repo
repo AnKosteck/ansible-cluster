@@ -1,0 +1,6 @@
+[cuda-Fedora{{ansible_distribution_major_version}}]
+name=cuda-Fedora{{ansible_distribution_major_version}}
+baseurl=http://{{hostvars[groups['frontend'][0]]['eth0']}}/cobbler/repo_mirror/cuda-Fedora{{ansible_distribution_major_version}}
+enabled=1
+priority=99
+gpgcheck=0

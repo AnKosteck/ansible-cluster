@@ -13,9 +13,9 @@
   notify: Nvidia driver update
 
 # Cuda installation
-- name: Template the cuda repo
+- name: Template the Fedora cuda repo
   template:
-    src: cuda.repo
+    src: cuda_Fedora.repo
     dest: /etc/yum.repos.d/cuda.repo
     
 - name: Install cuda
