@@ -64,7 +64,7 @@ distros:
     breed: redhat
     kickstart: anaconda.ks
     codename: sl7.5
-    repos: "epel7-install sl7x sl7x-extras sl7x-fastbugs sl7x-security"
+    repos: "epel7 sl7x-install sl7x-extras sl7x-fastbugs sl7x-security"
   - name: fedora
     url: "https://download.fedoraproject.org/pub/fedora/linux/releases/28/Server/x86_64/iso/Fedora-Server-dvd-x86_64-28-1.1.iso"
     version: 28
