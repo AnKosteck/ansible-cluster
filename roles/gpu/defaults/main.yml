@@ -1,7 +1,7 @@
 ---
 
 # Used for Cuda installation on Fedora
-cuda_toolkit_package: "cuda-toolkit"
+cuda_toolkit_package: "cuda-toolkit-9-2"
 
 # Maybe for future features of this role
 # Cuda links to local runfiles
