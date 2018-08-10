@@ -64,14 +64,14 @@ distros:
     breed: redhat
     kickstart: anaconda.ks
     codename: sl7.5
-    repos: "epel7 sl7x-install sl7x-extras sl7x-fastbugs sl7x-security"
+    repos: "epel7 sl7x-main sl7x-extras sl7x-fastbugs sl7x-security cuda-RedHat7"
   - name: fedora
     url: "https://download.fedoraproject.org/pub/fedora/linux/releases/28/Server/x86_64/iso/Fedora-Server-dvd-x86_64-28-1.1.iso"
     version: 28
     breed: redhat
     kickstart: anaconda_fedora.ks
     codename: fedora28
-    repos: "fedora28-install fedora28-updates"
+    repos: "fedora28-main fedora28-updates nvidia-Fedora28 cuda-Fedora28"
 #  - name: ubuntu
 #    url: "http://releases.ubuntu.com/16.04.2/ubuntu-16.04.2-server-amd64.iso"
 #    version: 16.04.2
