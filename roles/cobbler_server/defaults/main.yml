@@ -16,13 +16,13 @@ cobbler_repos:
   - name: epel7
     mirror: "http://mirror.inode.at/epel/7/x86_64/"
 #    breed: yum
-  - name: fedora28-install
+  - name: fedora28-main
     mirror: "http://fedora.inode.at/releases/28/Everything/x86_64/os/"
 #    breed: yum
   - name: fedora28-updates
     mirror: "http://fedora.inode.at/updates/28/Everything/x86_64/"
 #    breed: yum
-  - name: sl7x-install
+  - name: sl7x-main
     mirror: "http://ftp.scientificlinux.org/linux/scientific/7x/x86_64/os/"
 #    breed: yum
   - name: sl7x-extras
