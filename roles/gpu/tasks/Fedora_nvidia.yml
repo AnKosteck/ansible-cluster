@@ -1,9 +1,9 @@
 ---
 
-- name: Template the nvidia driver repo
-  template:
-    src: nvidia-Fedora.repo
-    dest: /etc/yum.repos.d/nvidia-Fedora.repo
+#- name: Template the nvidia driver repo
+#  template:
+#    src: nvidia-Fedora.repo
+#    dest: /etc/yum.repos.d/nvidia-Fedora.repo
     
 - name: Installing the Nvidia driver packages
   dnf:
@@ -13,10 +13,10 @@
   notify: Nvidia driver update
 
 # Cuda installation
-- name: Template the Fedora cuda repo
-  template:
-    src: cuda_Fedora.repo
-    dest: /etc/yum.repos.d/cuda.repo
+#- name: Template the Fedora cuda repo
+#  template:
+#    src: cuda_Fedora.repo
+#    dest: /etc/yum.repos.d/cuda.repo
     
 - name: Install cuda
   dnf:
