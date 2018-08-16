@@ -11,5 +11,6 @@
 - include: munge.yml
 - include: openmpi.yml
 - include: slurm.yml
+- include: python.yml
 
 ...
