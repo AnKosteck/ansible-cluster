@@ -2,6 +2,9 @@
 
 isos_dir: /root/isos
 common_packages_redhat:
+  - bash
+  - bash-completion
+  - bc
   - htop
   - iperf3
   - iotop
