@@ -9,7 +9,7 @@
 - name: Install gmond YUM
   yum: name={{item}} state=present
   with_items: "{{ganglia_packages_redhat}}"
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific'
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'RedHat'
 - name: Install gmond DNF
   dnf: name={{item}} state=present
   with_items: "{{ganglia_packages_redhat}}"
