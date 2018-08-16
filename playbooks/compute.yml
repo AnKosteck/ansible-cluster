@@ -3,6 +3,7 @@
 - hosts: compute
   roles:
     - { role: software }
+    - { role: anaconda }
     - { role: compute }
 
 ...

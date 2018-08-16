@@ -3,6 +3,7 @@
 - hosts: login
   roles:
     - { role: software }
+    - { role: anaconda }
     - { role: login }
     
 ...

@@ -27,6 +27,7 @@
 - hosts: compute login frontend
   roles:
     - { role: software }
+    - { role: anaconda }
 - hosts: frontend
   roles:
     - { role: slurm_frontend }
