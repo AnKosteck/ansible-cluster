@@ -1,3 +1,9 @@
 [submodule "roles/anaconda"]
 	path = roles/anaconda
 	url = https://github.com/andrewrothstein/ansible-anaconda.git
+[submodule "roles/andrewrothstein.bash"]
+	path = roles/andrewrothstein.bash
+	url = https://github.com/andrewrothstein/ansible-bash.git
+[submodule "roles/andrewrothstein.unarchive-deps"]
+	path = roles/andrewrothstein.unarchive-deps
+	url = https://github.com/andrewrothstein/ansible-unarchive-deps.git
