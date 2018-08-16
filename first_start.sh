@@ -52,7 +52,7 @@ done
 
 # Clone the repo
 print_section "Repo cloning"
-git clone $HEXA_HTTPS_LINK
+git clone --recursive $HEXA_HTTPS_LINK
 #git clone $HEXA_SSH_LINK
 mv $REPO_NAME /root/
 cd /root/$REPO_NAME
