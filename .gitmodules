@@ -1,0 +1,3 @@
+[submodule "roles/anaconda"]
+	path = roles/anaconda
+	url = https://github.com/andrewrothstein/ansible-anaconda.git
