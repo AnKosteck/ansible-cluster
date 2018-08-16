@@ -10,7 +10,7 @@
 - name: Install autofs and nfs tools on CentOS or Scientific
   yum: name={{ item }} state=present
   with_items: "{{autofs_packages_redhat}}"
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific'
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'RedHat'
 - name: Install autofs and nfs tools on Fedora
   dnf: name={{ item }} state=present
   with_items: "{{autofs_packages_redhat}}"

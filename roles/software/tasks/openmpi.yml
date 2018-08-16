@@ -5,7 +5,7 @@
 - name: Install openmpi requirements on RedHat, CentOS or SL
   yum: name={{item}} state=present
   with_items: "{{openmpi_requirements_redhat}}"
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'Red Hat Enterprise Linux'
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'RedHat'
   vars:
   
 - name: Install openmpi requirements on Fedora

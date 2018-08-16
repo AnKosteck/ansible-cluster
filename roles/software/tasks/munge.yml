@@ -12,7 +12,7 @@
 - name: Install munge and/or dependencies on RHEL/CentOS/SL systems
   yum: name={{item}} state=present
   with_items: "{{munge_packages_redhat}}"
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific'
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'RedHat'
 - name: Install munge and/or dependencies on Fedora systems
   dnf: name={{item}} state=present
   with_items: "{{munge_packages_redhat}}"

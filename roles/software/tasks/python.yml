@@ -9,7 +9,7 @@
     name: "{{item}}"
     state: present
   with_items: "{{python_modules_requirements_redhat}}"
-  when: ansible_distribution == "CentOS" or ansible_distribution == "Scientific"
+  when: ansible_distribution == "CentOS" or ansible_distribution == "Scientific" or ansible_distribution == 'RedHat'
   
 - name: Install Python modules requirements DNF
   dnf:

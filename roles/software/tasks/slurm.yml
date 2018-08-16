@@ -12,7 +12,7 @@
 - name: Install prerequisites YUM
   yum: name={{item}} state=present
   with_items: "{{slurm_packages_redhat}}"
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific'
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'RedHat'
 - name: Install prerequisites DNF
   dnf: name={{item}} state=present
   with_items: "{{slurm_packages_redhat}}"

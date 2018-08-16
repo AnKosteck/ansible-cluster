@@ -7,7 +7,7 @@
     name: "{{item}}"
     state: present
   with_items: "{{R_system_packages_redhat}}"
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific'
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'RedHat'
 
 - name: Install R DNF
   dnf:
