@@ -3,36 +3,46 @@
 cobbler_repos:
   - name: cuda-RedHat7
     mirror: "http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/"
+    priority: 1
 #    breed: rsync
   - name: nvidia-Fedora28
     mirror: "http://download1.rpmfusion.org/nonfree/fedora/nvidia-driver/28/x86_64/"
+    priority: 1
 #    breed: rsync
   - name: cuda-Fedora28
     mirror: "http://developer.download.nvidia.com/compute/cuda/repos/fedora27/x86_64/"
+    priority: 1
 #    breed: rsync
 #  - name: cuda8-ubuntu1604
 #    mirror: "http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/"
 #    breed: apt
   - name: epel7
     mirror: "http://mirror.inode.at/epel/7/x86_64/"
+    priority: 1
 #    breed: yum
   - name: fedora28-main
     mirror: "http://fedora.inode.at/releases/28/Everything/x86_64/os/"
+    priority: 1
 #    breed: yum
   - name: fedora28-updates
     mirror: "http://fedora.inode.at/updates/28/Everything/x86_64/"
+    priority: 1
 #    breed: yum
   - name: sl7x-main
     mirror: "http://ftp.scientificlinux.org/linux/scientific/7x/x86_64/os/"
+    priority: 1
 #    breed: yum
   - name: sl7x-extras
     mirror: "http://ftp.scientificlinux.org/linux/scientific/7x/external_products/extras/x86_64/"
+    priority: 1
 #    breed: yum
   - name: sl7x-fastbugs
     mirror: "http://ftp.scientificlinux.org/linux/scientific/7x/x86_64/updates/fastbugs/"
+    priority: 1
 #    breed: yum
   - name: sl7x-security
     mirror: "http://ftp.scientificlinux.org/linux/scientific/7x/x86_64/updates/security/"
+    priority: 1
 #    breed: yum
 
 #Distros

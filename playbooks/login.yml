@@ -3,7 +3,7 @@
 - hosts: login
   roles:
     - { role: software }
-    - { role: anaconda }
+    - { role: andrewrothstein.anaconda }
     - { role: login }
     
 ...

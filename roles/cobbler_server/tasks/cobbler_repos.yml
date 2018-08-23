@@ -5,7 +5,7 @@
   register: cobbler_repolist
 
 - name: Edit existing repos
-  shell: cobbler repo edit --name={{item.name}} --mirror={{item.mirror}} --breed={{item.breed | default }} --keep-updated=y
+  shell: cobbler repo edit --name={{item.name}} --mirror={{item.mirror}} --breed={{item.breed | default }} --priority={{item.priority | default('99')}} --keep-updated=y
   with_items: "{{cobbler_repos}}"
   when: item.name in(cobbler_repolist.stdout)
 

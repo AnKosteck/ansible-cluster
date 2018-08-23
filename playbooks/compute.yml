@@ -3,7 +3,7 @@
 - hosts: compute
   roles:
     - { role: software }
-    - { role: anaconda }
+    - { role: andrewrothstein.anaconda }
     - { role: compute }
 
 ...

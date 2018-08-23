@@ -4,7 +4,7 @@
 - hosts: compute login frontend
   roles:
     - { role: software }
-    - { role: anaconda }
+    - { role: andrewrothstein.anaconda }
 - hosts: frontend
   roles:
     - { role: slurm_frontend }

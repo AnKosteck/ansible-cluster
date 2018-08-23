@@ -6,6 +6,6 @@
     - { role: cobbler_server }
     - { role: webserver }
     - { role: software }
-    - { role: anaconda }
+    - { role: andrewrothstein.anaconda }
 
 ...
