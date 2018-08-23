@@ -5,7 +5,6 @@ nvidia_main_packages:
   - nvidia-kmod-common
   - xorg-x11-drv-nvidia
   - xorg-x11-drv-nvidia-kmodsrc
-  - xorg-x11-drv-nvidia-libs.i686
-  - xorg-x11-drv-nvidia-libs.x86_64
+  - xorg-x11-drv-nvidia-libs
 
 ...
