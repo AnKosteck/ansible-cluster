@@ -29,6 +29,7 @@ ganglia_daemon:
   CentOS: gmond
   Scientific: gmond
   Fedora: gmond
+  RedHat: gmond
   Ubuntu: ganglia-monitor
   
 ...
