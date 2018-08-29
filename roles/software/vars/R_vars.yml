@@ -10,8 +10,9 @@ R_system_packages_redhat:
   - gsl
   - gsl-devel
 R_additional:
-  - compiler
   - expm
+  - gsl
+  - MASS
   - Matrix
   - mvtnorm
   - pracma
