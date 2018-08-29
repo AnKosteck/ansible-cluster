@@ -6,6 +6,9 @@ R_system_packages_redhat:
   - R-highlight
   - R-inline
   - R-Rcpp
+  - R-Rcpp-devel
+  - gsl
+  - gsl-devel
 R_additional:
   - compiler
   - expm
