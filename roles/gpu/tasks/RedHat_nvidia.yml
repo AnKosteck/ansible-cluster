@@ -4,6 +4,12 @@
 #  template:
 #    src: cuda.repo
 #    dest: /etc/yum.repos.d/cuda.repo
+
+- name: Install kernel files
+  yum:
+    name: "{{item}}"
+    state: latest
+  loop: "{{ kernel_packages_redhat }}"
     
 - name: Install cuda
   yum:

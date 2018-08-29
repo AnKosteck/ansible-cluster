@@ -5,6 +5,12 @@
 #    src: nvidia-Fedora.repo
 #    dest: /etc/yum.repos.d/nvidia-Fedora.repo
     
+- name: Install kernel files
+  dnf:
+    name: "{{item}}"
+    state: latest
+  loop: "{{ kernel_packages_redhat }}"
+    
 - name: Installing the Nvidia driver packages
   dnf:
     name: "{{ item }}"

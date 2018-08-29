@@ -6,5 +6,9 @@ nvidia_main_packages:
   - xorg-x11-drv-nvidia
   - xorg-x11-drv-nvidia-kmodsrc
   - xorg-x11-drv-nvidia-libs
+  
+kernel_packages_redhat:
+  - kernel-headers
+  - kernel-devel
 
 ...
