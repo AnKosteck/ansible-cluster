@@ -46,6 +46,7 @@ cobbler_packages:
   - koan
   - libvirt-python
   - perl-Net-INET6Glue
+  - yum-plugin-priorities
 cockpit_packages:
   - cockpit
   - cockpit-ws
