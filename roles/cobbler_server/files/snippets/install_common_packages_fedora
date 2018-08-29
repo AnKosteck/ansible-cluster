@@ -1,1 +1,2 @@
+dnf -y update
 dnf -y install {{ common_packages_redhat | join(' ') }}
