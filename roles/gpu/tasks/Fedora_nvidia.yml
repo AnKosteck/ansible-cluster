@@ -8,13 +8,13 @@
 - name: Install kernel files
   dnf:
     name: "{{item}}"
-    state: latest
+    state: present
   loop: "{{ kernel_packages_redhat }}"
     
 - name: Installing the Nvidia driver packages
   dnf:
     name: "{{ item }}"
-    state: latest
+    state: present
   loop: "{{ nvidia_main_packages }}"
   notify: Nvidia driver update
 
@@ -27,7 +27,7 @@
 - name: Install cuda
   dnf:
     name: "{{cuda_toolkit_package}}"
-    state: latest
+    state: present
   notify: Cuda update message
 
 ...

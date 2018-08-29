@@ -8,13 +8,13 @@
 - name: Install kernel files
   yum:
     name: "{{item}}"
-    state: latest
+    state: present
   loop: "{{ kernel_packages_redhat }}"
     
 - name: Install cuda
   yum:
     name: cuda
-    state: latest
+    state: present
   notify: Cuda update message
 
 ...
