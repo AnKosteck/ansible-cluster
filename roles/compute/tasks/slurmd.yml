@@ -11,6 +11,8 @@
     mode: 0644
   notify: Reload systemd units
   
+- meta: flush_handlers
+  
   #Copy Config
 - name: Template the slurm.conf
   template: src=slurm.conf dest="/etc/slurm/slurm.conf" owner=root group=root mode=0644
