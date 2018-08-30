@@ -7,6 +7,7 @@
     - { role: webserver }
     - { role: software }
     - { role: andrewrothstein.anaconda }
+    - { role: slurm_frontend }
     - { role: ssh-management }
 
 ...
