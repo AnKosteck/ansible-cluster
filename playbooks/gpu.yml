@@ -6,5 +6,6 @@
     - { role: andrewrothstein.anaconda }
     - { role: compute }
     - { role: gpu }
+    - { role: ssh-management }
 
 ...

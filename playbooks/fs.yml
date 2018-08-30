@@ -6,5 +6,8 @@
 - hosts: app_server
   roles:
     - { role: fs, nfs_export: "{{app_export}}" }
+- hosts: app_server home_server
+  roles:
+    - { role: ssh-management }
     
 ...

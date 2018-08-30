@@ -1,5 +1,12 @@
 ---
 
+# The complet setup with the suggested or needed role ordering
+
+# These roles can be applied anytime
+- hosts: all
+  roles:
+    - { role: ssh-management }
+
 - hosts: home_server
   roles:
     - { role: fs, nfs_export: "{{home_export}}" }
