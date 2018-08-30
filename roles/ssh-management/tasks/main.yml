@@ -1,0 +1,46 @@
+---
+
+- name: Loading ssh limits
+  include_vars: "{{ lookup('env','HEXA_SSH_LIMITS') }}"
+
+- lineinfile:
+    path: /etc/ssh/ssh_config
+    regexp: ^#? ?Include /etc
+    line: Include /etc/ssh/ssh_config.d/*.conf
+    state: present
+    
+- file:
+    path: /etc/ssh/ssh_config.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  
+- name: Search for keys
+  shell: ssh-keyscan {{groups['common'] | join(' ')}} > /etc/ssh/ssh_known_hosts
+
+- template:
+    src: "{{ item }}"
+    dest: /etc/ssh/ssh_config.d/
+  with_items:
+    - ssh_known_hosts.conf
+    
+- name: Limit ssh
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '#? ?AllowUsers'
+    line: "AllowUsers {{ssh_anywhere}} {{ssh_access_limits[ansible_hostname]}}"
+    backup: yes
+  when: ansible_hostname in ssh_access_limits
+  notify: Restart sshd
+  
+- name: Lift ssh limit
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '#? ?AllowUsers'
+    line: "# AllowUsers {{ssh_anywhere}}"
+    backup: yes
+  when: ansible_hostname not in ssh_access_limits
+  notify: Restart sshd
+
+...
