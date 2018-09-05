@@ -68,5 +68,8 @@ slurm_packages_redhat:
   - lz4-devel
   - pmix-devel
   - libcurl-devel
+  - libcgroup
+  - libcgroup-pam
+  - libcgroup-devel
   
 ...

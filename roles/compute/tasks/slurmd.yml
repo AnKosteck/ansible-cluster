@@ -12,6 +12,10 @@
   notify: Reload systemd units
   
 - meta: flush_handlers
+
+- name: Template the cgroup.conf
+  template: src=cgroup.conf dest="/etc/slurm/cgroup.conf" owner=root group=root mode=0644
+  notify: Restart slurmd
   
   #Copy Config
 - name: Template the slurm.conf
