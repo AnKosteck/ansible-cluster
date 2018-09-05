@@ -4,9 +4,9 @@
 
   #Create credentials
 - name: MUNGE group
-  group: name=munge gid=394 state=present system=yes
+  group: name=munge state=present system=yes
 - name: MUNGE user
-  user: name=munge createhome=yes uid=394 comment="MUNGE Uid 'N' Gid Emporium" group=munge home=/var/lib/munge shell=/sbin/nologin state=present system=yes
+  user: name=munge createhome=yes comment="MUNGE Uid 'N' Gid Emporium" group=munge home=/var/lib/munge shell=/sbin/nologin state=present system=yes
   
   #Install munge dependencies on the system
 - name: Install munge and/or dependencies on RHEL/CentOS/SL systems

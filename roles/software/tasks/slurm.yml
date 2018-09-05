@@ -4,9 +4,9 @@
 
   #Create credentials
 - name: SLURM group
-  group: name=slurm gid=395 state=present system=yes
+  group: name=slurm state=present system=yes
 - name: SLURM user
-  user: name=slurm createhome=yes uid=395 comment="SLURM workload manager" group=slurm home=/var/lib/slurm shell=/sbin/nologin state=present system=yes
+  user: name=slurm createhome=yes comment="SLURM workload manager" group=slurm home=/var/lib/slurm shell=/sbin/nologin state=present system=yes
   
   #Install prerequisites
 - name: Install prerequisites YUM
