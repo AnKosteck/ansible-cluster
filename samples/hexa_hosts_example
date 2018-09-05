@@ -40,6 +40,7 @@ hexa_frontend app_export="/mnt/export/apps" export_options="rw,async,no_root_squ
 hexa_frontend webservername=192.168.1.254 ssl_certificate_type=self
 hexa_web eth1=192.168.1.253 eth1_name=eno2 mac1="aa:bb:cc:dd:ee:ff" webservername=hpc-web.org ssl_certificate_type=official
 
-# For anaconda submodule, installation via conda
+# For anaconda submodule, package installation via conda
 [all:vars]
 anaconda_install_packages=["clustalo"]
+anaconda_install_channels="defaults conda-forge bioconda"
