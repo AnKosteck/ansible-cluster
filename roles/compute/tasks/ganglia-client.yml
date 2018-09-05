@@ -1,9 +1,9 @@
 ---
 
 - name: Create ganglia group on client
-  group: name=ganglia gid=393 state=present system=yes
+  group: name=ganglia state=present system=yes
 - name: Create ganglia user on client
-  user: name=ganglia createhome=yes uid=393 comment="Ganglia Monitoring System" group=ganglia home=/var/lib/ganglia shell=/sbin/nologin state=present system=yes
+  user: name=ganglia createhome=yes comment="Ganglia Monitoring System" group=ganglia home=/var/lib/ganglia shell=/sbin/nologin state=present system=yes
 
   #Install packages
 - name: Install gmond YUM
