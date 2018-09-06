@@ -58,9 +58,9 @@
 - name: Create and grant privs slurmdbd mysql user
   mysql_user:
     name: "{{slurmdbd_config['storageuser']}}"
-    priv: "{{slurmdbd_config['storageloc']}}.*:ALL"
+    priv: "{{slurmdbd_config['storageloc'] | default('slurm_acct_db')}}.*:ALL"
     password: "{{slurmdbd_config['storagepass']}}"
-    host: "{{slurmdbd_config['storagehost']}}"
+    host: "{{groups['slurmdbd'][0] | default(groups['frontend'][0])}}"
     state: present
     login_password: "{{slurmdbd_config['rootpass']}}"
   no_log: true
