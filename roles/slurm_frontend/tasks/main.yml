@@ -65,7 +65,7 @@
   shell: yes | sacctmgr add cluster {{clustername}}
   register: clusteradd_operation
   changed_when: "'Adding Cluster(s)' in clusteradd_operation.stdout"
-  failed_when: (['This cluster', clustername, 'already exists.'] | join) not in clusteradd_operation.stdout
+  failed_when: (['This cluster', clustername, 'already exists.'] | join(' ')) not in clusteradd_operation.stdout
   notify: Restart slurmctld
   
 - name: Query for account list
