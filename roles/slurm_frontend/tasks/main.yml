@@ -3,6 +3,9 @@
 - include: ../../../playbooks/load_config.yml
 - include: ../../../playbooks/load_slurm_partitions.yml
 - include_vars: ../../software/vars/slurm_vars.yml
+
+- name: Loading Slurm accounting settings
+  include_vars: "{{ lookup('env','HEXA_ACCOUNTING') }}"
     
   #Create dirs and set permissions
 - name: Create slurm directories in /var/spool
@@ -51,5 +54,31 @@
   with_items:
     - slurmdbd
     - slurmctld
+
+# Accounting
+- name: Query for cluster list
+  command: sacctmgr list cluster
+  register: slurmdb_cluster_list
+  changed_when: False
+
+- name: Add cluster to accounting
+  shell: yes | sacctmgr add cluster {{clustername}}
+  register: clusteradd_operation
+  changed_when: "'Adding Cluster(s)' in clusteradd_operation.stdout"
+  failed_when: failed and ((['This cluster', {{clustername}}, 'already exists.'] | join) not in clusteradd_operation.stdout)
+  notify: Restart slurmctld
+  
+- name: Query for account list
+  command: sacctmgr list account
+  register: slurmdb_account_list
+  changed_when: False
+  
+- name: Add accounts
+  shell: yes | sacctmgr add account {{item.name}} Cluster='{{clustername}}' Description='{{item.descr}}' Organization='{{item.org}}'
+  with_items: "{{slurm_accounts}}"
+  register: addaccount_operation
+  changed_when: "'Adding Account(s)' in addaccount_operation.stdout"
+  failed_when: failed and 'Nothing new added.' not in addaccount_operation.stdout
+  notify: Restart slurmctld
 
 ...
