@@ -64,9 +64,8 @@ ssl_files:
     key: {src: "", dest: "/etc/pki/tls/private/apache_self.key", config_prefix: "SSLCertificateKeyFile"}
 
 slurmdbd_config:
-  storagehost: localhost    #default is frontend
   storageloc: slurm_acct_db #optional dbname, this value is default
-  storagepass: testpassword #per default munge will be used
+  storagepass: testpassword #for slurmd/slurmctld munge will be used, this password is for slurmdbd and mysql itself
   storageuser: hpc
   rootpass: rootdatabasepw  #for slurmdbd itself, slurmd/slurmctld should use munge
   port: 6819                #optional port for slurmdbd, this value is default
