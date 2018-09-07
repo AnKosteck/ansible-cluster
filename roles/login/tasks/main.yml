@@ -62,6 +62,7 @@
 
 - name: Add frontend hostnames to /etc/hosts
   lineinfile:
+    path: /etc/hosts
     line: "{{hostvars[groups['frontend'][0]]['eth0']}}    {{groups['frontend'][0]}} {{groups['frontend'][0]}}.{{clustername}}"
     regexp: ^{{hostvars[groups['frontend'][0]]['eth0']}}
     state: present

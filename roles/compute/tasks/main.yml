@@ -2,8 +2,8 @@
 
 - include: ../../../playbooks/load_config.yml
 
+- include: add_hostnames.yml
 - include: slurmd.yml
 - include: ganglia-client.yml
-- include: add_hostnames.yml
 
 ...
