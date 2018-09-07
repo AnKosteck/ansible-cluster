@@ -60,4 +60,10 @@
   template: src=ifcfg_bridge dest=/etc/sysconfig/network-scripts/ifcfg-{{bridge1_name | default('br1')}} mode=0644 backup=no
   notify: Restart network
 
+- name: Add frontend hostnames to /etc/hosts
+  lineinfile:
+    line: "{{hostvars[groups['frontend'][0]]['eth0']}}    {{groups['frontend'][0]}} {{groups['frontend'][0]}}.{{clustername}}"
+    regexp: ^{{hostvars[groups['frontend'][0]]['eth0']}}
+    state: present
+
 ...

@@ -4,5 +4,6 @@
 
 - include: slurmd.yml
 - include: ganglia-client.yml
+- include: add_hostnames.yml
 
 ...
