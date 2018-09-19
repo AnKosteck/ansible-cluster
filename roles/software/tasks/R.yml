@@ -16,6 +16,20 @@
   with_items: "{{R_system_packages_redhat}}"
   when: ansible_distribution == 'Fedora'
   
+- name: Install requirements for additional R packages YUM
+  yum:
+    name: "{{item}}"
+    state: present
+  with_items: "{{R_additional_requirements_redhat}}"
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'RedHat'
+  
+- name: Install requirements for additional R packages DNF
+  dnf:
+    name: "{{item}}"
+    state: present
+  with_items: "{{R_additional_requirements_redhat}}"
+  when: ansible_distribution == 'Fedora'
+  
 # Thanks: https://adamj.eu/tech/2014/07/19/installing-and-removing-r-packages-with-ansible/
 - name: Install additional R packages
   command: >

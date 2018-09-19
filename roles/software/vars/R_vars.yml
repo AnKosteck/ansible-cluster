@@ -7,15 +7,5 @@ R_system_packages_redhat:
   - R-inline
   - R-Rcpp
   - R-Rcpp-devel
-  - gsl
-  - gsl-devel
-R_additional:
-  - expm
-  - gsl
-  - MASS
-  - Matrix
-  - mvtnorm
-  - pracma
-  - QRM
 
 ...

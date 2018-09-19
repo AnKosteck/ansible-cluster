@@ -1,0 +1,29 @@
+---
+
+R_additional_requirements_redhat:
+  - gsl
+  - gsl-devel
+
+R_additional:
+  - apTreeshape
+  - cati
+  - dplyr
+  - dynRB
+  - expm
+  - FD
+  - geiger
+  - geometry
+  - gplots
+  - gsl
+  - Hmisc
+  - MASS
+  - Matrix
+  - mvtnorm
+  - OUwie
+  - pez
+  - picante
+  - pracma
+  - QRM
+  - spacodiR
+
+...
