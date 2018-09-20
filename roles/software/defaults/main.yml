@@ -1,8 +1,16 @@
 ---
 
 R_additional_requirements_redhat:
+  - armadillo
+  - armadillo-devel
+  - geos
+  - geos-devel
+  - gmp
+  - gmp-devel
   - gsl
   - gsl-devel
+  - mpfr
+  - mpfr-devel
 
 R_additional:
   - apTreeshape
