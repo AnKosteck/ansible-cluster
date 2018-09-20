@@ -1,5 +1,6 @@
 ---
 
+R_mirror: http://ftp.heanet.ie/mirrors/cran.r-project.org/
 R_additional_requirements_redhat:
   - armadillo
   - armadillo-devel
@@ -11,6 +12,8 @@ R_additional_requirements_redhat:
   - gsl-devel
   - mpfr
   - mpfr-devel
+  - postgresql
+  - postgresql-devel
 
 R_additional:
   - apTreeshape
