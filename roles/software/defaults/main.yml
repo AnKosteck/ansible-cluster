@@ -36,5 +36,6 @@ R_additional:
   - pracma
   - QRM
   - spacodiR
+  - zoo
 
 ...

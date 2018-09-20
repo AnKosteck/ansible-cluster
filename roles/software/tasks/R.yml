@@ -33,7 +33,7 @@
 # Thanks: https://adamj.eu/tech/2014/07/19/installing-and-removing-r-packages-with-ansible/
 - name: Install additional R packages
   command: >
-    Rscript --slave --no-save --no-restore-history -e "if (! ('{{ item }}' %in% installed.packages()[,'Package'])) { install.packages(pkgs='{{ item }}', repos=c({{R_mirror}})); print('Added'); } else { print('Already installed'); }"
+    Rscript --slave --no-save --no-restore-history -e "if (! ('{{ item }}' %in% installed.packages()[,'Package'])) { install.packages(pkgs='{{ item }}', repos=c({{R_mirror}}), dependencies={{R_install_dependencies | default('TRUE')}}); print('Added'); } else { print('Already installed'); }"
   register: r_result
   failed_when: "r_result.rc != 0 or 'had non-zero exit status' in r_result.stderr"
   changed_when: "'Added' in r_result.stdout"
