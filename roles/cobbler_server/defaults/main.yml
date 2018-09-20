@@ -44,6 +44,10 @@ cobbler_repos:
     mirror: "http://ftp.scientificlinux.org/linux/scientific/7x/x86_64/updates/security/"
     priority: 1
 #    breed: yum
+  - name: condor-RedHat7
+    mirror: "https://research.cs.wisc.edu/htcondor/yum/stable/rhel7"
+    priority: 1
+#    breed: yum
 
 #Distros
 distros:
@@ -74,7 +78,7 @@ distros:
     breed: redhat
     kickstart: anaconda.ks
     codename: sl7.5
-    repos: "epel7 sl7x-main sl7x-extras sl7x-fastbugs sl7x-security cuda-RedHat7"
+    repos: "epel7 sl7x-main sl7x-extras sl7x-fastbugs sl7x-security cuda-RedHat7 condor-RedHat7"
   - name: fedora
     url: "https://download.fedoraproject.org/pub/fedora/linux/releases/28/Server/x86_64/iso/Fedora-Server-dvd-x86_64-28-1.1.iso"
     version: 28
@@ -95,6 +99,6 @@ distros:
     breed: redhat
     kickstart: anaconda.ks
     codename: centos7.5
-    repos: "epel7"
+    repos: "epel7 condor-RedHat7"
     
 ...
