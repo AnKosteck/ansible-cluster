@@ -7,3 +7,12 @@
 [submodule "roles/andrewrothstein.anaconda"]
 	path = roles/andrewrothstein.anaconda
 	url = https://github.com/andrewrothstein/ansible-anaconda.git
+[submodule "roles/zabbix-web"]
+	path = roles/zabbix-web
+	url = https://github.com/dj-wasabi/ansible-zabbix-web.git
+[submodule "roles/zabbix-server"]
+	path = roles/zabbix-server
+	url = https://github.com/dj-wasabi/ansible-zabbix-server.git
+[submodule "roles/zabbix-agent"]
+	path = roles/zabbix-agent
+	url = https://github.com/dj-wasabi/ansible-zabbix-agent.git
