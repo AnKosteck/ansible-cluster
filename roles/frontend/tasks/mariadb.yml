@@ -65,4 +65,21 @@
     login_password: "{{slurmdbd_config['rootpass']}}"
   no_log: true
   
+- name: Create zabbix database
+  mysql_db: 
+    name: "{{ zabbix_db_config['dbname'] | default('zabbix_'clustername) }}"
+    state: present
+    login_password: "{{slurmdbd_config['rootpass']}}"
+  no_log: true
+  
+- name: Create and grant privs slurmdbd mysql user
+  mysql_user:
+    name: "{{ zabbix_db_config['username'] | default('zabbix') }}"
+    priv: "{{ zabbix_db_config['dbname'] | default('zabbix_'clustername) }}.*:ALL"
+    password: "{{ zabbix_db_config['password'] }}"
+    host: "{{groups['slurmdbd'][0] | default(groups['frontend'][0])}}"
+    state: present
+    login_password: "{{slurmdbd_config['rootpass']}}"
+  no_log: true
+  
 ...
