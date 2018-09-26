@@ -73,6 +73,6 @@ slurmdbd_config:
 zabbix_db_config:
 #  username: zabbix #is default
   password: testpwINSECURE
-#  dbname: zabbix_clustername #is default
+#  dbname: zabbix #is default
 
 ...

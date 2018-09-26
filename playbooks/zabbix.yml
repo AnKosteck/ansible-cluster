@@ -9,7 +9,7 @@
 #    - set_fact: zabbix_server_hostname= "{{ groups['frontend'][0] }}"  #default: inventory_hostname
     - set_fact: zabbix_server_listenport= 10051
     - set_fact: zabbix_server_dbhost= "{{ groups['frontend'][0] }}"
-    - set_fact: zabbix_server_dbname= "{{ zabbix_db_config['dbname'] | default('zabbix_'clustername) }}"
+    - set_fact: zabbix_server_dbname= "{{ zabbix_db_config['dbname'] | default('zabbix') }}"
     - set_fact: zabbix_server_dbuser= "{{ zabbix_db_config['username'] | default('zabbix') }}"
     - set_fact: zabbix_server_dbpassword= "{{ zabbix_db_config['password'] }}"
     - set_fact: zabbix_server_dbport= 2230
