@@ -1,0 +1,27 @@
+---
+
+- hosts: frontend
+  pre_tasks:
+    - include: load_config.yml
+    - set_fact: zabbix_server_name= "{{ groups['frontend'][0] }}"
+    - set_fact: zabbix_server_database= mysql
+    - set_fact: zabbix_server_database_long= mysql
+#    - set_fact: zabbix_server_hostname= "{{ groups['frontend'][0] }}"  #default: inventory_hostname
+    - set_fact: zabbix_server_listenport= 10051
+    - set_fact: zabbix_server_dbhost= "{{ groups['frontend'][0] }}"
+    - set_fact: zabbix_server_dbname= "{{ zabbix_db_config['dbname'] | default('zabbix_'clustername) }}"
+    - set_fact: zabbix_server_dbuser= "{{ zabbix_db_config['username'] | default('zabbix') }}"
+    - set_fact: zabbix_server_dbpassword= "{{ zabbix_db_config['password'] }}"
+    - set_fact: zabbix_server_dbport= 2230
+    - set_fact: zabbix_database_creation= True
+    - set_fact: zabbix_database_sqlload= True
+#    - set_fact: zabbix_server_dbencoding: utf8 #default value
+#    - set_fact: zabbix_server_dbcollation: utf8_bin #default value
+    - set_fact: zabbix_server_tlscafile=
+    - set_fact: zabbix_server_tlscrlfile=
+    - set_fact: zabbix_server_tlscertfile="{{ssl_files['self']['cert']['dest'] | default('/etc/pki/tls/certs/apache_self.crt') }}"
+    - set_fact: zabbix_server_tlskeyfile="{{ssl_files['self']['key']['dest'] | default('/etc/pki/tls/private/apache_self.key') }}"
+  roles:
+    - { role: zabbix-server }
+
+...

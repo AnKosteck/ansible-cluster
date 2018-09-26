@@ -70,4 +70,9 @@ slurmdbd_config:
   rootpass: rootdatabasepw  #for slurmdbd itself, slurmd/slurmctld should use munge
   port: 6819                #optional port for slurmdbd, this value is default
 
+zabbix_db_config:
+#  username: zabbix #is default
+  password: testpwINSECURE
+#  dbname: zabbix_clustername #is default
+
 ...
