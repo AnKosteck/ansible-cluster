@@ -22,6 +22,9 @@
         zabbix_server_tlscrlfile:
         zabbix_server_tlscertfile: "{{ssl_files['self']['cert']['dest'] | default('/etc/pki/tls/certs/apache_self.crt') }}"
         zabbix_server_tlskeyfile: "{{ssl_files['self']['key']['dest'] | default('/etc/pki/tls/private/apache_self.key') }}"
+        zabbix_server_mysql_login_host: "{{groups['slurmdbd'][0] | default(groups['frontend'][0])}}"
+        zabbix_server_mysql_login_user: "root"
+        zabbix_server_mysql_login_password: "{{slurmdbd_config['rootpass']}}"
   roles:
     - { role: zabbix-server }
 
