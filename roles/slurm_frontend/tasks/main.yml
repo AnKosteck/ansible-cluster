@@ -49,6 +49,9 @@
   template: src=slurmdbd.conf dest="/etc/slurm/slurmdbd.conf" owner=root group=root mode=0600
   notify: Restart slurmdbd
 
+- name: Start and enable slurmdbd
+  service: name=slurmdbd state=started enabled=yes
+
 # Accounting
 - name: Query for cluster list
   command: sacctmgr list cluster
@@ -78,9 +81,6 @@
 # Starting slurmctld has to be done after accounting, since cluster 
 # would be missing and slurmctld start would fail
 - name: Start and enable slurmdbd and slurmctld
-  service: name="{{item}}" state=started enabled=yes
-  with_items:
-    - slurmdbd
-    - slurmctld
+  service: name=slurmctld state=started enabled=yes
 
 ...
