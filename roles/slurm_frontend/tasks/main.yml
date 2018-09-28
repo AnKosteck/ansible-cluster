@@ -65,7 +65,7 @@
   with_items: "{{slurm_accounts}}"
   register: addaccount_operation
   changed_when: "'Adding Account(s)' in addaccount_operation.stdout"
-  failed_when: "'Nothing new added.' not in addaccount_operation.stdout and 'Would you like to commit changes?' not in clusteradd_operation.stdout"
+  failed_when: "'Nothing new added.' not in addaccount_operation.stdout and 'Would you like to commit changes?' not in addaccount_operation.stdout"
   notify: Restart slurmctld
 
 # Starting slurmctld has to be done after accounting, since cluster 
