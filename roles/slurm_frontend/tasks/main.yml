@@ -48,12 +48,6 @@
 - name: Template the slurmdbd.conf
   template: src=slurmdbd.conf dest="/etc/slurm/slurmdbd.conf" owner=root group=root mode=0600
   notify: Restart slurmdbd
-  
-- name: Start and enable slurmdbd and slurmctld
-  service: name="{{item}}" state=started enabled=yes
-  with_items:
-    - slurmdbd
-    - slurmctld
 
 # Accounting
 - name: Query for cluster list
@@ -65,7 +59,7 @@
   shell: yes | sacctmgr add cluster {{clustername}}
   register: clusteradd_operation
   changed_when: "'Adding Cluster(s)' in clusteradd_operation.stdout"
-  failed_when: (['This cluster', (clustername | lower), 'already exists.'] | join(' ')) not in clusteradd_operation.stdout
+  failed_when: (['This cluster', (clustername | lower), 'already exists.'] | join(' ')) not in clusteradd_operation.stdout and clusteradd_operation
   notify: Restart slurmctld
   
 - name: Query for account list
@@ -78,7 +72,15 @@
   with_items: "{{slurm_accounts}}"
   register: addaccount_operation
   changed_when: "'Adding Account(s)' in addaccount_operation.stdout"
-  failed_when: "'Nothing new added.' not in addaccount_operation.stdout"
+  failed_when: "'Nothing new added.' not in addaccount_operation.stdout and addacount_operation"
   notify: Restart slurmctld
+
+# Starting slurmctld has to be done after accounting, since cluster 
+# would be missing and slurmctld start would fail
+- name: Start and enable slurmdbd and slurmctld
+  service: name="{{item}}" state=started enabled=yes
+  with_items:
+    - slurmdbd
+    - slurmctld
 
 ...
