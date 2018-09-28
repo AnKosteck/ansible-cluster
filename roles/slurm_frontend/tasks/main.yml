@@ -53,29 +53,19 @@
   service: name=slurmdbd state=started enabled=yes
 
 # Accounting
-- name: Query for cluster list
-  command: sacctmgr list cluster
-  register: slurmdb_cluster_list
-  changed_when: False
-
 - name: Add cluster to accounting
   shell: yes | sacctmgr add cluster {{clustername}}
   register: clusteradd_operation
   changed_when: "'Adding Cluster(s)' in clusteradd_operation.stdout"
-  failed_when: (['This cluster', (clustername | lower), 'already exists.'] | join(' ')) not in clusteradd_operation.stdout and clusteradd_operation
+  failed_when: (['This cluster', (clustername | lower), 'already exists.'] | join(' ')) not in clusteradd_operation.stdout and 'Would you like to commit changes?' not in clusteradd_operation.stdout
   notify: Restart slurmctld
-  
-- name: Query for account list
-  command: sacctmgr list account
-  register: slurmdb_account_list
-  changed_when: False
   
 - name: Add accounts
   shell: yes | sacctmgr add account {{item.name}} Cluster='{{clustername}}' Description='{{item.descr}}' Organization='{{item.org}}'
   with_items: "{{slurm_accounts}}"
   register: addaccount_operation
   changed_when: "'Adding Account(s)' in addaccount_operation.stdout"
-  failed_when: "'Nothing new added.' not in addaccount_operation.stdout and addacount_operation"
+  failed_when: "'Nothing new added.' not in addaccount_operation.stdout and 'Would you like to commit changes?' not in clusteradd_operation.stdout"
   notify: Restart slurmctld
 
 # Starting slurmctld has to be done after accounting, since cluster 
