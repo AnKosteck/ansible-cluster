@@ -10,6 +10,7 @@ R_additional_requirements_redhat:
   - gmp-devel
   - gsl
   - gsl-devel
+  - mesa-libGLU-devel
   - mpfr
   - mpfr-devel
   - postgresql
