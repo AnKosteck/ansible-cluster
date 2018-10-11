@@ -35,8 +35,9 @@
 - name: Map external interface
   firewalld: zone=external permanent=true interface=br1 state=enabled
   notify: Restart firewalld
-- name: Add source IPs
-  firewalld: zone=public source='{{ip_startaddress_external}}/{{netmask_external}}' state=enabled permanent=true
+- name: Add source IPs for external access (the systems you admins trust)
+  firewalld: zone=public source='{{item}}' state=enabled permanent=true
+  with_items: "{{external_sources}}"
   notify: Restart firewalld
   
   #Security
