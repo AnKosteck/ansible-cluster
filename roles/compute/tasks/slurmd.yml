@@ -24,11 +24,11 @@
   
   #Create dirs and set permissions
 - name: Create slurm directories in /var/spool
-  file: path=/var/spool/slurmd state=directory owner=slurm group=slurm mode=0755
+  file: path=/var/spool/slurmd state=directory owner=root group=root mode=0755
 - name: Create /var/run/slurm
-  file: path=/var/run/slurm state=directory owner=slurm group=slurm mode=0755
+  file: path=/var/run/slurm state=directory owner=root group=root mode=0755
 - name: Create slurm log dir
-  file: path=/var/log/slurm state=directory owner=slurm group=slurm mode=0755
+  file: path=/var/log/slurm state=directory owner=root group=root mode=0755
   
 - name: Start and enable slurmd
   service: name=slurmd state=started enabled=yes
