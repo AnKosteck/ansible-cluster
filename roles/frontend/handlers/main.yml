@@ -1,14 +1,4 @@
 ---
-
-- name: Restart httpd
-  service:
-    name: httpd
-    state: restarted
-
-- name: Restart cobblerd
-  service:
-    name: cobblerd
-    state: restarted
     
 - name: Reload firewall rules
   command: firewall-cmd --reload

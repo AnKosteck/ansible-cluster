@@ -16,7 +16,6 @@
   
 - include: kvm.yml
 - include: firewall.yml
-- include: cobbler.yml
 - include: cockpit.yml
 - include: ntp-server.yml
 - include: additional_packages.yml

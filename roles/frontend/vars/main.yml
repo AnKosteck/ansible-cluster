@@ -1,7 +1,6 @@
 ---
 
 services:
-  - cobblerd
   - cockpit.socket
   - dnsmasq
   - fstrim.timer
