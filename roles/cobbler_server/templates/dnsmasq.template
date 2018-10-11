@@ -1,0 +1,34 @@
+# Cobbler generated configuration file for dnsmasq
+# $date
+#
+
+# resolve.conf .. ?
+#no-poll
+#enable-dbus
+domain-needed
+bogus-priv
+no-resolv
+no-poll
+read-ethers
+addn-hosts = /var/lib/cobbler/cobbler_hosts
+
+dhcp-range={{dhcp_start_address}},{{dhcp_end_address}},72h
+dhcp-lease-max=1000
+dhcp-authoritative
+dhcp-boot=pxelinux.0
+dhcp-boot=net:normalarch,pxelinux.0
+dhcp-boot=net:ia64,$elilo
+
+domain={{clustername}}
+local=/{{clustername}}/
+server={{dns1}}
+server={{dns2}}
+#server=208.67.222.222
+
+dhcp-option=option:router,$next_server
+dhcp-option=option:ntp-server,$next_server
+
+listen-address=$next_server
+bind-interfaces
+
+$insert_cobbler_system_definitions

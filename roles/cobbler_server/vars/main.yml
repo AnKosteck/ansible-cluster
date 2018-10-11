@@ -19,5 +19,52 @@ common_packages_ubuntu:
   - net-tools
   - screen
   - traceroute
+cobbler_packages:
+  - bzip2
+  - cobbler
+  - cobbler-web
+  - tftp-server
+  - dhcp
+  - syslinux
+  - pykickstart
+  - rsync
+  - dnsmasq-utils
+  - xinetd
+  - fence-agents-all
+  - bind
+  - bind-utils
+  - rsync
+  - perl
+  - perl-libwww-perl
+  - perl-WWW-Curl
+  - perl-Net-INET6Glue
+  - perl-Net-SSLGlue
+  - perl-Digest
+  - perl-Digest-*
+  - perl-LockFile-Simple
+  - perl-Net-*
+  - perl-Digest-MD5
+  - perl-Digest-SHA
+  - perl-libwww-perl
+  - net-snmp-perl
+  - apr-devel
+  - apr-util
+  - check-devel
+  - cairo-devel
+  - pango-devel
+  - libxml2-devel
+  - glib2-devel
+  - dbus-devel
+  - freetype-devel
+  - fontconfig-devel
+  - gcc-c++
+  - expat-devel
+  - python-devel
+  - libXrender-devel
+  - rpm-build
+  - koan
+  - libvirt-python
+  - perl-Net-INET6Glue
+  - yum-plugin-priorities
 
 ...

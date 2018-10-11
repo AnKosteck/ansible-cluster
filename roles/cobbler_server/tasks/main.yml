@@ -12,8 +12,12 @@
   
 - include: ../../../playbooks/load_config.yml
 
+- include: install_cobbler.yml
+
 - name: Update loaders
-  command: cobbler get-loaders --force
+  command: cobbler get-loaders
+  register: loaders_download
+  changed_when: "'already exists, not overwriting' not in loaders_download.stdout"
   
 - include: copy_cobbler_files.yml
 - include: cobbler_repos.yml

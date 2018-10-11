@@ -3,4 +3,14 @@
 - name: Sync cobbler
   command: cobbler sync
   
+- name: Restart httpd
+  service:
+    name: httpd
+    state: restarted
+    
+- name: Restart cobblerd
+  service:
+    name: cobblerd
+    state: restarted
+  
 ...

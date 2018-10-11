@@ -1,0 +1,35 @@
+---
+
+- name: Install cobbler packages
+  yum: name={{item}} state=present
+  register: cobbler_installation
+  with_items: "{{cobbler_packages}}"
+  
+  #Copy cobbler stuff
+- name: Copy modules.conf
+  copy: src=modules.conf dest=/etc/cobbler/modules.conf owner=root mode=0644 backup=yes
+  notify: Restart cobblerd
+  
+- name: Template cobbler settings
+  template: src=cobbler_settings dest=/etc/cobbler/settings owner=root mode=0644 backup=yes
+  notify: Restart cobblerd
+  
+- name: Template cobbler dnsmasq.template
+  template: src=dnsmasq.template dest=/etc/cobbler/dnsmasq.template owner=root mode=0644 backup=yes
+  notify: Restart cobblerd
+  
+- name: Install debmirror
+  copy: src=debmirror dest=/usr/bin/ owner=root mode=0755
+  notify: Restart cobblerd
+  
+  #Copy httpd stuff for cobbler
+- name: Copy sources.conf
+  copy: src=sources.conf dest=/etc/httpd/conf.d/sources.conf owner=root mode=0644
+  notify: Restart httpd
+  
+  # For Ubuntu boots
+- name: Create sources dir if not exists
+  file: path=/var/www/sources state=directory owner=root mode=0755
+  notify: Restart httpd
+  
+...
