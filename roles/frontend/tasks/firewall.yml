@@ -17,10 +17,16 @@
   #Insert direct rules for forwarding
 - name: Masquerade external interface
   command: firewall-cmd --permanent --direct --add-rule ipv4 nat POSTROUTING 0 -o br1 -j MASQUERADE
+  register: masquerade_direct_rule
+  changed_when: "'Warning: ALREADY_ENABLED' not in masquerade_direct_rule.stdout"
 - name: Forward internal->external
   command: firewall-cmd --permanent --direct --add-rule ipv4 filter FORWARD 0 -i br0 -o br1 -j ACCEPT
+  register: forwarding_intext_rule
+  changed_when: "'Warning: ALREADY_ENABLED' not in forwarding_intext_rule.stdout"
 - name: Forward external->internal
   command: firewall-cmd --permanent --direct --add-rule ipv4 filter FORWARD 0 -i br1 -o br0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+  register: forwarding_extint_rule
+  changed_when: "'Warning: ALREADY_ENABLED' not in forwarding_extint_rule.stdout"
 
   #Map and source interfaces
 - name: Map internal interface
