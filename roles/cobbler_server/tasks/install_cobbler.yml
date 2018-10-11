@@ -5,6 +5,12 @@
   register: cobbler_installation
   with_items: "{{cobbler_packages}}"
   
+- name: Enable and start cobblerd
+  service:
+    name: cobblerd
+    state: started
+    enabled: yes
+  
   #Copy cobbler stuff
 - name: Copy modules.conf
   copy: src=modules.conf dest=/etc/cobbler/modules.conf owner=root mode=0644 backup=yes
