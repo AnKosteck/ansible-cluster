@@ -17,6 +17,7 @@ firewall_ports_internal:
   - 8649/udp
   - 8651-8652/tcp
   - 9090/tcp
+  - 50000-60000/tcp
 firewall_services_external:
   - http
   - https
