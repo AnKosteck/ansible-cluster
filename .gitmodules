@@ -16,3 +16,6 @@
 [submodule "roles/zabbix-agent"]
 	path = roles/zabbix-agent
 	url = https://github.com/dj-wasabi/ansible-zabbix-agent.git
+[submodule "roles/geerlingguy.apache"]
+	path = roles/geerlingguy.apache
+	url = https://github.com/geerlingguy/ansible-role-apache.git
