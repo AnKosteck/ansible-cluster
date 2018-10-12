@@ -32,15 +32,18 @@
 - name: Masquerade external interface
   command: firewall-cmd --permanent --direct --add-rule ipv4 nat POSTROUTING 0 -o "{{external_interface}}" -j MASQUERADE
   register: masquerade_direct_rule
-  changed_when: "'Warning: ALREADY_ENABLED' not in masquerade_direct_rule.stdout"
+  changed_when: "'Warning: ALREADY_ENABLED' not in masquerade_direct_rule.stderr"
+  notify: Reload firewall rules
 - name: Forward internal->external
   command: firewall-cmd --permanent --direct --add-rule ipv4 filter FORWARD 0 -i "{{internal_interface}}" -o "{{external_interface}}" -j ACCEPT
   register: forwarding_intext_rule
-  changed_when: "'Warning: ALREADY_ENABLED' not in forwarding_intext_rule.stdout"
+  changed_when: "'Warning: ALREADY_ENABLED' not in forwarding_intext_rule.stderr"
+  notify: Reload firewall rules
 - name: Forward external->internal
   command: firewall-cmd --permanent --direct --add-rule ipv4 filter FORWARD 0 -i "{{external_interface}}" -o "{{internal_interface}}" -m state --state RELATED,ESTABLISHED -j ACCEPT
   register: forwarding_extint_rule
-  changed_when: "'Warning: ALREADY_ENABLED' not in forwarding_extint_rule.stdout"
+  changed_when: "'Warning: ALREADY_ENABLED' not in forwarding_extint_rule.stderr"
+  notify: Reload firewall rules
 
   #Map and source interfaces
 - name: Map internal interface
