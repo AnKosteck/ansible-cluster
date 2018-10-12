@@ -1,0 +1,36 @@
+---
+
+# The defaults are for use with Hexa, so please override as necessary
+firewall_services_internal:
+  - http
+  - https
+  - dhcp
+  - tftp
+  - dns
+  - ssh
+  - nfs
+  - ntp
+firewall_ports_internal:
+  - 53/tcp            #dns
+  - 53/udp
+  - 6817-6819/tcp     #slurmctld, slurmd, slurmdbd
+  - 8649/tcp          #gmond
+  - 8649/udp
+  - 8651-8652/tcp     #gmetad
+  - 9090/tcp          #not necessary, but is for cockpit-ws
+  - 50000-60000/tcp   #for srun in slurm
+firewall_services_external:
+  - http
+  - https
+  - ssh
+firewall_ports_external:
+  - 9090/tcp
+  
+# Defines the external (outside of the cluster) source IPs you allow access to
+# the public zone and to services like http/https
+# please override or the frontend will (probably) not be accessible
+trusted_sources:
+  - 192.168.0.253
+  - 192.168.1.0/24
+  
+...

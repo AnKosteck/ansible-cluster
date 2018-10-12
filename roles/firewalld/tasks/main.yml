@@ -1,0 +1,84 @@
+---
+
+- name: Ensure firewalld is running and enabled
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: Enable IPv4 forwarding
+  sysctl: name="net.ipv4.ip_forward" value=1 sysctl_set=yes state=present reload=yes
+  # was necessary at some point for VMs, fails as of 2018
+- name: Disable bridge calls sent to iptables
+  sysctl: name={{item}} value=0 sysctl_set=yes state=present reload=yes
+  with_items:
+    - "net.bridge.bridge-nf-call-ip6tables"
+    - "net.bridge.bridge-nf-call-iptables"
+    - "net.bridge.bridge-nf-call-arptables"
+  ignore_errors: yes
+
+- set_fact:
+    internal_interface: "{{ eth0_name | default: "eth0" }}"
+    external_interface: "{{ eth1_name | default: "eth0" }}"
+- set_fact:
+    internal_interface: "{{ bridge0_name | default: "br0" }}"
+    external_interface: "{{ bridge1_name | default: "br1" }}"
+  tags:
+    - is_bridged
+
+  #Insert direct rules for forwarding - may not be necessary any more?
+- name: Masquerade external interface
+  command: firewall-cmd --permanent --direct --add-rule ipv4 nat POSTROUTING 0 -o "{{external_interface}}" -j MASQUERADE
+  register: masquerade_direct_rule
+  changed_when: "'Warning: ALREADY_ENABLED' not in masquerade_direct_rule.stdout"
+- name: Forward internal->external
+  command: firewall-cmd --permanent --direct --add-rule ipv4 filter FORWARD 0 -i "{{internal_interface}}" -o "{{external_interface}}" -j ACCEPT
+  register: forwarding_intext_rule
+  changed_when: "'Warning: ALREADY_ENABLED' not in forwarding_intext_rule.stdout"
+- name: Forward external->internal
+  command: firewall-cmd --permanent --direct --add-rule ipv4 filter FORWARD 0 -i "{{external_interface}}" -o "{{internal_interface}}" -m state --state RELATED,ESTABLISHED -j ACCEPT
+  register: forwarding_extint_rule
+  changed_when: "'Warning: ALREADY_ENABLED' not in forwarding_extint_rule.stdout"
+
+  #Map and source interfaces
+- name: Map internal interface
+  firewalld: zone=internal permanent=true interface="{{internal_interface}}" state=enabled
+  notify: Restart firewalld
+- name: Map external interface
+  firewalld: zone=external permanent=true interface="{{external_interface}}" state=enabled
+  notify: Restart firewalld
+- name: Add source IPs for external access (the systems you admins trust)
+  firewalld: zone=public source='{{item}}' state=enabled permanent=true
+  with_items: "{{trusted_sources}}"
+  notify: Restart firewalld
+  
+  #Security
+- name: Masquerade external zone
+  firewalld: zone=external masquerade=yes permanent=true state=enabled
+  notify: Reload firewall rules
+- name: Masquerade public zone
+  firewalld: zone=public masquerade=yes permanent=true state=enabled
+  notify: Reload firewall rules
+- name: Remove ssh access from external zone
+  firewalld: zone=external service=ssh permanent=true state=disabled
+  notify: Reload firewall rules
+  
+  #Enable/open services and ports
+- name: Enable services intern
+  firewalld: service={{item}} permanent=true state=enabled zone=internal
+  with_items: "{{firewall_services_internal}}"
+  notify: Reload firewall rules
+- name: Enable services extern
+  firewalld: service={{item}} permanent=true state=enabled zone=public
+  with_items: "{{firewall_services_external}}"
+  notify: Reload firewall rules
+- name: Open up ports intern
+  firewalld: port={{item}} permanent=true state=enabled zone=internal
+  with_items: "{{firewall_ports_internal}}"
+  notify: Reload firewall rules
+- name: Open up ports extern
+  firewalld: port={{item}} permanent=true state=enabled zone=public
+  with_items: "{{firewall_ports_external}}"
+  notify: Reload firewall rules
+
+...
