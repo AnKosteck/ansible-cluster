@@ -3,6 +3,8 @@
 - hosts: frontend
   roles:
     - { role: frontend }
+    - role: firewalld
+      tags: ['is_bridged']
     - { role: cobbler_server }
     - { role: webserver }
     - { role: software }

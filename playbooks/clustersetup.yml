@@ -2,7 +2,7 @@
 
 # The complet setup with the suggested or needed role ordering
 
-# These roles can be applied anytime
+# These roles can be applied anytime, hence all hosts
 - hosts: all
   roles:
     - { role: ssh-management }
@@ -50,9 +50,5 @@
 - hosts: login
   roles:
     - { role: login }
-    
-#- hosts: gpucompute
-#  roles:
-#    - { role: gpu }
     
 ...
