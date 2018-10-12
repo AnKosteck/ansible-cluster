@@ -1,5 +1,7 @@
 ---
 
+- include: ../../../playbooks/load_config.yml
+
 - name: Ensure firewalld is running and enabled
   service:
     name: firewalld
