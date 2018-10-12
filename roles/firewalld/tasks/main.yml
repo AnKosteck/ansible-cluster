@@ -18,11 +18,11 @@
   ignore_errors: yes
 
 - set_fact:
-    internal_interface: "{{ eth0_name | default: "eth0" }}"
-    external_interface: "{{ eth1_name | default: "eth0" }}"
+    internal_interface: "{{ eth0_name | default('eth0') }}"
+    external_interface: "{{ eth1_name | default('eth1') }}"
 - set_fact:
-    internal_interface: "{{ bridge0_name | default: "br0" }}"
-    external_interface: "{{ bridge1_name | default: "br1" }}"
+    internal_interface: "{{ bridge0_name | default('br0') }}"
+    external_interface: "{{ bridge1_name | default('br1') }}"
   tags:
     - is_bridged
 
