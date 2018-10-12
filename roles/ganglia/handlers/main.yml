@@ -1,0 +1,23 @@
+---
+
+- name: Restart httpd
+  service:
+    name: httpd
+    state: restarted
+    
+- name: Restart gmetad
+  service:
+    name: gmetad
+    state: restarted
+    
+- name: Restart gmond
+  service:
+    name: gmond
+    state: restarted
+    
+- name: Restart gmond client
+  service: 
+    name: "{{ganglia_daemon[ansible_distribution]}}"
+    state: restarted
+
+...

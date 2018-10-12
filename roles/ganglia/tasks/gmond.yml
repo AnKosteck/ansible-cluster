@@ -1,0 +1,32 @@
+---
+
+- name: Create ganglia group on client
+  group: name=ganglia state=present system=yes
+- name: Create ganglia user on client
+  user: name=ganglia createhome=yes comment="Ganglia Monitoring System" group=ganglia home=/var/lib/ganglia shell=/sbin/nologin state=present system=yes
+
+  #Install packages
+- name: Install gmond YUM
+  yum: name={{item}} state=present
+  with_items: "{{ganglia_client_packages_redhat}}"
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'RedHat'
+- name: Install gmond DNF
+  dnf: name={{item}} state=present
+  with_items: "{{ganglia_client_packages_redhat}}"
+  when: ansible_distribution == 'Fedora'
+- name: Install gmond APT
+  apt: name={{item}} state=present
+  with_items: "{{ganglia_client_packages_ubuntu}}"
+  when: ansible_distribution == 'Ubuntu'
+  
+- name: Copy config
+  template: src=gmond_client.conf dest=/etc/ganglia/gmond.conf owner=root mode=0644 backup=yes
+  notify: Restart gmond client
+
+- name: Set correct ownership for ganglia rrds
+  file: path=/var/lib/ganglia/rrds state=directory owner=ganglia group=ganglia recurse=yes
+  
+- name: Enable and start gmond
+  service: name="{{ganglia_daemon[ansible_distribution]}}" state=started enabled=yes
+  
+...
