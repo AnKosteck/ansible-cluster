@@ -1,0 +1,15 @@
+---
+
+kvm_packages_redhat:
+  - kvm
+  - virt-manager
+  - libvirt
+  - virt-install
+  - qemu-kvm
+  - xauth
+  - dejavu-lgc-sans-fonts
+  
+libvirt_daemon:
+  RedHat: libvirtd
+
+...

@@ -1,0 +1,7 @@
+DEVICE="{{eth1_name | default('eth1')}}"
+TYPE="Ethernet"
+HWADDR="{{mac1}}"
+BOOTPROTO="none"
+ONBOOT="yes"
+NM_CONTROLLED="no"
+BRIDGE="{{bridge1_name | default('br1')}}"

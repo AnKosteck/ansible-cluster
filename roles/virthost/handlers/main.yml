@@ -1,0 +1,21 @@
+---
+    
+- name: Restart dnsmasq
+  listen: Restart network and dnsmasq
+  service:
+    name: dnsmasq
+    state: restarted
+    
+- name: Restart network
+  listen: Restart network and dnsmasq
+  service:
+    name: network
+    state: restarted
+    
+- name: Restart libvirtd
+  listen: Restart network
+  service:
+    name: "{{libvirt_daemon[ansible_os_family]}}"
+    state: restarted
+
+...
