@@ -1,15 +1,6 @@
 ---
-
-ganglia_packages:
-  - ganglia
-  - ganglia-gmond
-  - ganglia-gmond-python
-  - ganglia-gmetad
-  - ganglia-web
   
 services:
-  - gmond
-  - gmetad
   - httpd
   
 ...

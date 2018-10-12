@@ -4,15 +4,5 @@
   service:
     name: httpd
     state: restarted
-    
-- name: Restart gmetad
-  service:
-    name: gmetad
-    state: restarted
-    
-- name: Restart gmond
-  service:
-    name: gmond
-    state: restarted
 
 ...
