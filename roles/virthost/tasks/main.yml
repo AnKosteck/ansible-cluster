@@ -15,8 +15,10 @@
   #Now setup bridges in/out interfaces
 - name: Install bridging tools
   yum: name=bridge-utils state=present
-  tags:
-    - bridge_interfaces
+  when: ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'
+- name: Install kvm DNF
+  dnf: name=bridge-utils state=present
+  when: ansible_distribution == 'Fedora'
   
 - name: Template internal bridge
   template: src=bridge_internal_config dest=/etc/sysconfig/network-scripts/ifcfg-{{bridge0_name | default('br0')}} mode=0644 backup=yes
