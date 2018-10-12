@@ -8,7 +8,7 @@
 
 - name: Enable IPv4 forwarding
   sysctl: name="net.ipv4.ip_forward" value=1 sysctl_set=yes state=present reload=yes
-  # was necessary at some point for VMs, fails as of 2018
+  # was necessary at some point for VMs, this fails as of 2018, thus ignore_errors
 - name: Disable bridge calls sent to iptables
   sysctl: name={{item}} value=0 sysctl_set=yes state=present reload=yes
   with_items:
