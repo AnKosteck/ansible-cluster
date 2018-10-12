@@ -14,7 +14,6 @@
 
 - include: ../../../playbooks/load_config.yml
   
-- include: kvm.yml
 - include: cockpit.yml
 - include: ntp-server.yml
 - include: additional_packages.yml

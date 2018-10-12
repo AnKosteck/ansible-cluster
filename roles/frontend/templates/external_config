@@ -1,7 +1,0 @@
-DEVICE="{{eth1_name}}"
-TYPE="Ethernet"
-HWADDR="{{mac1}}"
-BOOTPROTO="none"
-ONBOOT="yes"
-NM_CONTROLLED="no"
-BRIDGE="br1"

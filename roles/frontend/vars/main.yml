@@ -5,7 +5,6 @@ services:
   - dnsmasq
   - fstrim.timer
   - httpd
-  - libvirtd
   - nfs-server
   - ntpd
   - rpcbind

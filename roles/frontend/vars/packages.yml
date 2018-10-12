@@ -25,14 +25,5 @@ ganglia_server_packages:
 #  - rrdtool-devel
 #  - freetype-devel
 #  - apr-devel
-#yum install kvm virt-manager libvirt virt-install qemu-kvm xauth dejavu-lgc-sans-fonts
-kvm_packages:
-  - kvm
-  - virt-manager
-  - libvirt
-  - virt-install
-  - qemu-kvm
-  - xauth
-  - dejavu-lgc-sans-fonts
 
 ...

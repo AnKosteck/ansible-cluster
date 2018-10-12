@@ -1,17 +1,5 @@
 ---
-    
-- name: Restart dnsmasq
-  listen: Restart network and dnsmasq
-  service:
-    name: dnsmasq
-    state: restarted
-    
-- name: Restart network
-  listen: Restart network and dnsmasq
-  service:
-    name: network
-    state: restarted
-    
+ 
 - name: Restart ntpd
   service:
     name: ntpd
