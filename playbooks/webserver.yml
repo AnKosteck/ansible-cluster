@@ -7,5 +7,6 @@
 - hosts: webserver
   roles:
     - { role: webserver }
+    - { role: ganglia, vars: {ganglia_role: gmetad} }
 
 ...

@@ -11,8 +11,10 @@
 - hosts: compute
   roles:
     - { role: compute }
+    - { role: ganglia, vars: {ganglia_role: gmond} }
 - hosts: login
   roles:
     - { role: login }
+    - { role: ganglia, vars: {ganglia_role: gmond} }
 
 ...

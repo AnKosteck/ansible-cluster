@@ -5,6 +5,7 @@
     - { role: software }
     - { role: andrewrothstein.anaconda }
     - { role: login }
+    - { role: ganglia, vars: {ganglia_role: gmond} }
     - { role: ssh-management }
     
 ...

@@ -8,6 +8,7 @@
     - { role: software }
     - { role: andrewrothstein.anaconda }
     - { role: slurm_frontend }
+    - { role: ganglia, vars: {ganglia_role: gmetad} }
     - { role: ssh-management }
 
 ...

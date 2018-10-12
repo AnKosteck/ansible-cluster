@@ -29,6 +29,7 @@
 - hosts: webserver
   roles:
     - { role: webserver }
+    - { role: ganglia, vars: {ganglia_role: gmetad} }
     
   #For software and slurm
 - hosts: compute login frontend
@@ -41,6 +42,7 @@
 - hosts: compute
   roles:
     - { role: compute }
+    - { role: ganglia, vars: {ganglia_role: gmond} }
 - hosts: gpu
   roles:
     - { role: gpu }
