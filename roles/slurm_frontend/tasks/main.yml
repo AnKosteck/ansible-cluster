@@ -55,7 +55,7 @@
     regexp: "{{item.regexp}}"
     line: "{{item.line}}"
   with_items:
-    - [regexp: "^d /var", line: "d /var/run/slurm  755 slurm slurm"]
+    - {regexp: "^d /var", line: "d /var/run/slurm  755 slurm slurm"}
   notify: Restart slurm on frontend
 
 - name: Start and enable slurmdbd

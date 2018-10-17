@@ -36,7 +36,7 @@
     regexp: "{{item.regexp}}"
     line: "{{item.line}}"
   with_items:
-    - [regexp: "^d /var", line: "d /var/run/slurm  755 root root"]
+    - {regexp: "^d /var", line: "d /var/run/slurm  755 root root"}
   notify: Restart slurmd
   
 - name: Start and enable slurmd
