@@ -1,0 +1,11 @@
+---
+
+# Automatically create MUNGE key via 'dd if= of= bs= count='
+# not used as of now
+create_munge_key: yes
+rand_gen: "/dev/random"
+blocksize: 1
+blockcount: 2048
+key_destination: /root/munge.key
+
+...

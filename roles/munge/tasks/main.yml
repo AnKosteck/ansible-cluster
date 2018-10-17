@@ -1,0 +1,59 @@
+---
+
+  #Create credentials
+- name: MUNGE group
+  group: name=munge state=present system=yes
+- name: MUNGE user
+  user: name=munge createhome=yes comment="MUNGE Uid 'N' Gid Emporium" group=munge home=/var/lib/munge shell=/sbin/nologin state=present system=yes
+  
+  #Install munge dependencies on the system
+- name: Install munge and/or dependencies on RHEL/CentOS/SL systems
+  yum: name={{item}} state=present
+  with_items: "{{munge_packages_redhat}}"
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Scientific' or ansible_distribution == 'RedHat'
+- name: Install munge and/or dependencies on Fedora systems
+  dnf: name={{item}} state=present
+  with_items: "{{munge_packages_redhat}}"
+  when: ansible_distribution == 'Fedora'
+- name: Install munge dependencies on Ubuntu systems
+  apt: name={{item}} state=present
+  with_items: "{{munge_packages_ubuntu}}"
+  when: ansible_distribution == 'Ubuntu'
+
+  #Create directories if not exist with correct ownership and permissions
+- name: Make Directory /etc/munge if not exists
+  file: path=/etc/munge state=directory owner=munge group=munge mode=0700
+- name: Make Directory /var/lib/munge if not exists
+  file: path=/var/lib/munge state=directory owner=munge group=munge mode=0711
+- name: Set permissions on /var/log
+  file: path=/var/log state=directory mode=0755
+- name: Make Directory /var/log/munge if not exists
+  file: path=/var/log/munge state=directory owner=munge group=munge mode=0700
+- name: Make Directory /var/run/munge if not exists
+  file: path=/var/run/munge state=directory owner=munge group=munge mode=0755
+  
+#- name: Create MUNGE key
+#  shell: dd if={{rand_gen}} bs={{blocksize}} count={{blockcount}} > "{{key_destination}}" CREATES="{{key_destination}}"
+#  when: create_munge_key
+  
+#- name: Copy automatically created MUNGE key
+#  copy:
+#    src: "{{key_destination}}"
+#    dest: /etc/munge/munge.key
+#    mode: 0400
+#    owner: munge
+#    backup: yes
+#  when: create_munge_key
+  
+  #Copy the MUNGE key
+  #Or create new one with dd if=/dev/urandom bs=1 count=2048 > $HEXA_MUNGE_KEY
+  #Or via dd if=/dev/random bs=1 count=2048 > $HEXA_MUNGE_KEY
+- name: Copy MUNGE key
+  copy: src="{{ lookup('env','HEXA_MUNGE_KEY') }}" dest=/etc/munge/munge.key mode=0400 owner=munge backup=yes
+  notify: Restart munge
+#  when: not create_munge_key
+  
+- name: Start and enable munge
+  service: name=munge state=started enabled=yes
+
+...

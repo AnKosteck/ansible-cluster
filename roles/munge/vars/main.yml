@@ -1,0 +1,10 @@
+---
+
+munge_packages_ubuntu:
+  - munge
+munge_packages_redhat:
+  - munge
+  - munge-devel
+  - munge-libs
+  
+...
