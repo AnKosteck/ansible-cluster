@@ -21,7 +21,7 @@
 
 - fail:
     msg: "Cannot run slurmd on the same system as slurmctld or slurmdbd."
-  when: (slurmd and slurmctld) or (slurmd and slurmdbd)
+  when: (compute_node and control_node) or (compute_node and database_node)
 
   #Create credentials
 - name: SLURM group
