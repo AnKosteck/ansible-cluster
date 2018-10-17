@@ -35,6 +35,8 @@
     path: "/usr/lib/tmpfiles.d/slurm.conf"
     regexp: "{{item.regexp}}"
     line: "{{item.line}}"
+    create: yes
+    state: present
   with_items:
     - {regexp: "^d /var", line: "d /var/run/slurm  755 root root"}
   notify: Restart slurmd
