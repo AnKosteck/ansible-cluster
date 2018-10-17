@@ -1,0 +1,23 @@
+---
+
+- name: Install slurmdbd requirements APT
+  apt:
+    name: "{{item}}"
+    state: present
+  with_items: "{{slurm_dbd_packages}}"
+  when: database_node
+    
+- name: Install slurmctld requirements APT
+  apt:
+    name: "{{item}}"
+    state: present
+  with_items: "{{slurm_ctl_packages}}"
+  when: control_node
+    
+- name: Install requirements APT
+  apt:
+    name: "{{item}}"
+    state: present
+  with_items: "{{slurm_packages}}"
+
+...

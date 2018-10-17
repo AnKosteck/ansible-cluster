@@ -1,0 +1,21 @@
+---
+
+  #Download and compile slurm
+- name: Download slurm
+  get_url: 
+    url: "{{slurminfo['url']}}"
+    dest: "{{source_download_dir}}/{{slurminfo['filename']}}"
+- name: Template the slurm script
+  template:
+    src: slurm.sh
+    dest: "{{install_scripts_dir}}/slurm.sh"
+    owner: root
+    group: root
+    mode: 0744
+    backup: no
+- name: Execute the slurm script
+  shell: "{{install_scripts_dir}}/slurm.sh"
+  args:
+    creates: "{{build_anchors}}/slurmbuild.log"
+    
+...

@@ -1,0 +1,35 @@
+---
+  
+- include: ../../../playbooks/load_slurm_partitions.yml
+  
+- name: Template the slurmd unit file
+  template:
+    src: slurmd.service
+    dest: /usr/lib/systemd/system/slurmd.service
+    owner: root
+    mode: 0644
+  notify: Reload systemd units
+  
+- meta: flush_handlers
+
+- name: Template the cgroup.conf
+  template: src=cgroup.conf dest="/etc/slurm/cgroup.conf" owner=root group=root mode=0644
+  notify: Restart slurmd
+  
+  #Copy Config
+- name: Template the slurm.conf
+  template: src=slurm.conf dest="/etc/slurm/slurm.conf" owner=root group=root mode=0644
+  notify: Restart slurmd
+  
+  #Create dirs and set permissions
+- name: Create slurm directories in /var/spool
+  file: path=/var/spool/slurmd state=directory owner=root group=root mode=0755
+- name: Create /var/run/slurm
+  file: path=/var/run/slurm state=directory owner=root group=root mode=0755
+- name: Create slurm log dir
+  file: path=/var/log/slurm state=directory owner=root group=root mode=0755
+  
+- name: Start and enable slurmd
+  service: name=slurmd state=started enabled=yes
+
+...

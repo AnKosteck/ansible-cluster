@@ -1,0 +1,51 @@
+---
+
+# --------- slurmdbd ------
+
+- name: Install slurmdbd requirements YUM
+  yum:
+    name: "{{item}}"
+    state: present
+  with_items: "{{slurm_packages}}"
+  when: ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora' and database_node
+
+- name: Install slurmdbd requirements DNF
+  dnf:
+    name: "{{item}}"
+    state: present
+  with_items: "{{slurm_dbd_packages}}"
+  when: ansible_distribution == 'Fedora' and database_node
+  
+# --------- slurmctld ------
+  
+- name: Install slurmctld requirements YUM
+  yum:
+    name: "{{item}}"
+    state: present
+  with_items: "{{slurm_packages}}"
+  when: ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora' and control_node
+
+- name: Install slurmctld requirements DNF
+  dnf:
+    name: "{{item}}"
+    state: present
+  with_items: "{{slurm_packages}}"
+  when: ansible_distribution == 'Fedora' and control_node
+
+# --------- Basic/slurmd ------
+
+- name: Install requirements YUM
+  yum:
+    name: "{{item}}"
+    state: present
+  with_items: "{{slurm_packages}}"
+  when: ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'
+
+- name: Install requirements DNF
+  dnf:
+    name: "{{item}}"
+    state: present
+  with_items: "{{slurm_packages}}"
+  when: ansible_distribution == 'Fedora'
+
+...

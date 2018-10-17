@@ -1,0 +1,36 @@
+---
+
+slurm_dbd_packages:
+  - mariadb-server
+  - mariadb-common
+  - libmariadbd-dev
+slurm_ctl_packages:
+slurm_packages:
+  - openssl
+  - libssl-dev
+  - libpam0g-dev
+  - numactl
+  - libnuma-dev
+  - hwloc
+  - libhwloc-dev
+  - lua5.1
+  - liblua5.1-dev
+  - libreadline-dev
+  - readline-common
+  - rrdtool
+  - librrd-dev
+  - libncurses5
+  - libncurses5-dev
+  - man2html
+  - libibmad5
+  - libibmad-dev
+  - libibumad3
+  - libibumad-dev
+  - munge
+  - libmunge2
+  - libmunge-dev
+  - libextutils-modulemaker-perl
+  - libmodule-install-perl
+  - libswitch-perl
+  
+...

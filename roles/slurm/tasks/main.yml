@@ -1,0 +1,50 @@
+---
+
+# slurmd cannot run on slurmctld node and vice versa
+# thus check for that
+- set_fact:
+    compute_node: false
+    control_node: false
+    database_node: false
+- set_fact:
+    compute_node: true
+  tags:
+    - slurmd
+- set_fact:
+    control_node: true
+  tags:
+    - slurmctld
+- set_fact:
+    database_node: true
+  tags:
+    - slurmdbd
+
+- fail:
+    msg: "Cannot run slurmd on the same system as slurmctld or slurmdbd."
+  when: (slurmd and slurmctld) or (slurmd and slurmdbd)
+
+  #Create credentials
+- name: SLURM group
+  group: name={{slurm_daemon_user}} state=present system=yes
+- name: SLURM user
+  user: name={{slurm_daemon_user}} createhome=yes comment="SLURM workload manager" group={{slurm_daemon_user}} home=/var/lib/{{slurm_daemon_user}} shell=/sbin/nologin state=present system=yes
+
+- include_vars: "{{ansible_os_family}}.yml"
+- include: requirements_{{ansible_os_family}}.yml
+  
+- include: compile_slurm.yml
+- include: install_slurm.yml
+
+- include: slurmdbd.yml
+  when: database_node
+- include: slurmctld.yml
+  when: control_node
+- include: slurmd.yml
+  when: compute_node
+  
+  # A login or submit-only node is nothing of above, thus copy slurm.conf for those
+- name: Template the slurm.conf
+  template: src=slurm.conf dest="/etc/slurm/slurm.conf" owner=root group=root mode=0644
+  notify: Restart slurm on frontend
+   
+...

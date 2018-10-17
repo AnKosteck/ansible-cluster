@@ -1,0 +1,57 @@
+---
+
+- name: Create slurm sysconfdir
+  file:
+    path: "{{slurminfo['sysconfdir']}}"
+    state: directory
+    mode: 0755
+
+- name: Copy slurm example configs to sysconfdir
+  copy:
+    src: "{{item}}"
+    dest: "{{slurminfo['sysconfdir']}}"
+    mode: 0644
+  with_items:
+    - cgroup_allowed_devices_file.conf.example
+    - cgroup.conf.example
+    - slurm.conf.example
+    - slurmdbd.conf.example
+    
+- name: Template the slurm.epilog to sysconfdir
+  template: src=slurm.epilog.clean dest="{{slurminfo['sysconfdir']}}/slurm.epilog.clean" mode=0755
+    
+- name: Create layouts subdir
+  file:
+    path: "{{slurminfo['sysconfdir']}}/layouts.d"
+    state: directory
+    mode: 0755
+    
+- name: Copy slurm example layouts
+  copy:
+    src: "{{item}}"
+    dest: "{{slurminfo['sysconfdir']}}/layouts.d"
+    mode: 0644
+  with_items:
+    - power.conf.example
+    - power_cpufreq.conf.example
+    - unit.conf.example
+  
+- name: Add Slurm to PATH
+  template: src=slurm_path.sh dest=/etc/profile.d/slurm_path.sh mode=0644 backup=no owner=root
+    
+- name: Link Slurm build
+  lineinfile:
+    path: /etc/ld.so.conf.d/slurm.conf
+    create: yes
+    state: present
+    regexp: ^{{slurminfo['prefix']}}
+    line: "{{slurminfo['prefix']}}/lib"
+  notify: Link libraries
+  
+- name: Template the tmpdirs conf
+  template:
+    src: slurm_tmpdir.conf
+    dest: /usr/lib/tmpfiles.d/slurm.conf
+    mode: 0644
+  
+...

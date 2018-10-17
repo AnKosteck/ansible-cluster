@@ -1,0 +1,40 @@
+---
+
+slurm_dbd_packages:
+  - mariadb
+  - mariadb-devel
+  - mariadb-libs
+  - mariadb-server
+slurm_ctl_packages:
+  - gtk2-devel #for slurm sview
+slurm_packages:
+  - hdf5
+  - hdf5-devel
+  - hwloc
+  - hwloc-devel
+  - libibmad
+  - libibumad
+  - lua
+  - lua-devel
+  - man2html
+  - ncurses-devel
+  - numactl
+  - numactl-devel
+  - openssl
+  - openssl-devel
+  - pam-devel
+#  - perl-DBI
+  - perl-ExtUtils-MakeMaker
+  - perl-Switch
+  - readline-devel
+  - rrdtool-devel
+  - libssh2-devel
+  - json-c-devel
+  - lz4-devel
+  - pmix-devel
+  - libcurl-devel
+  - libcgroup
+  - libcgroup-pam
+  - libcgroup-devel
+  
+...

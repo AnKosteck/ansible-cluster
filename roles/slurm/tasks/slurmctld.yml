@@ -1,0 +1,38 @@
+---
+
+- include: ../../../playbooks/load_config.yml
+- include: ../../../playbooks/load_slurm_partitions.yml
+
+- name: Loading Slurm accounting settings
+  include_vars: "{{ lookup('env','HEXA_ACCOUNTING') }}"
+    
+  #Create dirs and set permissions
+- name: Create slurm directories in /var/spool
+  file: path=/var/spool/slurmctld state=directory owner={{slurm_daemon_user}} group={{slurm_daemon_user}} mode=0755
+- name: Create /var/run/slurm
+  file: path=/var/run/slurm state=directory owner={{slurm_daemon_user}} group={{slurm_daemon_user}} mode=0755
+- name: Create slurm log dir
+  file: path=/var/log/slurm state=directory owner={{slurm_daemon_user}} group={{slurm_daemon_user}} mode=0755
+  
+- name: Template the slurmctld unit file
+  template:
+    src: slurmctld.service
+    dest: /usr/lib/systemd/system/slurmctld.service
+    owner: root
+    mode: 0644
+  notify: Reload systemd units
+
+- meta: flush_handlers
+
+- name: Template the cgroup config
+  template: src=cgroup.conf dest="/etc/slurm/cgroup.conf" owner=root group=root mode=0644
+  notify: Restart slurmctld
+
+- name: Template the slurm.conf
+  template: src=slurm.conf dest="/etc/slurm/slurm.conf" owner=root group=root mode=0644
+  notify: Restart slurmctld
+
+- name: Start and enable slurmctld
+  service: name=slurmctld state=started enabled=yes
+
+...

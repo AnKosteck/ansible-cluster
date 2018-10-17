@@ -1,0 +1,57 @@
+---
+
+- include: ../../../playbooks/load_config.yml
+- include: ../../../playbooks/load_slurm_partitions.yml
+
+- name: Loading Slurm accounting settings
+  include_vars: "{{ lookup('env','HEXA_ACCOUNTING') }}"
+    
+  #Create dirs and set permissions
+- name: Create slurm directories in /var/spool
+  file: path=/var/spool/slurmdbd state=directory owner={{slurm_daemon_user}} group={{slurm_daemon_user}} mode=0755
+- name: Create state dir
+  file: path=/var/run/slurm state=directory owner={{slurm_daemon_user}} group={{slurm_daemon_user}} mode=0755
+- name: Create slurm log dir
+  file: path=/var/log/slurm state=directory owner={{slurm_daemon_user}} group={{slurm_daemon_user}} mode=0755
+
+- name: Template the slurmdbd unit file
+  template:
+    src: slurmdbd.service
+    dest: /usr/lib/systemd/system/slurmdbd.service
+    owner: root
+    mode: 0644
+  notify: Reload systemd units
+
+- meta: flush_handlers
+
+- name: Template the cgroup config
+  template: src=cgroup.conf dest="/etc/slurm/cgroup.conf" owner=root group=root mode=0644
+
+- name: Template the slurm.conf
+  template: src=slurm.conf dest="/etc/slurm/slurm.conf" owner=root group=root mode=0644
+  notify:
+    - Restart slurmdbd
+    - Restart slurmctld
+  
+- name: Template the slurmdbd.conf
+  template: src=slurmdbd.conf dest="/etc/slurm/slurmdbd.conf" owner=root group=root mode=0600
+  notify: Restart slurmdbd
+
+- name: Start and enable slurmdbd
+  service: name=slurmdbd state=started enabled=yes
+
+# Accounting
+- name: Add cluster to accounting
+  shell: yes | sacctmgr add cluster {{clustername}}
+  register: clusteradd_operation
+  changed_when: "'Adding Cluster(s)' in clusteradd_operation.stdout"
+  failed_when: (['This cluster', (clustername | lower), 'already exists.'] | join(' ')) not in clusteradd_operation.stdout and 'Would you like to commit changes?' not in clusteradd_operation.stdout
+  
+- name: Add accounts
+  shell: yes | sacctmgr add account {{item.name}} Cluster='{{clustername}}' Description='{{item.descr}}' Organization='{{item.org}}'
+  with_items: "{{slurm_accounts}}"
+  register: addaccount_operation
+  changed_when: "'Adding Account(s)' in addaccount_operation.stdout"
+  failed_when: "'Nothing new added.' not in addaccount_operation.stdout and 'Would you like to commit changes?' not in addaccount_operation.stdout"
+
+...
