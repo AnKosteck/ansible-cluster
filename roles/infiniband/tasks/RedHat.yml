@@ -21,6 +21,8 @@
     mode: 0644
     backup: no
   when: ibtype == 'default'
+  notify: Restart network
+  
 - name: Template the 8002 ib ifcfg
   template:
     src: ifcfg-ib0.8002
@@ -28,6 +30,7 @@
     mode: 0644
     backup: no
   when: ibtype == '8002'
+  notify: Restart network
   
 - name: Enable and start rdma
   service:

@@ -12,6 +12,7 @@
     dest: /etc/network/interfaces
     mode: 0644
     backup: yes
+  notify: Restart network
   
 - name: Enable and start rdma modules
   modprobe:
