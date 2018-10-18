@@ -3,10 +3,11 @@
 - hosts: frontend login compute slurmdbd
   roles:
     - role: munge
-    
-- hosts: frontend
-  roles:
     - role: slurm
+    
+#- hosts: frontend
+#  roles:
+#    - role: slurm
 #      tags: ['slurmctld']
 
 #- hosts: slurmdbd
@@ -14,8 +15,8 @@
 #    - role: slurm
 #      tags: ['slurmdbd']
 
-- hosts: compute
-  roles:
-    - role: slurm
+#- hosts: compute
+#  roles:
+#    - role: slurm
 
 ...
