@@ -7,7 +7,6 @@
 - hosts: frontend
   roles:
     - role: slurm
-      tags: ['slurmctld', 'slurmdbd']
 #      tags: ['slurmctld']
 
 #- hosts: slurmdbd
@@ -18,6 +17,5 @@
 - hosts: compute
   roles:
     - role: slurm
-      tags: ['slurmd']
 
 ...

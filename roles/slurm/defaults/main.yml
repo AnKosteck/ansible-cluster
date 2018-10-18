@@ -15,4 +15,9 @@ slurminfo:
 # slurmd will always run as root though
 slurm_daemon_user: slurm
 
+# On a per host basis (or group) in the inventory:
+# controller (slurmctld) + database (slurmdbd) can run on one node
+# compute (slurmd) may only run alone on a system
+slurm_roles: "controller database compute"
+
 ...

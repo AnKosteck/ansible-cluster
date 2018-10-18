@@ -8,16 +8,13 @@
     database_node: false
 - set_fact:
     compute_node: true
-  tags:
-    - slurmd
+  when: "'compute' in slurm_roles"
 - set_fact:
     control_node: true
-  tags:
-    - slurmctld
+  when: "'controller' in slurm_roles"
 - set_fact:
     database_node: true
-  tags:
-    - slurmdbd
+  when: "'database' in slurm_roles"
 
 - fail:
     msg: "Cannot run slurmd on the same system as slurmctld or slurmdbd."
