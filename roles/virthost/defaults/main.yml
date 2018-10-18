@@ -1,0 +1,8 @@
+---
+
+# On a per host/group basis - set to yes/true if interfaces should be bridged
+# They should be for a host though but may already be bridged and thus may not need
+# to be bridged
+bridge_interfaces: false
+
+...
