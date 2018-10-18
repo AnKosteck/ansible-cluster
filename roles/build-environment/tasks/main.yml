@@ -1,0 +1,16 @@
+---
+
+- name: Create build hooks dir
+  file:
+    path: "{{item}}"
+    state: directory
+    owner: root
+    mode: 0700
+  with_items:
+    - {{build_anchors}}
+    - {{install_scripts_dir}}
+    - {{source_download_dir}}
+
+- include: "{{ansible_os_family}}.yml"
+
+...

@@ -1,0 +1,7 @@
+---
+
+build_anchors: /root/build_hooks
+install_scripts_dir: /root/install_scripts
+source_download_dir: /root/sources
+  
+...

@@ -1,0 +1,36 @@
+---
+
+build_tools_redhat:
+  - autoconf
+  - automake
+  - cpanspec
+  - gcc
+  - gcc-c++
+  - gcc-gfortran
+  - make
+  - rpm-build
+  - wget
+  - tar
+  - cmake
+  - bzip2
+
+build_tools_debian:
+#  - packaging-dev
+  - build-essential
+  - gcc
+  - cpp
+  - binutils
+  - automake
+  - autoconf
+  - wget
+  - tar
+#  - debhelper
+#  - dh-make
+#  - quilt
+#  - fakeroot
+#  - lintian
+  - cmake
+#  - alien
+#  - rpm
+
+...
