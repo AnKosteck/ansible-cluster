@@ -1,0 +1,43 @@
+---
+
+R_mirror: "http://ftp.heanet.ie/mirrors/cran.r-project.org/"
+R_additional_requirements_redhat:
+  - armadillo
+  - armadillo-devel
+  - geos
+  - geos-devel
+  - gmp
+  - gmp-devel
+  - gsl
+  - gsl-devel
+  - mesa-libGLU-devel
+  - mpfr
+  - mpfr-devel
+  - postgresql
+  - postgresql-devel
+R_additional_requirements_debian:
+
+R_additional:
+  - apTreeshape
+  - cati
+  - dplyr
+  - dynRB
+  - expm
+  - FD
+  - geiger
+  - geometry
+  - gplots
+  - gsl
+  - Hmisc
+  - MASS
+  - Matrix
+  - mvtnorm
+  - OUwie
+  - pez
+  - picante
+  - pracma
+  - QRM
+  - spacodiR
+  - zoo
+
+...

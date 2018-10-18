@@ -1,0 +1,19 @@
+---
+
+- include_vars: R_vars.yml
+
+- name: Install R APT
+  apt:
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  with_items: "{{R_system_packages_debian}}"
+
+- name: Install requirements for additional R packages APT
+  apt:
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  with_items: "{{R_additional_requirements_debian}}"
+    
+...

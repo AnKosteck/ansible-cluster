@@ -1,0 +1,33 @@
+---
+
+- include_vars: R_vars.yml
+
+- name: Install R YUM
+  yum:
+    name: "{{item}}"
+    state: present
+  with_items: "{{R_system_packages_redhat}}"
+  when: ansible_distribution != "Fedora"
+
+- name: Install R DNF
+  dnf:
+    name: "{{item}}"
+    state: present
+  with_items: "{{R_system_packages_redhat}}"
+  when: ansible_distribution == 'Fedora'
+  
+- name: Install requirements for additional R packages YUM
+  yum:
+    name: "{{item}}"
+    state: present
+  with_items: "{{R_additional_requirements_redhat}}"
+  when: ansible_distribution != "Fedora"
+  
+- name: Install requirements for additional R packages DNF
+  dnf:
+    name: "{{item}}"
+    state: present
+  with_items: "{{R_additional_requirements_redhat}}"
+  when: ansible_distribution == "Fedora"
+    
+...

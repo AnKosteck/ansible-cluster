@@ -1,0 +1,12 @@
+---
+
+R_system_packages_redhat:
+  - R
+  - R-core
+  - R-highlight
+  - R-inline
+  - R-Rcpp
+  - R-Rcpp-devel
+R_system_packages_debian:
+
+...

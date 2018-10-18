@@ -1,0 +1,7 @@
+---
+
+- hosts: frontend login compute
+  roles:
+    - role: R
+
+...
