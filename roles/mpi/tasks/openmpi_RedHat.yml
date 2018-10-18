@@ -1,0 +1,18 @@
+---
+
+- name: Install openmpi requirements YUM
+  yum:
+    name: "{{item}}"
+    state: present
+  with_items: "{{openmpi_requirements_redhat}}"
+  when: ansible_distribution != 'Fedora'
+  
+- name: Install openmpi requirements DNF
+  dnf:
+    name: "{{item}}"
+    state: present
+  with_items: "{{openmpi_requirements_redhat}}"
+  when: ansible_distribution == 'Fedora'
+  
+...
+ 

@@ -1,0 +1,8 @@
+---
+
+- hosts: frontend login compute
+  roles:
+    - role: build-environment
+    - role: mpi
+
+...

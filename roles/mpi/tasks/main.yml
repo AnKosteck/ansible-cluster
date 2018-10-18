@@ -1,0 +1,7 @@
+---
+
+- include: ../../../playbooks/load_config.yml
+
+- include: openmpi.yml
+
+...

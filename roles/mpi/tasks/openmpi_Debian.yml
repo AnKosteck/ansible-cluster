@@ -1,0 +1,12 @@
+---
+  
+- name: Install build tools on Ubuntu
+  apt:
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  with_items: "{{openmpi_requirements_debian}}"
+  when: ansible_distribution == 'Ubuntu'
+  
+...
+ 

@@ -1,0 +1,43 @@
+---
+
+- include_vars: openmpi_vars.yml
+
+- include: openmpi_{{ansible_os_family}}.yml
+
+- name: Download OpenMPI
+  get_url:
+    url: "{{openmpiinfo['url']}}"
+    dest: "{{source_download_dir}}/{{openmpiinfo['filename']}}"
+
+- name: Template the install script
+  template:
+    src: openmpi.sh
+    dest: "{{install_scripts_dir}}/openmpi.sh"
+    owner: root
+    mode: 0700
+    backup: no
+  
+- name: Execute the openmpi.sh script
+  shell: "{{install_scripts_dir}}/openmpi.sh"
+  args:
+    creates: "{{build_anchors}}/openmpibuild.log"
+    
+- name: Add OpenMPI to PATH
+  template:
+  src: openmpi_path.sh
+  dest: /etc/profile.d/openmpi_path.sh
+  mode: 0644
+  backup: no
+  owner: root
+    
+- name: Link OpenMPI build
+  lineinfile:
+    path: /etc/ld.so.conf.d/openmpi.conf
+    create: yes
+    state: present
+    regexp: ^{{openmpiinfo['prefix']}}
+    line: "{{openmpiinfo['prefix']}}/lib"
+  notify: Link libraries
+  
+...
+ 

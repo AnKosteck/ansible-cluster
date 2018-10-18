@@ -1,0 +1,14 @@
+---
+
+openmpiinfo:
+  version: 3.1.0
+  url: https://download.open-mpi.org/release/open-mpi/v3.1/openmpi-3.1.0.tar.gz
+  filename: openmpi-3.1.0.tar.gz
+  prefix: /opt/openmpi
+  flags: "--enable-mpi-thread-multiple"
+
+build_anchors: /root/build_hooks
+install_scripts_dir: /root/install_scripts
+source_download_dir: /root/sources
+
+...
