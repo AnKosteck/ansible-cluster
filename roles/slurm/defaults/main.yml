@@ -20,4 +20,9 @@ slurm_daemon_user: slurm
 # compute (slurmd) may only run alone on a system
 slurm_roles: "controller database compute"
 
+# Compilation and installation variables
+build_anchors: /root/build_hooks
+install_scripts_dir: /root/install_scripts
+source_download_dir: /root/sources
+
 ...
