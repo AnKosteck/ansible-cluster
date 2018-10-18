@@ -4,9 +4,7 @@
   roles:
     - { role: frontend }
     - role: virthost
-      tags: ['bridge_interfaces']
     - role: firewalld
-      tags: ['is_bridged']
     - { role: cobbler_server }
     - { role: webserver }
     - { role: software }
