@@ -2,6 +2,7 @@
 
 - hosts: frontend login compute slurmdbd
   roles:
+    - role: build-environment
     - role: munge
     - role: slurm
     
