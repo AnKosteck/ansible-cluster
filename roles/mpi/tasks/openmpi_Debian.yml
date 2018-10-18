@@ -6,7 +6,6 @@
     state: present
     update_cache: yes
   with_items: "{{openmpi_requirements_debian}}"
-  when: ansible_distribution == 'Ubuntu'
   
 ...
  
