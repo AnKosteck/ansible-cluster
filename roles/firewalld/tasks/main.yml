@@ -25,8 +25,7 @@
 - set_fact:
     internal_interface: "{{ bridge0_name | default('br0') }}"
     external_interface: "{{ bridge1_name | default('br1') }}"
-  tags:
-    - is_bridged
+  when: is_bridged
 
   #Insert direct rules for forwarding - may not be necessary any more?
 - name: Masquerade external interface

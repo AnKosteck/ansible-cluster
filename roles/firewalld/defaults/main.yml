@@ -33,4 +33,7 @@ trusted_sources:
   - 192.168.0.253
   - 192.168.1.0/24
   
+# On a per host/group basis - set to yes/true if interfaces are bridged
+is_bridged: false
+  
 ...
