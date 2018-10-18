@@ -1,7 +1,5 @@
 ---
   
-- include: ../../../playbooks/load_slurm_partitions.yml
-  
 - name: Template the slurmd unit file
   template:
     src: slurmd.service

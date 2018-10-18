@@ -20,6 +20,9 @@
     msg: "Cannot run slurmd on the same system as slurmctld or slurmdbd."
   when: (compute_node and control_node) or (compute_node and database_node)
 
+- include: ../../../playbooks/load_config.yml
+- include: ../../../playbooks/load_slurm_partitions.yml
+
   #Create credentials
 - name: SLURM group
   group: name={{slurm_daemon_user}} state=present system=yes

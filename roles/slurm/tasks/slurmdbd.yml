@@ -1,8 +1,5 @@
 ---
 
-- include: ../../../playbooks/load_config.yml
-- include: ../../../playbooks/load_slurm_partitions.yml
-
 - name: Loading Slurm accounting settings
   include_vars: "{{ lookup('env','HEXA_ACCOUNTING') }}"
     
