@@ -3,6 +3,8 @@
 - name: Loading ssh limits
   include_vars: "{{ lookup('env','HEXA_SSH_LIMITS') }}"
 
+- include: "xorg_{{ansible_os_family}}.yml"
+
 - lineinfile:
     path: /etc/ssh/ssh_config
     regexp: ^#? ?Include /etc
@@ -41,6 +43,13 @@
     line: "# AllowUsers {{ssh_anywhere}}"
     backup: yes
   when: ansible_hostname not in ssh_access_limits
+  notify: Restart sshd
+  
+- name: Activate X11 forwarding
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: ^#?X11Forwarding
+    line: X11Forwarding yes
   notify: Restart sshd
 
 ...

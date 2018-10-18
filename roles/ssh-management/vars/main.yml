@@ -1,0 +1,9 @@
+---
+
+xorg_packages_redhat:
+  - xorg-x11-apps
+  - xorg-x11-utils
+  - xorg-x11-xauth
+xorg_packages_debian:
+
+...
