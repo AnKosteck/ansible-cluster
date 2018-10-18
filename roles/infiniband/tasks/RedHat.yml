@@ -1,0 +1,38 @@
+---
+
+- name: Install prerequisites YUM
+  yum:
+    name: "{{item}}"
+    state: present
+  with_items: "{{infiniband_packages_redhat}}"
+  when: ansible_distribution != "Fedora"
+  
+- name: Install prerequisites DNF
+  dnf:
+    name: "{{item}}"
+    state: present
+  with_items: "{{infiniband_packages_redhat}}"
+  when: ansible_distribution == "Fedora"
+
+- name: Template the default ib ifcfg
+  template:
+    src: ifcfg-ib0
+    dest: /etc/sysconfig/network-scripts/ifcfg-ib0
+    mode: 0644
+    backup: no
+  when: ibtype == 'default'
+- name: Template the 8002 ib ifcfg
+  template:
+    src: ifcfg-ib0.8002
+    dest: /etc/sysconfig/network-scripts/ifcfg-ib0.8002
+    mode: 0644
+    backup: no
+  when: ibtype == '8002'
+  
+- name: Enable and start rdma
+  service:
+    name: rdma
+    state: started
+    enabled: yes
+  
+...

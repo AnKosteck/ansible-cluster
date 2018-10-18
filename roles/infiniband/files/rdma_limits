@@ -1,0 +1,4 @@
+# configuration for rdma tuning
+*       soft    memlock         unlimited
+*       hard    memlock         unlimited
+# rdma tuning end

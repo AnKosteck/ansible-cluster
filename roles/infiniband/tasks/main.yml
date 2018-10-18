@@ -1,0 +1,20 @@
+---
+
+  #This script should install and configure infiniband on any node in the cluster
+  #May be best used together with the opensm role on some node
+  #So here, the limits get set, Mellanox drivers will be downloaded through package manager
+  #And the interface(s) will be configured
+
+- include: ../../../playbooks/load_config.yml
+  
+- name: Copy the limits file
+  copy:
+    src: rdma_limits
+    dest: /etc/security/limits.d/rdma.conf
+  
+  #Set facts/variables for template
+#- set_fact: headnode={{ groups[['common'][0]] }}
+
+- include: "{{ansible_os_family}}"
+  
+...

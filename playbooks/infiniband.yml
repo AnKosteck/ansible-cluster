@@ -1,0 +1,12 @@
+---
+
+- host: opensm
+  roles:
+    - role: opensm
+
+- hosts: frontend login compute slurmdbd
+  roles:
+    - role: infiniband
+      when: ibtype != 'none'
+
+...
