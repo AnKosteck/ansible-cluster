@@ -13,6 +13,7 @@
   service:
     name: slurmctld
     state: restarted
+  when: control_node
     
 - name: Restart slurmd
   service:
