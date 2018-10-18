@@ -1,0 +1,7 @@
+---
+
+# Install Python modules and/or requirements
+# For use with https://github.com/andrewrothstein/ansible-anaconda.git
+- include: "{{ansible_os_family}}.yml"
+
+...

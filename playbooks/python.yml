@@ -1,0 +1,8 @@
+---
+
+- hosts: frontend login compute
+  roles:
+    - role: python
+    - role: andrewrothstein.anaconda
+
+...

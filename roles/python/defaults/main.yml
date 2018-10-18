@@ -1,0 +1,7 @@
+---
+
+python_modules_requirements_redhat:
+  - clustal-omega-devel
+python_modules_requirements_debian:
+
+...

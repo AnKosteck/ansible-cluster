@@ -1,0 +1,19 @@
+---
+
+# Install Python modules and/or requirements
+# For use with https://github.com/andrewrothstein/ansible-anaconda.git
+- name: Install Python modules requirements YUM
+  yum:
+    name: "{{item}}"
+    state: present
+  with_items: "{{python_modules_requirements_redhat}}"
+  when: ansible_distribution != "Fedora"
+  
+- name: Install Python modules requirements DNF
+  dnf:
+    name: "{{item}}"
+    state: present
+  with_items: "{{python_modules_requirements_redhat}}"
+  when: ansible_distribution == "Fedora"
+
+...

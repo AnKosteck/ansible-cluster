@@ -1,0 +1,12 @@
+---
+
+# Install Python modules and/or requirements
+# For use with https://github.com/andrewrothstein/ansible-anaconda.git
+- name: Install Python modules requirements DNF
+  apt:
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  with_items: "{{python_modules_requirements_debian}}"
+
+...
