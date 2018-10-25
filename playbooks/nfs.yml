@@ -24,7 +24,7 @@
   roles:
     - role: nfs
       
-# Do a fixed import for homes for user management (sync_users)
+# Do a direct import for homes for user management (sync_users)
 - hosts: frontend
   pre_tasks:
     - include: load_config.yml
