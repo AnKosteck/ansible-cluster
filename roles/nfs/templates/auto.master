@@ -1,0 +1,7 @@
+{% for mountpoint in client_imports %}
+{% if mountpoint.direct %}
+/-    {{autofs_config_dir}}/auto.{{mountpoint.path | basename}}    {{mountpoint.map_options}}
+{% else %}
+{{mountpoint.path}}    {{autofs_config_dir}}/auto.{{mountpoint.path | basename}}    {{mountpoint.map_options}}
+{% endif %}
+{% endfor %}

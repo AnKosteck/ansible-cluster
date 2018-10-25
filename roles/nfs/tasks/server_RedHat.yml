@@ -1,0 +1,17 @@
+---
+  
+- name: Install required nfs packages YUM
+  yum:
+    name: "{{item}}"
+    state: present
+  with_items: "{{nfs_server_packages_redhat}}"
+  when: ansible_distribution != "Fedora"
+  
+- name: Install required nfs packages DNF
+  yum:
+    name: "{{item}}"
+    state: present
+  with_items: "{{nfs_server_packages_redhat}}"
+  when: ansible_distribution == "Fedora"
+
+...

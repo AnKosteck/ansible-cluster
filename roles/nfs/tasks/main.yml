@@ -1,0 +1,20 @@
+---
+  
+- include: ../../../playbooks/load_config.yml
+  
+- set_fact:
+    is_client: false
+    is_server: false
+- set_fact:
+    is_client: true
+  when: "'client' is in nfs_roles"
+- set_fact:
+    is_server: true
+  when: "'server' is in nfs_roles"
+  
+- include: server.yml
+  when: is_server
+- include: client.yml
+  when: is_client
+
+...

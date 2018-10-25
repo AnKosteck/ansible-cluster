@@ -1,0 +1,63 @@
+---
+
+- include: client_{{ansible_os_family}}.yml
+  
+- name: Create /etc/auto.master.d
+  file:
+    path: /etc/auto.master.d
+    state: directory
+    mode: 0755
+  
+- name: Create directories for mountpoints
+  file:
+    path: "{{item.path}}"
+    state: directory
+    mode: "{{ item.mode | default('0755') }}"
+  with_items: "{{ client_imports }}"
+  notfiy: Restart autofs
+  
+- name: Template auto.master
+  template:
+    src: auto.master
+    dest: /etc/auto.master
+    owner: root
+    mode: 0644
+    backup: yes
+  notify: Restart autofs
+  
+- name: Create files for direct maps
+  lineinfile:
+    dest: "{{autofs_config_dir}}/auto.{{mountpoint.path | basename}}"
+    regexp: "{{item.path}}"
+    line: "{{item.path}}    {{item.nfs_options}}    {{source}}:{{source_path}}"
+    state: present
+    create: yes
+  with_items: "{{ client_imports }}"
+  when: item.direct
+  notify: Restart autofs
+  
+- name: Create files for indirect maps
+  lineinfile:
+    dest: "{{autofs_config_dir}}/auto.{{mountpoint.path | basename}}"
+    regexp: "{{item.indirect_key}}"
+    line: "{{item.indirect_key}}    {{item.nfs_options}}    {{source}}:{{source_path}}"
+    state: present
+    create: yes
+  with_items: "{{ client_imports }}"
+  when: not item.direct
+  notify: Restart autofs
+  
+- name: Template idmapd.conf file
+  template: src=idmapd.conf dest=/etc/idmapd.conf mode=0644 owner=root backup=yes
+  notify: Restart autofs and rpcbind
+  
+- name: Start and enable autofs and rpcbind
+  service:
+    name: "{{item}}"
+    state: started
+    enabled: yes
+  with_items:
+    - autofs
+    - rpcbind
+  
+...

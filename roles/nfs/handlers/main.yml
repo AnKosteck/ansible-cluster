@@ -1,0 +1,21 @@
+---
+
+  #Service start and enable
+- name: Restart rpcbind
+  listen: Restart autofs and rpcbind
+  service:
+    name: rpcbind
+    state: restarted
+
+- name: Restart autofs
+  listen: Restart autofs and rpcbind
+  service:
+    name: autofs
+    state: restarted
+    
+- name: Restart nfs server
+  service:
+    name: nfs-server
+    state: restarted
+
+...

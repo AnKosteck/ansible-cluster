@@ -1,0 +1,13 @@
+---
+
+- fail:
+    msg: "As of now, Debian based nfs servers are unsupported"
+    
+- name: Install required nfs packages APT
+  apt:
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  with_items: "{{nfs_server_packages_debian}}"
+
+...

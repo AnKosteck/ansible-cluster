@@ -1,0 +1,19 @@
+---
+
+autofs_packages_debian:
+  - autofs
+  - rpcbind
+  - libnfsidmap2
+autofs_packages_redhat:
+  - autofs
+  - rpcbind
+  - libnfsidmap
+  - nfs-utils
+  
+nfs_server_packages_redhat:
+  - nfs4-acl-tools
+  - nfs-utils
+  - rpcbind
+nfs_server_packages_debian:
+  
+...

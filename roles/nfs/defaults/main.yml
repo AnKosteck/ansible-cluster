@@ -1,0 +1,35 @@
+---
+
+# This variable controls,
+# if a host executes the server and/or client part
+nfs_roles: "server client"
+
+# The client mounts, should be per host or group for more granular imports
+# All mounts are done via autofs
+#   path: The directory on the client where a nfs share gets mounted
+#   direct: yes/no is this a direct or indirect autofs mapping
+#   map_options: Options for autofs map entries in auto.main
+#   indirect_path: the key after path, i.e. <path>/<indirect_path> (* matches everything) (unused for direct: yes)
+#   nfs_options: The actual mount options for a nfs share
+#   source: The server IP/server name/FQDN... for the nfs share
+#   source_path: The path to the share on that server (note & for the * key)
+#   mode: the local permissions for directory access (optional, default: 0755)
+client_imports:
+  - {path: "/opt/test", direct: true, map_options: "--timeout 1200", indirect_key: , nfs_options: "-fstype=auto,rw,timeo=14,intr", source: "192.168.0.250", source_path: "/mnt/test"}
+  - {path: "/home", direct: false, map_options: "--timeout 1200", indirect_key: "*", nfs_options: "-fstype=nfs,rw,timeo=14,intr,vers=4", source: "homeserver", source_path: "/mnt/homes/&"}
+  
+# The exports on a server (should be per host/per server of course)
+#   path: The dir/device to be exported
+#   source_ip: The single IP or IP range which should be allowed for nfs access
+#   export_options: options per mount
+server_exports:
+  - { path: "/mnt/testdrive", source_ip: "192.168.10.0/255.255.255.0", export_options: "rw,async,fsid=0,crossmnt,no_subtree_check,no_root_squash"}
+  - { path: "/mnt/testdrive", source_ip: "192.168.0.3", export_options: "no_subtree_check,no_root_squash"}
+  
+# The domain to be set in idmapd.conf
+nfs_domain: "local"
+
+# autofs config files will end up there, aside from auto.master
+autofs_config_dir: /etc/auto.master.d
+
+...

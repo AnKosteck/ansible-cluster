@@ -1,0 +1,51 @@
+---
+
+# First export dirs
+- hosts: app_server
+  pre_tasks:
+    - include: load_config.yml
+    - set_fact:
+        - nfs_domain: "{{clustername}}"
+        - nfs_roles: "server"
+        - server_exports:
+          - { path: "{{hostvars[groups['app_server'][0]]['app_export']}}", source_ip: "{{ip_startaddress_internal}}/{{netmask_internal_long}}", export_options: "{{hostvars[groups['app_server'][0]]['export_options']}}"}
+          - { path: "{{hostvars[groups['app_server'][0]]['app_export']}}", source_ip: "{{ibip_base}}/{{ib_netmask}}", export_options: "{{hostvars[groups['app_server'][0]]['export_options']}}"}
+  roles:
+    - role: nfs
+- hosts: home_server
+  pre_tasks:
+    - include: load_config.yml
+    - set_fact:
+        - nfs_domain: "{{clustername}}"
+        - nfs_roles: "server"
+        - server_exports:
+          - { path: "{{hostvars[groups['home_server'][0]]['home_export']}}", source_ip: "{{ip_startaddress_internal}}/{{netmask_internal_long}}", export_options: "{{hostvars[groups['home_server'][0]]['export_options']}}"}
+          - { path: "{{hostvars[groups['home_server'][0]]['home_export']}}", source_ip: "{{ibip_base}}/{{ib_netmask}}", export_options: "{{hostvars[groups['home_server'][0]]['export_options']}}"}
+  roles:
+    - role: nfs
+      
+# Do a fixed import for homes for user management (sync_users)
+- hosts: frontend
+  pre_tasks:
+    - include: load_config.yml
+    - set_fact:
+        - nfs_domain: "{{clustername}}"
+        - nfs_roles: "client"
+        - client_imports:
+            - {path: "{{homes_mountpoint_frontend}}", direct: true, map_options: "--timeout 1200", indirect_key: , nfs_options: "-fstype=auto,rw,timeo=14,intr", source: "{{groups['home_server'][0]}}", source_path: "{{hostvars[groups['app_server'][0]]['home_export']}}"}
+  roles:
+    - role: nfs
+    
+- hosts: frontend compute login
+  pre_tasks:
+    - include: load_config.yml
+    - set_fact:
+        - nfs_domain: "{{clustername}}"
+        - nfs_roles: "client"
+        - client_imports:
+            - {path: "{{appsdir}}", direct: true, map_options: "--timeout 1200", indirect_key: , nfs_options: "-fstype=auto,rw,timeo=14,intr", source: "{{groups['app_server'][0]}}", source_path: "{{hostvars[groups['app_server'][0]]['app_export']}}"}
+            - {path: "/home", direct: false, map_options: "--timeout 1200", indirect_key: "*", nfs_options: "-fstype=auto,rw,timeo=14,intr", source: "{{groups['home_server'][0]}}", source_path: "{{hostvars[groups['home_server'][0]]['home_export']}}/&"}
+  roles:
+    - role: nfs
+
+...

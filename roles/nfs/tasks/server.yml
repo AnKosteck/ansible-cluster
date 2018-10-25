@@ -1,0 +1,21 @@
+---
+
+- include: server_{{ansible_os_family}}.yml
+
+- name: Start and enable nfs
+  service:
+    name: nfs
+    state: started
+    enabled: yes
+
+- name: Print export lines
+  lineinfile:
+    dest: /etc/exports
+    regexp: "{{item.path}}"
+    line: "{{item.path}} {{item.source_ip}}({{item.export_options}})"
+    state: present
+    create: yes
+  with_items: "{{ server_exports }}"
+  notify: Restart nfs server
+
+...

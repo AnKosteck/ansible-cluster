@@ -1,0 +1,11 @@
+---
+
+  #Install autofs and nfs tools
+- name: Install autofs and nfs tools on Ubuntu
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items: "{{autofs_packages_debian}}"
+  
+...
