@@ -6,6 +6,7 @@
 - [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) as the DHCP/DNS server for cluster nodes
 - [Slurm](https://www.schedmd.com/) as the resource manager for the cluster
 
+**Disclaimer** the docu is out of sync at the moment since the configuration has shifted towards default values and system variable loading
 
 ## Idea of ansible-cluster
 The idea behind *ansible-cluster* is that all relevant customizations and settings are done upfront and any command for handling a cluster operation happens via *Ansible* commands or applying some playbook, i.e. operating a (HPC) cluster is done in the *Ansible* context.
