@@ -4,9 +4,6 @@
 [submodule "roles/andrewrothstein.unarchive-deps"]
 	path = roles/andrewrothstein.unarchive-deps
 	url = https://github.com/andrewrothstein/ansible-unarchive-deps.git
-[submodule "roles/andrewrothstein.anaconda"]
-	path = roles/andrewrothstein.anaconda
-	url = https://github.com/andrewrothstein/ansible-anaconda.git
 [submodule "roles/zabbix-web"]
 	path = roles/zabbix-web
 	url = https://github.com/dj-wasabi/ansible-zabbix-web.git
@@ -19,3 +16,6 @@
 [submodule "roles/geerlingguy.apache"]
 	path = roles/geerlingguy.apache
 	url = https://github.com/geerlingguy/ansible-role-apache.git
+[submodule "roles/andrewrothstein.anaconda"]
+	path = roles/andrewrothstein.anaconda
+	url = https://github.com/andrewrothstein/ansible-anaconda.git
