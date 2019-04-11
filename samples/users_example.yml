@@ -2,12 +2,12 @@
 
 cluster_users:
   1000:
-    passwd: {name: hexatest, group: hexatest, password: $1$fShF4XX9$HjdPMC2La6h/qLEWXei6i1, groups: "", shellpath: /bin/bash, homepath: /home/hextest, permissions: 0700}
-    personal: {fullname: First Hexa Testuser, information: Just test things, email: example@hpc}
+    passwd: {name: clustertest, group: clustertest, password: $1$fShF4XX9$HjdPMC2La6h/qLEWXei6i1, groups: "", shellpath: /bin/bash, homepath: /home/clustertest, permissions: 0700}
+    personal: {fullname: First Cluster Testuser, information: Just test things, email: example@hpc}
     slurm_accounts: ""
   1001:
-    passwd: {name: hexa, group: hexa, password: $1$fShF4XX9$HjdPMC2La6h/qLEWXei6i1, groups: "", shellpath: /bin/bash, homepath: /home/hexa, permissions: 0700}
-    personal: {fullname: The Hexa user, information: normal user, email: example@hpc}
+    passwd: {name: anotheruser, group: anothergroup, password: $1$fShF4XX9$HjdPMC2La6h/qLEWXei6i1, groups: "", shellpath: /bin/bash, homepath: /home/anotheruser, permissions: 0700}
+    personal: {fullname: The anotheruser, information: normal user, email: example@hpc}
     slurm_accounts: ""
 
 ...

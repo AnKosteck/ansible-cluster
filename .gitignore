@@ -4,7 +4,6 @@
 # Never push/commit real configs
 config.yml
 groups.yml
-hexa_hosts
 partition_config.yml
 slurm_accounts.yml
 ssh_access_limits.yml

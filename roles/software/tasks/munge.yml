@@ -35,10 +35,10 @@
   file: path=/var/run/munge state=directory owner=munge group=munge mode=0755
   
   #Copy the MUNGE key
-  #Or create new one with dd if=/dev/urandom bs=1 count=2048 > $HEXA_MUNGE_KEY
-  #Or via dd if=/dev/random bs=1 count=2048 > $HEXA_MUNGE_KEY
+  #Or create new one with dd if=/dev/urandom bs=1 count=2048 > $CLUSTER_MUNGE_KEY
+  #Or via dd if=/dev/random bs=1 count=2048 > $CLUSTER_MUNGE_KEY
 - name: Copy MUNGE key
-  copy: src="{{ lookup('env','HEXA_MUNGE_KEY') }}" dest=/etc/munge/munge.key mode=0400 owner=munge backup=yes
+  copy: src="{{ lookup('env','CLUSTER_MUNGE_KEY') }}" dest=/etc/munge/munge.key mode=0400 owner=munge backup=yes
   notify: Restart munge
   
 - name: Start and enable munge

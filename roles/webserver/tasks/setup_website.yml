@@ -9,7 +9,7 @@
   
 - name: Copy website files
   template: src={{item}} dest=/var/www/html/{{item | basename}} owner=apache group=apache backup=no mode=0755
-  with_fileglob: "{{ lookup('env','HEXA_WEBSITE') }}/*"
+  with_fileglob: "{{ lookup('env','CLUSTER_WEBSITE') }}/*"
   
   #Simply copy SSL certificate(s)
 - name: Copy official SSL certififcate and key

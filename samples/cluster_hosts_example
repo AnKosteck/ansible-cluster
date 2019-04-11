@@ -1,0 +1,46 @@
+[common]
+compute01 eth0=10.0.0.1 eth0_name=eno1 profile=sl_64bit mac0="aa:aa:aa:aa:aa:aa" ibtype=none
+compute02 eth0=10.0.0.2 eth0_name=enp3s0f0 profile=sl_64bit mac0="bb:bb:bb:bb:bb:bb" ibtype=none
+compute03 eth0=10.0.0.3 eth0_name=enp4s0 profile=sl_64bit mac0="cc:cc:cc:cc:cc:cc" ibtype=none
+computeib eth0=10.0.0.100 eth0_name=enp5s0 profile=sl_64bit mac0="dd:dd:dd:dd:dd:dd" ibmac="00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00" ibip=10.1.1.100 ibtype=8002
+cluster_frontend eth0=10.0.0.254 eth0_name=eno1 profile=sl_64bit mac0="ee:ee:ee:ee:ee:ee" ibmac="00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00" ibip=10.1.1.254 ibtype=8002
+cluster_web eth0=10.0.0.253 eth0_name=eno1 profile=sl_64bit mac0="ff:ff:ff:ff:ff:ff" ibtype=none
+cluster_login2 eth0=10.0.0.252 eth0_name=eno1 profile=sl_64bit mac0="gg:gg:gg:gg:gg:gg" ibmac="00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00" ibip=10.1.1.252 ibtype=8002
+cluster_login1 eth0=10.0.0.251 eth0_name=eno1 profile=sl_64bit mac0="hh:hh:hh:hh:hh:hh" ibmac="00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00" ibip=10.1.1.251 ibtype=default
+
+[guests]
+cluster_web osVariant=rhel7.1
+
+[frontend]
+cluster_frontend eth1=192.168.1.254 mac1="a1:b0:a2:b1:a3:b2" eth1_name=eno2
+
+[opensm]
+cluster_frontend
+
+[gpucompute]
+computeib
+
+[compute]
+compute0[1:2] CPUs=32 RealMemory=31962 Sockets=2 CoresPerSocket=16 ThreadsPerCore=1
+compute0[3:4] CPUs=44 RealMemory=31962 Sockets=1 CoresPerSocket=22 ThreadsPerCore=2
+computeib CPUs=16 RealMemory=31962 Sockets=1 CoresPerSocket=8 ThreadsPerCore=2
+
+[login]
+cluster_login1 eth1=192.168.1.251 mac1="c2:c3:c4:c5:c6:c7" eth1_name=eno2
+cluster_login2 eth1=192.168.1.252 mac1="d1:d2:d3:d4:d5:d6" eth1_name=eno2
+
+#ATTENTION: 1 home_server and 1 app_server, set hostname to hostname + infiniband domain for ipoib
+[home_server]
+cluster_frontend home_export="/mnt/export/home" export_options="rw,async,no_root_squash"
+
+[app_server]
+cluster_frontend app_export="/mnt/export/apps" export_options="rw,async,no_root_squash"
+
+[webserver]
+cluster_frontend webservername=192.168.1.254 ssl_certificate_type=self
+cluster_web eth1=192.168.1.253 eth1_name=eno2 mac1="aa:bb:cc:dd:ee:ff" webservername=hpc-web.org ssl_certificate_type=official
+
+# For anaconda submodule, package installation via conda
+[all:vars]
+anaconda_install_packages=["clustalo"]
+anaconda_install_channels="defaults conda-forge bioconda"

@@ -1,6 +1,6 @@
 ---
 
 - name: Load slurm partitions config
-  include_vars: "{{ lookup('env','HEXA_PARTITIONS') }}"
+  include_vars: "{{ lookup('env','CLUSTER_PARTITIONS') }}"
   
 ...

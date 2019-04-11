@@ -1,9 +1,9 @@
 ---
 
 slurm_accounts:
-  - {name: "hexa", descr: "Default account for the cluster", org: "hexa"}
+  - {name: "cluster", descr: "Default account for the cluster", org: "cluster"}
   - {name: "main", descr: "Group for the mainstream", org: "main"}
   - {name: "special", descr: "Another group, with a very special name", org: "spec"}
-slurm_account_default: "hexa"
+slurm_account_default: "cluster"
   
 ...

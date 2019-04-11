@@ -5,7 +5,7 @@
 - include_vars: ../../software/vars/slurm_vars.yml
 
 - name: Loading Slurm accounting settings
-  include_vars: "{{ lookup('env','HEXA_ACCOUNTING') }}"
+  include_vars: "{{ lookup('env','CLUSTER_ACCOUNTING') }}"
     
   #Create dirs and set permissions
 - name: Create slurm directories in /var/spool

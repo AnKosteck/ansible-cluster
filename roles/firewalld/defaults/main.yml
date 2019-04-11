@@ -1,6 +1,6 @@
 ---
 
-# The defaults are for use with Hexa, so please override as necessary
+# The defaults are for use with ansible-cluster, so please override as necessary
 firewall_services_internal:
   - http
   - https

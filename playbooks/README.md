@@ -1,8 +1,8 @@
 # The playbooks 
-*Hexa* supplies some helpful playbooks to get startet, some details on them are given here. For each (important) role a playbook is given so that testing and setup can be faster.
+*ansible-cluster* supplies some helpful playbooks to get startet, some details on them are given here. For each (important) role a playbook is given so that testing and setup can be faster.
 
 ## Playbooks for roles
-For ease of use every role has its own playbook, so that from the root of *Hexa* a role can be deployed via
+For ease of use every role has its own playbook, so that from the root of *ansible-cluster* a role can be deployed via
 ```
 ansible-playbook playbooks/<ROLE-NAME>.yml
 ```
@@ -21,11 +21,11 @@ This playbook removes all known systems from Cobbler. This means that every node
 ### remove_guests_cobbler.yml
 This playbook just removes the virtual machines.
 ### slurm_accounting.yml
-This playbook is used for *Slurm* accounting management. The idea behind accounting for *Hexa* are limits of special queues to privileged users. The *Slurm* configuration is considered as unfinished as of now as is this playbook.
+This playbook is used for *Slurm* accounting management. The idea behind accounting for *ansible-cluster* are limits of special queues to privileged users. The *Slurm* configuration is considered as unfinished as of now as is this playbook.
 ### sync_hosts.yml
 This playbook syncs all hosts defined in the Ansible inventory with the Cobbler lists and additionally starts virtual machines on the frontend. In the future this playbook should be able to provision guests on any cluster node.
 ### sync_users.yml
-This playbook represents the user management of *Hexa*. Any user or group defined in [users.yml](../users_example.yml) or [groups.yml](../groups_example.yml) will be added on every computing relevant node. Please look at [usertool](https://github.com/AnKosteck/usertool) which can create such files taking local users (passwd) on BSD or GNU/Linux systems.
+This playbook represents the user management of *ansible-cluster*. Any user or group defined in [users.yml](../users_example.yml) or [groups.yml](../groups_example.yml) will be added on every computing relevant node. Please look at [usertool](https://github.com/AnKosteck/usertool) which can create such files taking local users (passwd) on BSD or GNU/Linux systems.
 ### update.yml
 With this playbook every node can be fully updated.
 

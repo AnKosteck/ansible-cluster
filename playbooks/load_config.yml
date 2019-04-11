@@ -1,6 +1,6 @@
 ---
 
 - name: Loading main config
-  include_vars: "{{ lookup('env','HEXA_CONFIG') }}"
+  include_vars: "{{ lookup('env','CLUSTER_CONFIG') }}"
 
 ...

@@ -16,7 +16,7 @@ This role consists of tasks only (no files, no templates). Since this role is ap
 ## common
 This role does tasks which may be *common* to every node in the cluster. This includes
 - Installing packages which should be installed on any node from the mirrored repos
-- Setting up the `nfs_imports` for the homes and apps (please look at the [Hexa inventory](../hexa_hosts_example))
+- Setting up the `nfs_imports` for the homes and apps (please look at the [ansible-cluster inventory](../samples/cluster_hosts_example))
 - Setting the ssh limitations (please have look at the [ssh limits_examples](../ssh_access_limits_example.yml))
 - Finally setting up the Infiniband interfaces (Mellanox) on nodes with infiniband hardware (please look at the main [config](../config_template.yml))
 
@@ -26,7 +26,7 @@ These tasks require various files and templates, please take a look at them
 The *compute* tasks first disables *firewalld* (since compute nodes should be localized anyways and firewalld may consume some ressources or block applications) and then installs [Ganglia](http://ganglia.sourceforge.net/) ( *gmond* only) from mirrored repos (please look at [gmond.conf](compute/templates/gmond.conf))
 
 ## frontend
-This role is the start for every cluster and sets up the management or *frontend* node. *Hexa* only supports RHEL 7.X based distributions. The frontend role includes of course many tasks:
+This role is the start for every cluster and sets up the management or *frontend* node. *ansible-cluster* only supports RHEL 7.X based distributions. The frontend role includes of course many tasks:
 * At first the [epel](https://fedoraproject.org/wiki/EPEL) repository is activated on the frontend
 * Then *kvm* gets installed on the frontend (support for *kvm* on every node is planned in the future) so that VM's may be set up on the frontend (like the webserver)
   * At first kvm is installed from the official repos
@@ -40,7 +40,7 @@ This role is the start for every cluster and sets up the management or *frontend
 This role copies many files and templates, so please have a look at them.
 
 ## fs
-This role does just 1 task, which is exporting the `nfs_export` share via nfs. Please have a look at the [hosts examples](../hexa_hosts_example) and the [fs playbook](../playbooks/fs.yml)
+This role does just 1 task, which is exporting the `nfs_export` share via nfs. Please have a look at the [hosts examples](../samples/cluster_hosts_example) and the [fs playbook](../playbooks/fs.yml)
 
 ## gpu
 This role is planned to set up *GPGPU* related stuff, but as of now is unused and does nothing.
@@ -62,7 +62,7 @@ Since not every software is available in repos or different versions may be harm
 * [Slurm](https://www.schedmd.com/) is also installed via downloading and compiling. Please see the [installation script](software/templates/slurm.sh) and the [main config](../config_template.yml)
 
 ## webserver
-*Hexa* supports the (basic) setup of a RHEL 7.X based website or webserver (in the future this role may be renamed to *website*) with *Ganglia* (*gmond* and *gmetad* this time) integration. The installation for [Icinga](https://www.icinga.com/) as of now is not supported, some installation tasks are still being kept though. The **setup website** task supports self signed certificates and official certificates (you have to supply them yourself of course), the configuration happens again in the [main config](../config_template.yml).
+*ansible-cluster* supports the (basic) setup of a RHEL 7.X based website or webserver (in the future this role may be renamed to *website*) with *Ganglia* (*gmond* and *gmetad* this time) integration. The installation for [Icinga](https://www.icinga.com/) as of now is not supported, some installation tasks are still being kept though. The **setup website** task supports self signed certificates and official certificates (you have to supply them yourself of course), the configuration happens again in the [main config](../config_template.yml).
 
 ## webserver_system
 This role handles the interfaces and firewall configuration on webservers. Since the frontend is configured in its own role, this should only be done to _non-frontend_ nodes. For the firewall configuration please look at the [firewall task](webserver_system/tasks/firewall.yml) and the [variables](webserver_system/vars/main.yml).

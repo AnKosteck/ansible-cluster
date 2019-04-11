@@ -8,10 +8,10 @@ ssh_anywhere: "root"
 #This will be set in common role:
 #AllowUsers {{ssh_anywhere}} {{ssh_access_limits[ansible_hostname]}}
 ssh_access_limits:
-  hexa_frontend: ""
-  hexa01: "slurm munge"
-  hexa02: "slurm munge"
-  hexa03: "slurm munge"
-  hexaib: "hexa"
+  cluster_frontend: ""
+  compute01: "slurm munge"
+  compute02: "slurm munge"
+  compute03: "slurm munge clustertest"
+  computeib: "anotheruser"
 
 ...

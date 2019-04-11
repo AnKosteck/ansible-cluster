@@ -1,7 +1,7 @@
 ---
 
 - name: Loading ssh limits
-  include_vars: "{{ lookup('env','HEXA_SSH_LIMITS') }}"
+  include_vars: "{{ lookup('env','CLUSTER_SSH_LIMITS') }}"
 
 - include: "xorg_{{ansible_os_family}}.yml"
 

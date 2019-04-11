@@ -1,6 +1,6 @@
 ---
 
-- name: Loading Hexa users
-  include_vars: "{{ lookup('env','HEXA_USERS') }}"
+- name: Loading the cluster users
+  include_vars: "{{ lookup('env','CLUSTER_USERS') }}"
 
 ...

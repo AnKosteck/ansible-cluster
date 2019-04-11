@@ -3,7 +3,7 @@
 # Set the needed Slurm accounts for access restrictions
 
 - name: Loading Slurm accounting settings
-  include_vars: "{{ lookup('env','HEXA_ACCOUNTING') }}"
+  include_vars: "{{ lookup('env','CLUSTER_ACCOUNTING') }}"
 - include: load_users.yml
 - include: load_config.yml
 

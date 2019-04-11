@@ -7,16 +7,16 @@
 
 slurm_partitions:
   DEFAULT:
-    nodes: "hexa[01-04]"
+    nodes: "compute[01-04]"
     settings: "OverSubscribe=FORCE:1"
   common:
-    nodes: "hexa[01-04]"
+    nodes: "compute[01-04]"
     settings: "PriorityTier=1 Default=YES State=Up"
   gpu:
-    nodes: "hexaib"
+    nodes: "computeib"
     settings: "PriorityTier=1 Default=NO State=Up"
   highprio:
-    nodes: "hexa[01-02]"
+    nodes: "compute[01-02]"
     settings: "PriorityTier=2 Default=NO State=Up"
 
 ...

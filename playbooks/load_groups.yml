@@ -1,6 +1,6 @@
 ---
 
-- name: Loading Hexa groups
-  include_vars: "{{ lookup('env','HEXA_GROUPS') }}"
+- name: Loading the cluster groups
+  include_vars: "{{ lookup('env','CLUSTER_GROUPS') }}"
 
 ...
